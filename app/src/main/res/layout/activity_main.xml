@@ -11,7 +11,7 @@
         android:id="@+id/tv_curr_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:text="October 1, 2021"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
@@ -19,14 +19,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cc_coins"
+        android:id="@+id/cl_coins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/pill"
         android:backgroundTint="@color/light_brown"
         android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/cc_budget"
+        app:layout_constraintBottom_toTopOf="@+id/cl_budget"
         app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
         app:layout_constraintStart_toStartOf="@id/gl_left_parent"
         app:layout_constraintTop_toBottomOf="@id/tv_curr_date">
@@ -61,7 +61,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cc_budget"
+        android:id="@+id/cl_budget"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -70,7 +70,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="@id/gl_right_budget"
         app:layout_constraintStart_toStartOf="@id/gl_left_parent"
-        app:layout_constraintTop_toBottomOf="@id/cc_coins">
+        app:layout_constraintTop_toBottomOf="@id/cl_coins">
 
         <ImageView
             android:id="@+id/iv_icon_budget"
@@ -106,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="$ 5000"
+            android:text="$5000"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -115,7 +115,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cc_expense"
+        android:id="@+id/cl_expense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -124,7 +124,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
         app:layout_constraintStart_toStartOf="@id/gl_left_expense"
-        app:layout_constraintTop_toBottomOf="@+id/cc_coins">
+        app:layout_constraintTop_toBottomOf="@+id/cl_coins">
 
         <ImageView
             android:id="@+id/iv_icon_expense"
@@ -160,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="$ 1200"
+            android:text="$1200"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
