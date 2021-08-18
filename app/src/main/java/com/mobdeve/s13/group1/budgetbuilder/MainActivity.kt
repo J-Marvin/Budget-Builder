@@ -19,7 +19,10 @@ class MainActivity : AppCompatActivity() {
     fun setSystemUI() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        //Hide navbar
+        hideNavBar()
+    }
+
+    fun hideNavBar(){
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
