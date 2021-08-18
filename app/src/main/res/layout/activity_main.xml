@@ -18,44 +18,47 @@
         app:layout_constraintStart_toStartOf="@id/gl_left_parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/ll_coins"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cc_coins"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/pill"
         android:backgroundTint="@color/light_brown"
-        android:orientation="horizontal"
-        android:weightSum="1.0"
+        android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/cc_budget"
         app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
         app:layout_constraintStart_toStartOf="@id/gl_left_parent"
         app:layout_constraintTop_toBottomOf="@id/tv_curr_date">
 
         <ImageView
             android:id="@+id/iv_currency"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="0.3"
             android:adjustViewBounds="true"
             android:cropToPadding="true"
-            android:paddingStart="5dp"
             android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_coin_balance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/money" />
 
         <TextView
             android:id="@+id/tv_coin_balance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
             android:layout_weight="0.7"
-            android:paddingStart="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
-            android:text="99999"
+            android:text="99999999"
             android:textAlignment="center"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_currency"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cc_budget"
@@ -67,7 +70,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="@id/gl_right_budget"
         app:layout_constraintStart_toStartOf="@id/gl_left_parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_coins">
+        app:layout_constraintTop_toBottomOf="@id/cc_coins">
 
         <ImageView
             android:id="@+id/iv_icon_budget"
@@ -121,7 +124,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
         app:layout_constraintStart_toStartOf="@id/gl_left_expense"
-        app:layout_constraintTop_toBottomOf="@id/ll_coins">
+        app:layout_constraintTop_toBottomOf="@+id/cc_coins">
 
         <ImageView
             android:id="@+id/iv_icon_expense"
