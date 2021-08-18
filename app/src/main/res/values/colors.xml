@@ -14,6 +14,8 @@
     <color name="light_orange">#FB9C04</color>
     <color name="light_brown">#B69A75</color>
     <color name="light_yellow">#F6C376</color>
-    <color name="dark_brown">#F6C376</color>
+    <color name="dark_beige">#F6C376</color>
+    <color name="dark_brown">#AC6525</color>
     <color name="green">#5AAF00</color>
+    <color name="gray">#94988c</color>
 </resources>

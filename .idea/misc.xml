@@ -4,13 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/bg_gradient.xml" value="0.3828125" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/expense_rounded_corner.xml" value="0.24177631578947367" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/header_div.xml" value="0.24177631578947367" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/header_divider.xml" value="0.24177631578947367" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/rounded_corner.xml" value="0.3402777777777778" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/rounded_inner.xml" value="0.3402777777777778" />
-        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_expense.xml" value="0.23157894736842105" />
-        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/font/inter.xml" value="0.2506578947368421" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/font/inter_family.xml" value="0.2506578947368421" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_expense.xml" value="0.22" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_shop.xml" value="0.25" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/expense_item.xml" value="0.25" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/furniture.xml" value="0.23157894736842105" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/furniture_shop_item.xml" value="0.23157894736842105" />
       </map>
     </option>
   </component>

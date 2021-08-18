@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 class ExpenseActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_expense)
     }
 
     override fun onResume() {
@@ -18,8 +18,6 @@ class ExpenseActivity: AppCompatActivity() {
 
     fun setSystemUI() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
-        //Hide navbar
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

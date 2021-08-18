@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient">
 
+    <Button
+        android:id="@+id/btn_expense_date"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Placeholder Date"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:icon="@android:drawable/ic_menu_my_calendar"
+        app:iconGravity="start"
+        app:iconPadding="4dp"
+        app:iconTint="@color/dark_brown"
+        app:layout_constraintStart_toStartOf="@id/gl_expense_left"
+        app:layout_constraintTop_toTopOf="@id/gl_expense_top" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_expenses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@id/gl_expense_right"
+        app:layout_constraintStart_toStartOf="@id/gl_expense_left"
+        app:layout_constraintTop_toBottomOf="@id/btn_expense_date" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_expense_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.025" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_expense_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_expense_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
 </androidx.constraintlayout.widget.ConstraintLayout>
