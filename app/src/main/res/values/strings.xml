@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Budget Builder</string>
+    <string name="customize">Customize Your Room</string>
+    <string name="furniture">Furniture</string>
+    <string name="furniture_chair">Chair</string>
+    <string name="furniture_bed">Bed</string>
+    <string name="Desk">Desk</string>
 </resources>
