@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_homeFragment_to_shopFragment"
             app:destination="@id/shopFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
     </fragment>
     <fragment
         android:id="@+id/expenseFragment"
@@ -26,4 +29,9 @@
         android:name="com.mobdeve.s13.group1.budgetbuilder.ShopFragment"
         android:label="fragment_shop"
         tools:layout="@layout/fragment_shop" />
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.SummaryFragment"
+        android:label="fragment_summary"
+        tools:layout="@layout/fragment_summary" />
 </navigation>

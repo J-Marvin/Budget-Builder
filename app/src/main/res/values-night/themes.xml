@@ -12,6 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
 
+    <!--font for navbar-->
+    <style name="interFont" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 </resources>

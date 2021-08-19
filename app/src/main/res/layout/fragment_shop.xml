@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_extrabold"
         android:text="@string/customize"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +50,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/inter_extrabold"
         android:text="@string/furniture"
+        android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/gl_left"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -92,6 +94,7 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/inter"
         android:text="999999"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toStartOf="@+id/gl_right"
         app:layout_constraintTop_toTopOf="@+id/textView2"
@@ -139,6 +142,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/inter"
         android:text="@string/furniture_chair"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/gl_left"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -158,6 +162,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/inter"
         android:text="@string/furniture_bed"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/gl_left"
         app:layout_constraintTop_toBottomOf="@+id/rv_chairs" />
 

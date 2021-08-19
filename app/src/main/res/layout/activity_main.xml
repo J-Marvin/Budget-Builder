@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:translationZ="4dp"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -22,10 +24,157 @@
         android:id="@+id/bottom_navigation_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/dark_brown"
+        android:background="@drawable/bg_navbar"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textAlignment="center"
+        app:itemIconTint="@color/nav_bar_colors"
+        app:itemTextAppearanceActive="@style/interFont"
+        app:itemTextAppearanceInactive="@style/interFont"
+        app:itemTextColor="@color/nav_bar_colors"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:clickable="true"
+            android:contentDescription="@string/fab_add_expense"
+            android:focusable="true"
+            android:scaleType="fitCenter"
+            app:backgroundTint="@color/dark_green"
+            app:fabSize="normal"
+            app:maxImageSize="30dp"
+            app:srcCompat="@android:drawable/ic_input_add"
+            app:tint="@color/white"
+            app:useCompatPadding="false" />
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="@drawable/bg_gradient"-->
+<!--    android:translationZ="4dp"-->
+<!--    tools:context=".MainActivity">-->
+
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/nav_host_fragment"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/cl_bottom_nav"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:navGraph="@navigation/nav_graph" />-->
+
+<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--        android:id="@+id/cl_bottom_nav"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fitsSystemWindows="false"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:context=".MainActivity">-->
+
+<!--        <com.google.android.material.bottomappbar.BottomAppBar-->
+<!--            android:id="@+id/bottomAppBar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:backgroundTint="@color/dark_brown"-->
+<!--            app:fabAlignmentMode="center"-->
+<!--            app:fabCradleMargin="10dp"-->
+<!--            app:fabCradleRoundedCornerRadius="10dp">-->
+
+<!--            <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--                android:id="@+id/bottom_navigation_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="#00AC6525"-->
+<!--                app:itemIconTint="@color/nav_bar_colors"-->
+<!--                app:itemTextAppearanceActive="@style/interFont"-->
+<!--                app:itemTextAppearanceInactive="@style/interFont"-->
+<!--                app:itemTextColor="@color/nav_bar_colors"-->
+<!--                app:labelVisibilityMode="labeled"-->
+<!--                app:menu="@menu/bottom_nav_menu" />-->
+
+<!--        </com.google.android.material.bottomappbar.BottomAppBar>-->
+
+<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fab"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:contentDescription="@string/app_name"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/nav_host_fragment"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/cl_bottom_nav"-->
+<!--        app:layout_constraintStart_toStartOf="@id/cl_bottom_nav"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/nav_host_fragment" />-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:fitsSystemWindows="false"-->
+<!--    tools:context=".MainActivity">-->
+
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/nav_host_fragment"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="top"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:navGraph="@navigation/nav_graph" />-->
+
+<!--    <com.google.android.material.bottomappbar.BottomAppBar-->
+<!--        android:id="@+id/bottomAppBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:backgroundTint="@color/dark_brown"-->
+<!--        app:fabAlignmentMode="center"-->
+<!--        app:fabCradleMargin= "10dp"-->
+<!--        app:fabCradleRoundedCornerRadius="10dp">-->
+
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/bottom_navigation_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="#00AC6525"-->
+<!--            app:itemIconTint="@color/nav_bar_colors"-->
+<!--            app:itemTextAppearanceActive="@style/interFont"-->
+<!--            app:itemTextAppearanceInactive="@style/interFont"-->
+<!--            app:itemTextColor="@color/nav_bar_colors"-->
+<!--            app:labelVisibilityMode="labeled"-->
+<!--            app:menu="@menu/bottom_nav_menu" />-->
+
+<!--    </com.google.android.material.bottomappbar.BottomAppBar>-->
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fab"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:contentDescription="@string/app_name"-->
+<!--        app:layout_anchor="@id/bottomAppBar" />-->
+
+<!--</androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
