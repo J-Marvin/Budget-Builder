@@ -5,6 +5,7 @@
     <string name="furniture_chair">Chair</string>
     <string name="furniture_bed">Bed</string>
     <string name="Desk">Desk</string>
+    <string name="fab_add_expense">Add expense</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,4 +1,11 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-class Expense {
+import java.util.*
+
+class Expense (
+    val type: String,
+    val amount: Int,
+    val date: Date,
+
+    ) {
 }
