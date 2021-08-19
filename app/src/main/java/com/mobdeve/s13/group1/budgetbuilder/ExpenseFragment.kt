@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_expense.view.*
+import kotlinx.android.synthetic.main.fragment_shop.view.*
+import kotlinx.android.synthetic.main.fragment_shop.view.rv_chairs
 
 //Auto filled IDK what this is hehe
 // TODO: Rename parameter arguments, choose names that match
@@ -18,9 +22,12 @@ import android.view.ViewGroup
  * create an instance of this fragment.
  */
 class ExpenseFragment : Fragment() {
+    //Auto filled IDK what this is hehe
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+//    private var param1: String? = null
+//    private var param2: String? = null
+
+    lateinit var expenses: ArrayList<Expense>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +43,9 @@ class ExpenseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_expense, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_expense, container, false)
+        initExpenseRecyclerView(rootView)
+        return rootView
     }
 
 //Auto filled IDK what this is hehe
@@ -59,4 +68,10 @@ class ExpenseFragment : Fragment() {
 //                }
 //            }
 //    }
+
+    private fun initExpenseRecyclerView(rootView: View){
+        this.expenses = DataHelper.getExpenses()
+        rootView.rv_expenses.adapter = ExpenseAdapter(this.expenses)
+        rootView.rv_expenses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+    }
 }

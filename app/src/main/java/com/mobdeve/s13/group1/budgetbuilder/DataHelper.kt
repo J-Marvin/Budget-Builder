@@ -1,5 +1,8 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import java.util.*
+import kotlin.collections.ArrayList
+
 class DataHelper {
     companion object {
         fun getChairs() : ArrayList<Furniture> {
@@ -86,6 +89,36 @@ class DataHelper {
                 100,
                 owned = false,
                 equipped = false
+            ))
+
+            return data
+        }
+
+        fun getExpenses(): ArrayList<Expense> {
+            val data = ArrayList<Expense>()
+
+            data.add(
+                Expense(
+                    Date(),
+                    "Shopping",
+                    1000,
+                    "Grocery"
+            ))
+
+            data.add(
+                Expense(
+                    Date(),
+                    "Food",
+                    200,
+                    "Ramen"
+            ))
+
+            data.add(
+                Expense(
+                    Date(),
+                    "Transportation",
+                    1000,
+                    "Fuel"
             ))
 
             return data
