@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/beige"
     android:backgroundTint="@color/beige"
-    tools:context=".ShopActivity">
+    tools:context=".ShopFragment">
 
     <ImageView
         android:id="@+id/imageView2"

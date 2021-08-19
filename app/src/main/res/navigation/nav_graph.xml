@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_expenseFragment"
+            app:destination="@id/expenseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shopFragment"
+            app:destination="@id/shopFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/expenseFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ExpenseFragment"
+        android:label="fragment_expense"
+        tools:layout="@layout/fragment_expense" />
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ShopFragment"
+        android:label="fragment_shop"
+        tools:layout="@layout/fragment_shop" />
+</navigation>
