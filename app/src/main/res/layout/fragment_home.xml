@@ -29,6 +29,7 @@
         android:elevation="6dp"
         android:paddingBottom="2dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -61,30 +62,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.48" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_right_icon_budget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.18" />
-
-        <Space
-            android:id="@+id/space_top_icon"
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
-            app:layout_constraintStart_toStartOf="@id/gl_left_header"
-            app:layout_constraintTop_toBottomOf="@id/cl_coins" />
-
-        <Space
-            android:id="@+id/space_bottom_icon"
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
-            app:layout_constraintStart_toStartOf="@id/gl_left_header"
-            app:layout_constraintTop_toBottomOf="@id/iv_icon_budget" />
-
         <TextView
             android:id="@+id/tv_curr_date"
             android:layout_width="wrap_content"
@@ -99,66 +76,6 @@
             app:layout_constraintStart_toStartOf="@id/gl_left_header"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_budget_bg"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="@color/dark_green"
-            android:src="@drawable/rounded_corner"
-            app:layout_constraintBottom_toBottomOf="@id/space_bottom_icon"
-            app:layout_constraintEnd_toEndOf="@id/gl_right_budget"
-            app:layout_constraintStart_toStartOf="@id/gl_left_header"
-            app:layout_constraintTop_toTopOf="@id/space_top_icon" />
-
-        <ImageView
-            android:id="@+id/iv_icon_budget"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/rounded_inner"
-            android:backgroundTint="@color/white"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
-            android:tintMode="add"
-            app:layout_constraintEnd_toEndOf="@id/gl_right_icon_budget"
-            app:layout_constraintStart_toStartOf="@id/gl_left_header"
-            app:layout_constraintTop_toBottomOf="@id/space_top_icon"
-            app:srcCompat="@drawable/cash_flow_in"
-            app:tint="@color/dark_green" />
-
-        <TextView
-            android:id="@+id/tv_lbl_budget"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/inter_extrabold"
-            android:text="Budget"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/gl_right_budget"
-            app:layout_constraintStart_toEndOf="@+id/iv_icon_budget"
-            app:layout_constraintTop_toBottomOf="@id/space_top_icon" />
-
-        <TextView
-            android:id="@+id/tv_budget_amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/inter"
-            android:text="$5000"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/gl_right_budget"
-            app:layout_constraintStart_toEndOf="@+id/iv_icon_budget"
-            app:layout_constraintTop_toBottomOf="@+id/tv_lbl_budget" />
-
         <TextView
             android:id="@+id/tv_lbl_remaining_budget"
             android:layout_width="wrap_content"
@@ -168,9 +85,8 @@
             android:text="Remaining Budget"
             android:textColor="#000000"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/tv_remaining_budget"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="@+id/tv_remaining_budget"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_header"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_header"
             app:layout_constraintTop_toBottomOf="@id/cl_expense" />
 
         <TextView
@@ -183,7 +99,6 @@
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/gl_right_header"
-            app:layout_constraintHorizontal_bias="0.482"
             app:layout_constraintStart_toStartOf="@id/gl_left_header"
             app:layout_constraintTop_toBottomOf="@+id/tv_lbl_remaining_budget" />
 
@@ -284,6 +199,62 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_currency"
                 app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_budget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/dark_green"
+            android:padding="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_budget"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_header"
+            app:layout_constraintTop_toBottomOf="@+id/cl_coins">
+
+            <TextView
+                android:id="@+id/tv_lbl_budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/inter_extrabold"
+                android:text="Budget"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_icon_budget"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_budget_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/inter"
+                android:text="$5000"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_icon_budget"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lbl_budget" />
+
+            <ImageView
+                android:id="@+id/iv_icon_budget"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/rounded_inner"
+                android:backgroundTint="@color/white"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:tintMode="add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/cash_flow_in"
+                app:tint="@color/dark_green" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
