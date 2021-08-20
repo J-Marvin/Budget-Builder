@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class ExpenseAdapter(private val dataSet: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseViewHolder>(){
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
+
         val view = LayoutInflater.from(parent.context).inflate(R.layout.expense_item, parent, false)
         val holder = ExpenseViewHolder(view)
         // attach onclicklistener here
@@ -22,5 +24,8 @@ class ExpenseAdapter(private val dataSet: ArrayList<Expense>) : RecyclerView.Ada
 
     }
 
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount(): Int{
+
+        return dataSet.size
+    }
 }
