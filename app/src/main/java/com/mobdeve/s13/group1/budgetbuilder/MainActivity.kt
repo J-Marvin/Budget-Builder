@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         findViewById<BottomNavigationView>(R.id.bottom_navigation_view).setupWithNavController(navController)
 
+        bottom_navigation_view.background = null
         bottom_navigation_view.menu.getItem(2).isEnabled = false
     }
 }
