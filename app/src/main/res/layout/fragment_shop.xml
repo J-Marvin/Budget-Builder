@@ -125,6 +125,7 @@
             android:fontFamily="@font/inter"
             android:text="999999"
             android:textColor="#000000"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/textView2"
             app:layout_constraintEnd_toStartOf="@+id/gl_right"
             app:layout_constraintTop_toTopOf="@+id/textView2"
