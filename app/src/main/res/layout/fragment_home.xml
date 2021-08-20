@@ -341,7 +341,6 @@
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/gl_right_header"
-            app:layout_constraintHorizontal_bias="0.482"
             app:layout_constraintStart_toStartOf="@id/gl_left_header"
             app:layout_constraintTop_toBottomOf="@+id/tv_lbl_remaining_budget" />
 
