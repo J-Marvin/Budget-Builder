@@ -96,31 +96,65 @@ class DataHelper {
 
         fun getExpenses(): ArrayList<Expense> {
             val data = ArrayList<Expense>()
+            var cal = Calendar.getInstance()
 
-            data.add(
-                Expense(
-                    Date(),
-                    "Shopping",
-                    1000,
-                    "Grocery"
+            cal.set(2021, 8, 20, 16, 27, 0)
+            data.add(Expense(
+                cal.time,
+                "Entertainment",
+                150,
+                "Netflix subscription"
             ))
 
-            data.add(
-                Expense(
-                    Date(),
-                    "Food",
-                    200,
-                    "Ramen"
+            data.add(Expense(
+                cal.time,
+                "Food",
+                200,
+                "Ramen"
             ))
 
-            data.add(
-                Expense(
-                    Date(),
-                    "Transportation",
-                    1000,
-                    "Fuel"
+            cal.set(2020, 1, 2, 8, 30, 0)
+            data.add(Expense(
+                cal.time,
+                "Transportation",
+                1000,
+                "Fuel"
             ))
 
+            data.add(Expense(
+                cal.time,
+                "Utilities",
+                500,
+                "Electricity"
+            ))
+
+            data.add(Expense(
+                cal.time,
+                "Personal",
+                3000,
+                "Skin care"
+            ))
+
+            data.add(Expense(
+                cal.time,
+                "Medical",
+                500,
+                "Vitamin D"
+            ))
+
+            data.add(Expense(
+                cal.time,
+                "Others",
+                1000,
+                "Birthday gift"
+            ))
+
+            data.add(Expense(
+                cal.time,
+                "Food",
+                1000,
+                "Coffee Beans"
+            ))
             return data
         }
     }

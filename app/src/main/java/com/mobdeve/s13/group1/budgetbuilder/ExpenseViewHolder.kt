@@ -34,7 +34,7 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         ivExpenseItemPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor(expenseType.backColor))
 
         //set type text
-        tvType.text = type
+        tvType.text = expenseType.textType
     }
 
     fun setDesc(desc: String) {

@@ -95,7 +95,7 @@
 
         <Space
             android:id="@+id/space_coins_right"
-            android:layout_width="6dp"
+            android:layout_width="7dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/space_coins_bottom"
             app:layout_constraintStart_toEndOf="@id/tv_coin_balance"
@@ -103,7 +103,7 @@
 
         <Space
             android:id="@+id/space_coins_left"
-            android:layout_width="6dp"
+            android:layout_width="7dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/space_coins_bottom"
             app:layout_constraintEnd_toStartOf="@id/iv_currency"
@@ -188,7 +188,7 @@
             android:layout_marginStart="8dp"
             android:layout_weight="0.7"
             android:fontFamily="@font/inter"
-            android:text="99999999"
+            android:text="9999999"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textStyle="bold"
@@ -222,7 +222,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/space_budget_icon_left"
             app:layout_constraintTop_toBottomOf="@id/space_top_icon"
-            app:layout_constraintWidth_max="60dp"
+            app:layout_constraintWidth_max="70dp"
             app:srcCompat="@drawable/cash_flow_in"
             app:tint="@color/dark_green" />
 
@@ -268,7 +268,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/space_expense_icon_left"
             app:layout_constraintTop_toBottomOf="@+id/space_top_icon"
-            app:layout_constraintWidth_max="60dp"
+            app:layout_constraintWidth_max="70dp"
             app:srcCompat="@drawable/cash_flow_out"
             app:tint="@color/maroon" />
 
