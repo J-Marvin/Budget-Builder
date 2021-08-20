@@ -26,23 +26,12 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     }
 
     fun setType(type: String) {
-        //set pic
-        if(type.equals("Shopping", true)) {
-            ivExpenseItemPic.setImageResource(R.drawable.shopping_basket)
-            ivExpenseItemPic.setColorFilter(Color.parseColor("#FB7414"))
-            ivExpenseItemPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#F6C376"))
-        }
-        else if(type.equals("Food", true)) {
-            ivExpenseItemPic.setImageResource(R.drawable.restaurant)
-            ivExpenseItemPic.setColorFilter(Color.parseColor("#CF3B3B"))
-            ivExpenseItemPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#EDC4C4"))
-        }
+        var expenseType = ExpenseType.valueOf(type.uppercase()) //find enum value
 
-        else if(type.equals("Transportation", true)) {
-            ivExpenseItemPic.setImageResource(R.drawable.car)
-            ivExpenseItemPic.setColorFilter(Color.parseColor("#FF6200EE"))
-            ivExpenseItemPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFD7B8FB"))
-        }
+        //set icon
+        ivExpenseItemPic.setImageResource(expenseType.iconImg)
+        ivExpenseItemPic.setColorFilter(Color.parseColor(expenseType.iconColor))
+        ivExpenseItemPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor(expenseType.backColor))
 
         //set type text
         tvType.text = type
