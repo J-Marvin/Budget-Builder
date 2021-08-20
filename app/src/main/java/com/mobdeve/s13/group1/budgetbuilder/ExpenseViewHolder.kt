@@ -41,7 +41,7 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         tvDesc.text = desc
     }
 
-    fun setAmount(amount: Int) {
+    fun setAmount(amount: Float) {
         tvExpenseAmount.text = "-" + amount.toString()
     }
 

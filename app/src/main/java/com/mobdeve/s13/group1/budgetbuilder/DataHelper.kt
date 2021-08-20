@@ -102,14 +102,14 @@ class DataHelper {
             data.add(Expense(
                 cal.time,
                 "Entertainment",
-                150,
+                150.toFloat(),
                 "Netflix subscription"
             ))
 
             data.add(Expense(
                 cal.time,
                 "Food",
-                200,
+                200.toFloat(),
                 "Ramen"
             ))
 
@@ -117,42 +117,42 @@ class DataHelper {
             data.add(Expense(
                 cal.time,
                 "Transportation",
-                1000,
+                1000.toFloat(),
                 "Fuel"
             ))
 
             data.add(Expense(
                 cal.time,
                 "Utilities",
-                500,
+                500.toFloat(),
                 "Electricity"
             ))
 
             data.add(Expense(
                 cal.time,
                 "Personal",
-                3000,
+                3000.toFloat(),
                 "Skin care"
             ))
 
             data.add(Expense(
                 cal.time,
                 "Medical",
-                500,
+                500.toFloat(),
                 "Vitamin D"
             ))
 
             data.add(Expense(
                 cal.time,
                 "Others",
-                1000,
+                1000.toFloat(),
                 "Birthday gift"
             ))
 
             data.add(Expense(
                 cal.time,
                 "Food",
-                1000,
+                1000.toFloat(),
                 "Coffee Beans"
             ))
             return data
