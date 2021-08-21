@@ -6,7 +6,12 @@ class Furniture (
     var owned: Boolean,
     var equipped: Boolean,
     var name: String,
+    var type: String
 ) {
+
+    lateinit var roomId: String
+    lateinit var furnitureId: String
+
     fun equip() {
         this.equipped = true
     }

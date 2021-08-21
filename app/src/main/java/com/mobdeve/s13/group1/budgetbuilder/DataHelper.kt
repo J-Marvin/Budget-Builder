@@ -5,6 +5,12 @@ import kotlin.collections.ArrayList
 
 class DataHelper {
     companion object {
+        fun getFurniture(): ArrayList<Furniture> {
+            val data = getChairs()
+            data.addAll(getBeds())
+
+            return data
+        }
         fun getChairs() : ArrayList<Furniture> {
             val data = ArrayList<Furniture>()
 
@@ -12,7 +18,9 @@ class DataHelper {
                 R.drawable.chair_sw,
                 10,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="Ol\' Fashion",
+                type= "chair"
             )
             )
 
@@ -20,49 +28,72 @@ class DataHelper {
                 R.drawable.cardboardboxclosed_sw,
                 10,
                 owned = true,
-                equipped = true
+                equipped = true,
+                name="Cardboard Chair",
+                type= "chair"
             ))
 
             data.add(Furniture(
                 R.drawable.benchcushion_sw,
                 10,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="Bench",
+                type= "chair"
             ))
 
             data.add(Furniture(
                 R.drawable.chairdesk_sw,
                 10,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="Roller",
+                type= "chair"
             ))
 
             data.add(Furniture(
                 R.drawable.chairrounded_sw,
                 10,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="All around",
+                type= "chair"
             ))
 
             data.add(Furniture(
                 R.drawable.loungechair_sw,
                 10,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="Lounger",
+                type = "chair"
             ))
 
             data.add(Furniture(
                 R.drawable.stoolbar_sw,
                 10,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="Stool",
+                type = "chair"
             ))
 
             data.add(Furniture(
                 R.drawable.stoolbarsquare_sw,
                 10,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="Rounded Stool",
+                type = "chair"
+            ))
+
+            data.add(Furniture(
+                R.drawable.toilet_sw,
+                20,
+                owned = false,
+                equipped = false,
+                name="The Thinker",
+                type = "chair"
             ))
 
             return data
@@ -76,19 +107,36 @@ class DataHelper {
                 R.drawable.bedbunk_sw,
                 100,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name = "Bunker",
+                type = "bed"
             ))
+
             data.add(Furniture(
                 R.drawable.beddouble_sw,
                 100,
                 owned = true,
-                equipped = false
+                equipped = false,
+                name="Double Bed",
+                type = "bed"
             ))
+
             data.add(Furniture(
                 R.drawable.bedsingle_sw,
                 100,
                 owned = false,
-                equipped = false
+                equipped = false,
+                name="The Loner",
+                type = "bed"
+            ))
+
+            data.add(Furniture(
+                R.drawable.bathtub_sw,
+                100,
+                owned = false,
+                equipped =false,
+                name="Tub-o\'-bed",
+                type = "bed"
             ))
 
             return data

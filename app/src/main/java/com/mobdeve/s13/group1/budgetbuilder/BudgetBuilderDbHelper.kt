@@ -7,37 +7,39 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 import java.time.LocalDate
+import java.util.*
 
 class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    private companion object{
-        const val DATABASE_NAME = "BudgetBuilder.db"
-        const val DATABASE_VERSION = 1
+    companion object{
+        private const val DATABASE_NAME = "BudgetBuilder.db"
+        private const val DATABASE_VERSION = 1
         const val ROOM_TABLE = "rooms"
-        const val COLUMN_ROOM_ID = "room_id"
-        const val COLUMN_ROOM_MONTH = "month"
-        const val COLUMN_ROOM_YEAR = "year"
+        private const val COLUMN_ROOM_ID = "room_id"
+        private const val COLUMN_ROOM_MONTH = "month"
+        private const val COLUMN_ROOM_YEAR = "year"
 
         const val FURNITURE_TABLE = "furniture"
-        const val COLUMN_FURNITURE_ID = "furniture_id"
-        const val COLUMN_FURNITURE_TYPE = "furniture_type"
-        const val COLUMN_FURNITURE_NAME = "name"
-        const val COLUMN_FURNITURE_PRICE = "price"
-        const val COLUMN_FURNITURE_EQUIPPED = "equipped"
-        const val COLUMN_FURNITURE_OWNED = "owned"
-        const val COLUMN_FURNITURE_IMG = "image"
+        private const val COLUMN_FURNITURE_ID = "furniture_id"
+        private const val COLUMN_FURNITURE_TYPE = "furniture_type"
+        private const val COLUMN_FURNITURE_NAME = "name"
+        private const val COLUMN_FURNITURE_PRICE = "price"
+        private const val COLUMN_FURNITURE_EQUIPPED = "equipped"
+        private const val COLUMN_FURNITURE_OWNED = "owned"
+        private const val COLUMN_FURNITURE_IMG = "image"
 
         const val BUDGET_TABLE = "budgets"
-        const val COLUMN_BUDGET_ID = "budget_id"
-        const val COLUMN_BUDGET_AMOUNT = "budget_amount"
-        const val COLUMN_BUDGET_DATE = "budget_date"
+        private const val COLUMN_BUDGET_ID = "budget_id"
+        private const val COLUMN_BUDGET_AMOUNT = "budget_amount"
+        private const val COLUMN_BUDGET_DATE = "budget_date"
 
         const val EXPENSE_TABLE = "expenses"
-        const val COLUMN_EXPENSE_ID = "expense_id"
-        const val COLUMN_EXPENSE_TYPE = "expense_type"
-        const val COLUMN_EXPENSE_AMOUNT = "expense_amount"
-        const val COLUMN_EXPENSE_DATE = "date"
+        private const val COLUMN_EXPENSE_ID = "expense_id"
+        private const val COLUMN_EXPENSE_TYPE = "expense_type"
+        private const val COLUMN_EXPENSE_AMOUNT = "expense_amount"
+        private const val COLUMN_EXPENSE_DATE = "date"
     }
+
     private val context = context
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -54,7 +56,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
                 "$COLUMN_FURNITURE_PRICE INTEGER NOT NULL," +
                 "$COLUMN_FURNITURE_EQUIPPED NUMERIC NOT NULL," +
                 "$COLUMN_FURNITURE_OWNED NUMERIC NOT NULL," +
-                "$COLUMN_FURNITURE_IMG INTEGER NOT NULL"
+                "$COLUMN_FURNITURE_IMG INTEGER NOT NULL," +
                 "FOREIGN KEY($COLUMN_ROOM_ID) REFERENCES $ROOM_TABLE($COLUMN_ROOM_ID)" +
                 ")"
 
@@ -70,13 +72,15 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
                 "$COLUMN_EXPENSE_AMOUNT REAL NOT NULL," +
                 "$COLUMN_EXPENSE_DATE TEXT NOT NULL," +
                 "$COLUMN_BUDGET_ID INTEGER NOT NULL," +
-                "FOREIGN KEY($COLUMN_BUDGET_ID) REFERENCES $BUDGET_TABLE($COLUMN_BUDGET_ID)"
+                "FOREIGN KEY($COLUMN_BUDGET_ID) REFERENCES $BUDGET_TABLE($COLUMN_BUDGET_ID)" +
                 ")"
 
         db?.execSQL(createRoomTable)
         db?.execSQL(createFurnitureTable)
         db?.execSQL(createBudgetTable)
         db?.execSQL(createExpenseTable)
+
+        initDb(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -87,8 +91,18 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         this.onCreate(db)
     }
 
-    private fun initDb(){
+    fun initDb(db: SQLiteDatabase?){
+        var data = DataHelper.getFurniture()
+        var today = Date()
 
+        var roomId = addRoom(db, today.month, today.year)
+
+        if (roomId != -1L) {
+            for(furniture in data){
+                furniture.roomId = roomId.toString()
+                addFurniture(db, furniture)
+            }
+        }
     }
 
     fun addRoom(month: Int, year: Int): Long {
@@ -109,18 +123,58 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    fun addFurniture(room: Int, type: String, name: String, price: Int, equipped: Boolean, owned: Boolean, ): Long{
+    fun addRoom(db: SQLiteDatabase?, month: Int, year: Int): Long? {
+        val cv = ContentValues()
+
+        cv.put(COLUMN_ROOM_MONTH, month)
+        cv.put(COLUMN_ROOM_YEAR, year)
+
+        val result = db?.insert(ROOM_TABLE, null, cv)
+
+        if (result == -1L) {
+            Toast.makeText(this.context, "Failed to insert room", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this.context, "Successfully inserted room", Toast.LENGTH_LONG).show()
+        }
+
+        return result
+    }
+
+    fun addFurniture(furniture: Furniture): Long{
         val db = writableDatabase
         val cv = ContentValues()
 
-        cv.put(COLUMN_ROOM_ID, room)
-        cv.put(COLUMN_FURNITURE_TYPE, type)
-        cv.put(COLUMN_FURNITURE_NAME, name)
-        cv.put(COLUMN_FURNITURE_PRICE, price)
-        cv.put(COLUMN_FURNITURE_EQUIPPED, if (equipped) 1 else 0)
-        cv.put(COLUMN_FURNITURE_OWNED, if(owned) 1 else 0)
+        cv.put(COLUMN_ROOM_ID, furniture.roomId)
+        cv.put(COLUMN_FURNITURE_TYPE, furniture.type)
+        cv.put(COLUMN_FURNITURE_NAME, furniture.name)
+        cv.put(COLUMN_FURNITURE_PRICE, furniture.price)
+        cv.put(COLUMN_FURNITURE_EQUIPPED, if (furniture.equipped) 1 else 0)
+        cv.put(COLUMN_FURNITURE_OWNED, if(furniture.owned) 1 else 0)
+        cv.put(COLUMN_FURNITURE_IMG, furniture.imageId)
 
         val result = db.insert(FURNITURE_TABLE, null, cv)
+
+        if (result == -1L) {
+            Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this.context, "Successfully inserted ${furniture.name}", Toast.LENGTH_LONG).show()
+        }
+
+        return result
+    }
+
+    fun addFurniture(db: SQLiteDatabase?, furniture: Furniture): Long?{
+        val cv = ContentValues()
+
+        cv.put(COLUMN_ROOM_ID, furniture.roomId)
+        cv.put(COLUMN_FURNITURE_TYPE, furniture.type)
+        cv.put(COLUMN_FURNITURE_NAME, furniture.name)
+        cv.put(COLUMN_FURNITURE_PRICE, furniture.price)
+        cv.put(COLUMN_FURNITURE_EQUIPPED, if (furniture.equipped) 1 else 0)
+        cv.put(COLUMN_FURNITURE_OWNED, if(furniture.owned) 1 else 0)
+        cv.put(COLUMN_FURNITURE_IMG, furniture.imageId)
+
+        val result = db?.insert(FURNITURE_TABLE, null, cv)
 
         if (result == -1L) {
             Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_LONG).show()
@@ -182,17 +236,53 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return cursor
     }
 
-    fun updateFurniture(rowId: String, type: String, name: String, price: Float, equipped: Boolean, owned: Boolean): Boolean {
+    fun findAllFurniture(): ArrayList<Furniture> {
+        val query = "SELECT * FROM $FURNITURE_TABLE"
+        val db = this.readableDatabase
+
+        var cursor: Cursor? = null
+
+        if (db!= null) {
+            cursor = db.rawQuery(query, null)
+        }
+
+        val data = ArrayList<Furniture>()
+
+        if (cursor != null) {
+            cursor.moveToFirst()
+            do {
+                val furniture = Furniture(
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_IMG)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_PRICE)),
+                    owned = cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_OWNED)) == 1,
+                    equipped = cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_EQUIPPED)) == 1,
+                    cursor.getString(cursor.getColumnIndex(COLUMN_FURNITURE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_FURNITURE_TYPE))
+                )
+
+                furniture.roomId = cursor.getInt(cursor.getColumnIndex(COLUMN_ROOM_ID)).toString()
+                furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_ID)).toString()
+
+                data.add(furniture)
+            } while (cursor.moveToNext())
+
+            cursor.close()
+        }
+
+        return data
+    }
+
+    fun updateFurniture(furniture: Furniture): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues();
 
-        cv.put(COLUMN_FURNITURE_TYPE, type)
-        cv.put(COLUMN_FURNITURE_NAME, name)
-        cv.put(COLUMN_FURNITURE_PRICE, price)
-        cv.put(COLUMN_FURNITURE_EQUIPPED, if(equipped) 1 else 0)
-        cv.put(COLUMN_FURNITURE_OWNED, if(owned) 1 else 0)
+        cv.put(COLUMN_FURNITURE_TYPE, furniture.type)
+        cv.put(COLUMN_FURNITURE_NAME, furniture.name)
+        cv.put(COLUMN_FURNITURE_PRICE, furniture.price)
+        cv.put(COLUMN_FURNITURE_EQUIPPED, if(furniture.equipped) 1 else 0)
+        cv.put(COLUMN_FURNITURE_OWNED, if(furniture.owned) 1 else 0)
 
-        val result = db.update(FURNITURE_TABLE, cv, "$COLUMN_FURNITURE_ID=?", arrayOf(rowId))
+        val result = db.update(FURNITURE_TABLE, cv, "$COLUMN_FURNITURE_ID=?", arrayOf(furniture.roomId))
 
         if (result == -1) {
             Toast.makeText(this.context, "Failed to update Furniture", Toast.LENGTH_LONG).show()
