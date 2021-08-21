@@ -58,7 +58,7 @@
             android:text="- $120"
             android:textAlignment="textEnd"
             android:textColor="@color/maroon"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/gl_expense_item_right"
             app:layout_constraintStart_toEndOf="@id/gl_expense_item_info_left"
             app:layout_constraintTop_toTopOf="parent" />
