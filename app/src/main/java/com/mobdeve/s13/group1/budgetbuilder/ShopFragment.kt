@@ -1,5 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.Context
+import android.database.Cursor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,10 +28,11 @@ class ShopFragment : Fragment() {
 
     lateinit var chairs: ArrayList<Furniture>
     lateinit var beds: ArrayList<Furniture>
+    lateinit var db: BudgetBuilderDbHelper
+    lateinit var furniture: ArrayList<Furniture>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         //Auto filled IDK what this is hehe
 //        arguments?.let {
 //            param1 = it.getString(ARG_PARAM1)
@@ -37,11 +40,15 @@ class ShopFragment : Fragment() {
 //        }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        db = BudgetBuilderDbHelper(context)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_shop, container, false)
-        initChairRecyclerView(rootView)
-        initBedRecyclerView(rootView)
+        initRecyclerViews(rootView)
         return rootView
     }
 
@@ -66,15 +73,26 @@ class ShopFragment : Fragment() {
 //            }
 //    }
 
-    private fun initChairRecyclerView(rootView: View){
-        this.chairs = DataHelper.getChairs()
+    private fun initRecyclerViews(rootView: View){
+        initData()
+
         rootView.rv_chairs.adapter = FurnitureAdapter(this.chairs)
         rootView.rv_chairs.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-    }
 
-    private fun initBedRecyclerView(rootView: View){
-        this.beds = DataHelper.getBeds()
         rootView.rv_beds.adapter = FurnitureAdapter(this.beds)
         rootView.rv_beds.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
     }
+
+    private fun initData() {
+        val data = db.findAllFurniture()
+        this.chairs = ArrayList<Furniture>()
+        this.beds = ArrayList<Furniture>()
+        for(furniture in data) {
+            if(furniture.type == "bed")
+                this.beds.add(furniture)
+            else if(furniture.type == "chair")
+                this.chairs.add(furniture)
+        }
+    }
+
 }

@@ -10,9 +10,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var db: BudgetBuilderDbHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        applicationContext.deleteDatabase("BudgetBuilder.db")
+        db = BudgetBuilderDbHelper(this)
         initNavBar()
     }
 
