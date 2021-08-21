@@ -35,8 +35,7 @@ class ExpenseListFragment : Fragment() {
         this.expenses = DataHelper.getExpenses()
 
         //determine which fragment this list is called
-        var fm = this.parentFragmentManager
-        var homeFrag = fm.findFragmentById(R.id.fragView_expenselist_home)
+        var homeFrag = this.parentFragmentManager.findFragmentById(R.id.fragView_expenselist_home)
 
         //if not home fragment, then display all expense items
         //if less than 3 items, display all

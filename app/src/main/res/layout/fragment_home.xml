@@ -376,10 +376,31 @@
         android:fontFamily="@font/inter_extrabold"
         android:text="@string/lbl_recentTnx"
         android:textColor="#000000"
+        android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_see_all"
         app:layout_constraintStart_toEndOf="@id/gl_left_parent"
         app:layout_constraintTop_toBottomOf="@id/gl_bot_room" />
+
+    <Button
+        android:id="@+id/btn_see_all"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_seeall"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/inter_extrabold"
+        android:minHeight="35dp"
+        android:text="@string/btn_see_all"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:backgroundTint="@color/dark_brown"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/tv_lbl_recentTnx"
+        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
+        app:layout_constraintTop_toTopOf="@id/tv_lbl_recentTnx"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragView_expenselist_home"
@@ -391,6 +412,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
         app:layout_constraintStart_toStartOf="@id/gl_left_parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_lbl_recentTnx" />
+        app:layout_constraintTop_toBottomOf="@id/btn_see_all"
+        tools:layout="@layout/fragment_expense_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
