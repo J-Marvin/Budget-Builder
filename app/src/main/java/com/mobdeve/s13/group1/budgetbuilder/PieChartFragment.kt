@@ -27,7 +27,7 @@ class PieChartFragment : Fragment() {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_pie_chart, container, false)
 
-        expenses = DataHelper.getExpenses()
+        expenses = DataHelper.getExpenses() //should get from db
         var pieExpenses = ArrayList<PieEntry>()
         var chartPie = rootView.chart_pie
 
@@ -51,11 +51,11 @@ class PieChartFragment : Fragment() {
         chartPie.description.isEnabled = false
         chartPie.centerText = "Expenses"
         chartPie.setHoleColor(Color.argb(0,0,0,0))
-        chartPie.setHoleRadius(30f)
-        chartPie.setTransparentCircleRadius(35f)
+        chartPie.holeRadius = 30f
+        chartPie.transparentCircleRadius = 35f
 
         //set to true to see label of each expense in chart itself
-        pieDataSet.setValueFormatter(PercentFormatter())
+        pieDataSet.valueFormatter = PercentFormatter()
         chartPie.setDrawEntryLabels(false)
 
         //set to true to see value of each expense in chart itself
@@ -66,6 +66,9 @@ class PieChartFragment : Fragment() {
 
         //set to true to show legends
         chartPie.legend.isEnabled = false
+
+        //set to true to enable rotation of chart
+        chartPie.isRotationEnabled = false
 
         return rootView
     }
