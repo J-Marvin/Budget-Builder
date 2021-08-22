@@ -20,6 +20,7 @@ class PurchaseDialogFragment : DialogFragment() {
             args.putString(Keys.KEY_FURNITURE_NAME.toString(), furniture.name)
             args.putInt(Keys.KEY_FURNITURE_PRICE.toString(), furniture.price)
             args.putInt(Keys.KEY_FURNITURE_IMG.toString(), furniture.imageId)
+            args.putString(Keys.KEY_FURNITURE_TYPE.toString(), furniture.type)
             args.putString(Keys.KEY_FURNITURE_ID.toString(), furniture.furnitureId)
 
             val dialog = PurchaseDialogFragment()
@@ -63,16 +64,26 @@ class PurchaseDialogFragment : DialogFragment() {
 
         view.btn_purchase_confirm.setOnClickListener {
             val parent: ShopFragment = parentFragment as ShopFragment
+            val type = arguments?.getString(Keys.KEY_FURNITURE_TYPE.toString())
 
-            val index = parent.furniture.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let { it1 -> Furniture(furnitureId = it1) })
-            val furniture = parent.furniture[index]
-            furniture.owned = true
-            if (furniture.type == "chair")
-                parent.rv_chairs.adapter?.notifyItemChanged(index)
-            else if(furniture.type == "bed")
-                parent.rv_beds.adapter?.notifyItemChanged(index)
+            var index: Int? = null
+            var furniture: Furniture? = null
 
-            parent.db.updateFurniture(furniture)
+            if (type == "chair") {
+                index = parent.chairs.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> Furniture(furnitureId = id)})
+                furniture = parent.chairs[index]
+            } else if (type == "bed") {
+                index = parent.beds.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> Furniture(furnitureId = id)})
+                furniture = parent.beds[index]
+            }
+
+            furniture?.owned = true
+            if (furniture?.type == "chair")
+                parent.rv_chairs.adapter?.notifyItemChanged(index!!)
+            else if(furniture?.type == "bed")
+                parent.rv_beds.adapter?.notifyItemChanged(index!!)
+
+            parent.db.updateFurniture(furniture!!)
             dismiss()
         }
 

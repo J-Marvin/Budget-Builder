@@ -25,8 +25,7 @@ class Furniture (
 
     override fun equals(other: Any?): Boolean {
         return if (other is Furniture)
-            this.furnitureId ==
-                    other.furnitureId
+            this.furnitureId == other.furnitureId
         else false
     }
 }
