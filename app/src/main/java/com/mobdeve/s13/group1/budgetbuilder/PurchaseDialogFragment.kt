@@ -89,7 +89,6 @@ class PurchaseDialogFragment : DialogFragment() {
                 parent.updateBalance(parent.getBalance() - arguments?.getInt(Keys.KEY_FURNITURE_PRICE.toString())!!)
                 dismiss()
             } else {
-                Log.d("SLAPSOIL", "NOT ENOUGH COINS DUMBASS")
                 Toast.makeText(this.requireContext(), "Not enough coins!", Toast.LENGTH_LONG).show()
             }
         }
