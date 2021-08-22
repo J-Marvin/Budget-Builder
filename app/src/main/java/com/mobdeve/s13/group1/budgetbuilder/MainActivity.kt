@@ -1,17 +1,21 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.View
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var db: BudgetBuilderDbHelper
+    private lateinit var sp: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         applicationContext.deleteDatabase("BudgetBuilder.db")
         db = BudgetBuilderDbHelper(this)
         initNavBar()
+        this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
     }
 
     override fun onResume() {
@@ -44,4 +49,5 @@ class MainActivity : AppCompatActivity() {
         bottom_navigation_view.background = null
         bottom_navigation_view.menu.getItem(2).isEnabled = false
     }
+
 }

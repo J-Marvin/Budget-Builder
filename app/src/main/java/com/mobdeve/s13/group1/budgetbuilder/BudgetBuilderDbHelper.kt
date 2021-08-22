@@ -115,9 +115,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val result = db.insert(ROOM_TABLE, null, cv)
 
         if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert room", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Failed to insert room", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this.context, "Successfully inserted room", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Successfully inserted room", Toast.LENGTH_SHORT).show()
         }
 
         return result
@@ -132,9 +132,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val result = db?.insert(ROOM_TABLE, null, cv)
 
         if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert room", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Failed to insert room", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this.context, "Successfully inserted room", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Successfully inserted room", Toast.LENGTH_SHORT).show()
         }
 
         return result
@@ -155,9 +155,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val result = db.insert(FURNITURE_TABLE, null, cv)
 
         if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this.context, "Successfully inserted ${furniture.name}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Successfully inserted ${furniture.name}", Toast.LENGTH_SHORT).show()
         }
 
         return result
@@ -177,9 +177,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val result = db?.insert(FURNITURE_TABLE, null, cv)
 
         if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this.context, "Successfully inserted Furniture", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Successfully inserted Furniture", Toast.LENGTH_SHORT).show()
         }
 
         return result
@@ -197,9 +197,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val result = db.insert(EXPENSE_TABLE, null, cv)
 
         if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Expense", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Failed to insert Expense", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this.context, "Successfully inserted Expense", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Successfully inserted Expense", Toast.LENGTH_SHORT).show()
         }
 
         return result
@@ -215,9 +215,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val result = db.insert(BUDGET_TABLE, null, cv)
 
         if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Budget", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Failed to insert Budget", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this.context, "Successfully inserted Budget", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Successfully inserted Budget", Toast.LENGTH_SHORT).show()
         }
 
         return result
@@ -285,9 +285,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val result = db.update(FURNITURE_TABLE, cv, "$COLUMN_FURNITURE_ID=?", arrayOf(furniture.roomId))
 
         if (result == -1) {
-            Toast.makeText(this.context, "Failed to update Furniture", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Failed to update Furniture", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this.context, "Updated Furniture", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Updated Furniture", Toast.LENGTH_SHORT).show()
         }
 
         return result != -1

@@ -116,7 +116,7 @@ class DataHelper {
                 R.drawable.beddouble_sw,
                 100,
                 owned = true,
-                equipped = false,
+                equipped = true,
                 name="Double Bed",
                 type = "bed"
             ))

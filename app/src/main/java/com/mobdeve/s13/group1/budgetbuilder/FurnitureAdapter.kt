@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -15,6 +16,7 @@ class FurnitureAdapter(
     context: Context) : RecyclerView.Adapter<FurnitureViewHolder>(){
 
     private val context = context
+    private var activatedIndex = -1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FurnitureViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.furniture_shop_item, parent, false)
         val holder = FurnitureViewHolder(view)
@@ -31,6 +33,7 @@ class FurnitureAdapter(
         if (curFurniture.equipped) {
             holder.hidePrice()
             holder.equip()
+            activatedIndex = position
         } else if (curFurniture.owned) {
             holder.hidePrice()
             holder.unequip()
@@ -39,19 +42,38 @@ class FurnitureAdapter(
         }
 
         holder.setOnClickListener(View.OnClickListener {
-            if (curFurniture.equipped) {
-                holder.unequip()
-                curFurniture.equipped = false
-            } else if (curFurniture.owned) {
+            // If no furniture is activated
+            if (activatedIndex == -1 && curFurniture.owned) {
+                curFurniture.equip()
                 holder.equip()
-                curFurniture.equipped = true
-            } else {
+            } else if (activatedIndex != position){ // If pressing on owned item
+
+                if(curFurniture.owned) {
+                    Toast.makeText(context, "OWNED", Toast.LENGTH_SHORT).show()
+                    curFurniture.equip()
+                    holder.equip()
+                    dataSet[activatedIndex].equipped = false
+                    notifyItemChanged(activatedIndex)
+                    activatedIndex = position
+                } else {
+                    var dialog = PurchaseDialogFragment.newInstance(curFurniture)
+                    dialog.show(fragmentManager!!, "purchaseItem_tag")
+                }
+            } else if(!curFurniture.owned){
                 var dialog = PurchaseDialogFragment.newInstance(curFurniture)
                 dialog.show(fragmentManager!!, "purchaseItem_tag")
             }
-
         })
     }
 
     override fun getItemCount() = dataSet.size
+
+    private fun findActivated(): Int {
+
+        for(i in 0 until dataSet.size)
+            if(dataSet[i].equipped)
+                return i
+
+        return -1
+    }
 }
