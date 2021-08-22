@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        applicationContext.deleteDatabase("BudgetBuilder.db")
+        applicationContext.deleteDatabase("BudgetBuilder.db")
         db = BudgetBuilderDbHelper(this)
         initNavBar()
     }
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         setSystemUI()
+        initNavBar()
     }
 
     fun setSystemUI() {

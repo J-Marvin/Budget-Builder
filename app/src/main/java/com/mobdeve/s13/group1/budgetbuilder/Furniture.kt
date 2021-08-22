@@ -12,11 +12,21 @@ class Furniture (
     lateinit var roomId: String
     lateinit var furnitureId: String
 
+    constructor(furnitureId: String): this(0, 0, false, false, "", "") {
+        this.furnitureId = furnitureId
+    }
     fun equip() {
         this.equipped = true
     }
 
     fun purchase() {
         this.owned = true
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is Furniture)
+            this.furnitureId ==
+                    other.furnitureId
+        else false
     }
 }

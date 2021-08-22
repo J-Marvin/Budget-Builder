@@ -1,12 +1,12 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
 import android.content.Context
-import android.database.Cursor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 
@@ -76,23 +76,45 @@ class ShopFragment : Fragment() {
     private fun initRecyclerViews(rootView: View){
         initData()
 
-        rootView.rv_chairs.adapter = FurnitureAdapter(this.chairs)
+        rootView.rv_chairs.adapter = FurnitureAdapter(childFragmentManager, this.chairs, activity?.applicationContext!!)
         rootView.rv_chairs.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_beds.adapter = FurnitureAdapter(this.beds)
+        rootView.rv_beds.adapter = FurnitureAdapter(childFragmentManager, this.beds, activity?.applicationContext!!)
         rootView.rv_beds.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun initData() {
-        val data = db.findAllFurniture()
+        this.furniture = db.findAllFurniture()
         this.chairs = ArrayList<Furniture>()
         this.beds = ArrayList<Furniture>()
-        for(furniture in data) {
+        for(furniture in this.furniture) {
             if(furniture.type == "bed")
                 this.beds.add(furniture)
             else if(furniture.type == "chair")
                 this.chairs.add(furniture)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideSystemUI()
+    }
+    private fun hideSystemUI(){
+
+        activity?.window?.decorView?.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+    }
+
+    fun purchaseItem(){
+
     }
 
 }

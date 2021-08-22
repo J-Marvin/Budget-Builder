@@ -39,4 +39,8 @@ class FurnitureViewHolder(view: View): RecyclerView.ViewHolder(view) {
     fun unequip() {
         ivCheck.visibility = View.GONE
     }
+
+    fun setOnClickListener(listener: View.OnClickListener){
+        ivFurniture.setOnClickListener(listener)
+    }
 }
