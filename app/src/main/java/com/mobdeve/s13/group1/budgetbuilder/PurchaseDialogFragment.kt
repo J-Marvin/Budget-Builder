@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_purchase_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_shop.*
@@ -29,20 +30,10 @@ class PurchaseDialogFragment : DialogFragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        hideSystemUI()
+    override fun dismiss() {
+        dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        super.dismiss()
     }
-
-    override fun onPause() {
-        super.onPause()
-        hideSystemUI()
-    }
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        hideSystemUI()
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +43,15 @@ class PurchaseDialogFragment : DialogFragment() {
         var rootView: View = inflater.inflate(R.layout.fragment_purchase_dialog, container, false)
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
 
         return rootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
