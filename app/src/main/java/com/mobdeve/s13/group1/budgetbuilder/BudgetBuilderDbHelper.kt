@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 
@@ -37,7 +38,13 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         private const val COLUMN_EXPENSE_ID = "expense_id"
         private const val COLUMN_EXPENSE_TYPE = "expense_type"
         private const val COLUMN_EXPENSE_AMOUNT = "expense_amount"
+        private const val COLUMN_EXPENSE_DESC = "expense_desc"
         private const val COLUMN_EXPENSE_DATE = "date"
+
+        const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+        val dateFormatterComplete = SimpleDateFormat(DATE_FORMAT)
+        const val DATE_NO_TIME_FORMAT = "yyyy-MM-dd"
+        val dateFormatterNoTime = SimpleDateFormat(DATE_NO_TIME_FORMAT)
     }
 
     private val context = context
@@ -70,6 +77,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
                 "$COLUMN_EXPENSE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_EXPENSE_TYPE TEXT NOT NULL," +
                 "$COLUMN_EXPENSE_AMOUNT REAL NOT NULL," +
+                "$COLUMN_EXPENSE_DESC TEXT NOT NULL," +
                 "$COLUMN_EXPENSE_DATE TEXT NOT NULL," +
                 "$COLUMN_BUDGET_ID INTEGER NOT NULL," +
                 "FOREIGN KEY($COLUMN_BUDGET_ID) REFERENCES $BUDGET_TABLE($COLUMN_BUDGET_ID)" +
@@ -92,15 +100,22 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
     }
 
     fun initDb(db: SQLiteDatabase?){
-        var data = DataHelper.getFurniture()
+        var furnitures = DataHelper.getFurniture()
+        var expenses = DataHelper.getExpenses()
         var today = Date()
 
         var roomId = addRoom(db, today.month, today.year)
+        var budgetId = addBudget(db,20000F, today.toString())
 
         if (roomId != -1L) {
-            for(furniture in data){
+            for(furniture in furnitures){
                 furniture.roomId = roomId.toString()
                 addFurniture(db, furniture)
+            }
+
+            for(expense in expenses) {
+                expense.budgetId = budgetId.toString()
+                addExpense(db, expense)
             }
         }
     }
@@ -185,16 +200,37 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    fun addExpense(type: String, amount: Float, date: String, budget: Int): Long {
+    fun addExpense(expense: Expense): Long{
         val db = writableDatabase
         val cv = ContentValues()
 
-        cv.put(COLUMN_EXPENSE_TYPE, type)
-        cv.put(COLUMN_EXPENSE_AMOUNT, amount)
-        cv.put(COLUMN_EXPENSE_DATE, date)
-        cv.put(COLUMN_BUDGET_ID, budget)
+        cv.put(COLUMN_EXPENSE_TYPE, expense.type)
+        cv.put(COLUMN_EXPENSE_AMOUNT, expense.amount)
+        cv.put(COLUMN_EXPENSE_DATE, expense.date.toString())
+        cv.put(COLUMN_EXPENSE_DESC, expense.desc)
+        cv.put(COLUMN_BUDGET_ID, expense.budgetId)
 
         val result = db.insert(EXPENSE_TABLE, null, cv)
+
+        if (result == -1L) {
+            Toast.makeText(this.context, "Failed to insert Expense", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this.context, "Successfully inserted Expense", Toast.LENGTH_SHORT).show()
+        }
+
+        return result
+    }
+
+    fun addExpense(db: SQLiteDatabase?, expense: Expense): Long?{
+        val cv = ContentValues()
+
+        cv.put(COLUMN_EXPENSE_TYPE, expense.type)
+        cv.put(COLUMN_EXPENSE_AMOUNT, expense.amount)
+        cv.put(COLUMN_EXPENSE_DATE, dateFormatterComplete.format(expense.date))
+        cv.put(COLUMN_EXPENSE_DESC, expense.desc)
+        cv.put(COLUMN_BUDGET_ID, expense.budgetId)
+
+        val result = db?.insert(EXPENSE_TABLE, null, cv)
 
         if (result == -1L) {
             Toast.makeText(this.context, "Failed to insert Expense", Toast.LENGTH_SHORT).show()
@@ -213,6 +249,23 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         cv.put(COLUMN_BUDGET_DATE, date)
 
         val result = db.insert(BUDGET_TABLE, null, cv)
+
+        if (result == -1L) {
+            Toast.makeText(this.context, "Failed to insert Budget", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this.context, "Successfully inserted Budget", Toast.LENGTH_SHORT).show()
+        }
+
+        return result
+    }
+
+    fun addBudget(db: SQLiteDatabase?, amount: Float, date: String): Long? {
+        val cv = ContentValues()
+
+        cv.put(COLUMN_BUDGET_AMOUNT, amount)
+        cv.put(COLUMN_BUDGET_DATE, date)
+
+        val result = db?.insert(BUDGET_TABLE, null, cv)
 
         if (result == -1L) {
             Toast.makeText(this.context, "Failed to insert Budget", Toast.LENGTH_SHORT).show()
@@ -264,6 +317,44 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
                 furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_ID)).toString()
 
                 data.add(furniture)
+            } while (cursor.moveToNext())
+
+            cursor.close()
+        }
+
+        return data
+    }
+
+    fun findAllExpensesBetween(start: String, end: String): ArrayList<Expense> {
+        val query = "SELECT * " +
+                "FROM $EXPENSE_TABLE " +
+                "WHERE $COLUMN_EXPENSE_DATE BETWEEN \'$start\' AND \'$end\'"
+
+        val db = readableDatabase
+
+        var cursor: Cursor? = null
+
+        if (db != null) {
+            cursor = db.rawQuery(query, null)
+        }
+
+        val data = ArrayList<Expense>()
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val expense = Expense(
+                    dateFormatterComplete.parse(cursor.getString(cursor.getColumnIndex(
+                        COLUMN_EXPENSE_DATE)))!!,
+                    cursor.getString(cursor.getColumnIndex(COLUMN_EXPENSE_TYPE)),
+                    cursor.getFloat(cursor.getColumnIndex(COLUMN_EXPENSE_AMOUNT)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_EXPENSE_DESC))
+                )
+
+                expense.budgetId = cursor.getInt(cursor.getColumnIndex(COLUMN_BUDGET_ID)).toString()
+                expense.expenseId = cursor.getInt(cursor.getColumnIndex(COLUMN_EXPENSE_ID)).toString()
+
+                data.add(expense)
+
             } while (cursor.moveToNext())
 
             cursor.close()

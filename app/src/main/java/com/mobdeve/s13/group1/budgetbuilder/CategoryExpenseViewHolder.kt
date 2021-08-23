@@ -24,7 +24,6 @@ class CategoryExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     fun setProgress(percent: Int) {
         pbProgress.progress = percent
-        Log.d("Percent", percent.toString())
     }
 
     fun setCategory(category: String) {
@@ -42,7 +41,5 @@ class CategoryExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         circle.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN)
 
         pbProgress.progressDrawable = progressDrawable
-//        pbProgress.progressTintList(ColorStateList.valueOf())
-        Log.d("PERCENTCOLOR", pbProgress.progress.toString())
     }
 }

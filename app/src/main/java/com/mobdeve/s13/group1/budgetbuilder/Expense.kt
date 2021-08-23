@@ -8,4 +8,7 @@ class Expense(
     val amount: Float,
     val desc: String
     ) {
+
+    var expenseId: String? = null
+    var budgetId: String? = null
 }

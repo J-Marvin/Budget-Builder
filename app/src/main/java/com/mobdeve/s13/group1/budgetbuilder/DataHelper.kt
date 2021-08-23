@@ -207,7 +207,7 @@ class DataHelper {
             return data
         }
 
-        fun getCategoryExpenses(): ArrayList<CategoryExpense>{
+        fun getCategoryExpenses(expenses : ArrayList<Expense>): ArrayList<CategoryExpense>{
             val ENT_INDEX = 0
             val FOOD_INDEX = 1
             val TRANS_INDEX = 2
@@ -228,7 +228,7 @@ class DataHelper {
             data.add(CategoryExpense("Medical", R.color.category_medical, '$'))
             data.add(CategoryExpense("Others", R.color.category_others, '$'))
 
-            for (expense in getExpenses()) {
+            for (expense in expenses) {
                 var index = -1
                 total += expense.amount
                 when(expense.type) {

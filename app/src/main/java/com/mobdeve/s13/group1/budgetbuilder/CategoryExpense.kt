@@ -9,4 +9,6 @@ class CategoryExpense(
     var total: Float = 0F
     var percent: Int = 0
 
+
+
 }

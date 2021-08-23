@@ -11,8 +11,10 @@ import kotlinx.android.synthetic.main.fragment_summary.view.*
 
 class SummaryFragment : Fragment() {
 
+    private lateinit var db: BudgetBuilderDbHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        db = BudgetBuilderDbHelper(activity?.applicationContext!!)
     }
 
     override fun onCreateView(
@@ -26,10 +28,15 @@ class SummaryFragment : Fragment() {
     }
 
     private fun initRecyclerView(rootView: View){
-        val data = DataHelper.getCategoryExpenses()
+        val expenses = db.findAllExpensesBetween("2019-01-01", "2022-01-01")
+        val data = DataHelper.getCategoryExpenses(expenses)
         rootView.rv_category_expenses.adapter =
             activity?.applicationContext?.let { CategoryExpenseAdapter(data, it) }
         rootView.rv_category_expenses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun getCategoryExpenses(rootView: View) {
+
     }
 
 }
