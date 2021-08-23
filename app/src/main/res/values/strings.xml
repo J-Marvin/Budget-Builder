@@ -15,6 +15,7 @@
     <string name="rb_pie">Pie</string>
     <string name="purchase">Purchase</string>
     <string name="cancel">Cancel</string>
+    <string name="expense_total">-%c %f</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

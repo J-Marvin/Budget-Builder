@@ -49,7 +49,6 @@ class FurnitureAdapter(
             } else if (activatedIndex != position){ // If pressing on owned item
 
                 if(curFurniture.owned) {
-                    Toast.makeText(context, "OWNED", Toast.LENGTH_SHORT).show()
                     curFurniture.equip()
                     holder.equip()
                     dataSet[activatedIndex].equipped = false

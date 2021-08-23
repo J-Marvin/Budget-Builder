@@ -22,4 +22,11 @@
     <color name="red_100">#EDC4C4</color>
     <color name="red_500">#CF3B3B</color>
     <color name="gray">#94988c</color>
+    <color name="category_entertainment">#008A8A</color>
+    <color name="category_food">#CF3A3A</color>
+    <color name="category_transportation">#6200EE</color>
+    <color name="category_utilities">#FB7414</color>
+    <color name="category_personal">#2232bf</color>
+    <color name="category_medical">#E81C95</color>
+    <color name="category_others">#4E9A00</color>
 </resources>
