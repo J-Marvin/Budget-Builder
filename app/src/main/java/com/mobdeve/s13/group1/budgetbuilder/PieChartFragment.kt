@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.database.DatabaseUtils
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_pie_chart.view.*
 
 class PieChartFragment : Fragment() {
     lateinit var expenses: ArrayList<Expense>
+    lateinit var categoryExpenses: ArrayList<CategoryExpense>
     private lateinit var db: BudgetBuilderDbHelper
 
     private companion object {
@@ -40,13 +42,18 @@ class PieChartFragment : Fragment() {
         var rootView = inflater.inflate(R.layout.fragment_pie_chart, container, false)
 
         db = BudgetBuilderDbHelper(activity?.applicationContext!!)
-//        expenses = DataHelper.getExpenses() //should get from db
-        expenses = db.findAllExpensesBetween("2019-08-01", "2022-08-31")
+        expenses = db.findAllExpensesBetween("2019-08-01", "2022-08-31") //should get from db
+        categoryExpenses = this.getMonthExpenses("2019-08-01", "2022-08-31")
+
         var pieExpenses = ArrayList<PieEntry>()
         var chartPie = rootView.chart_pie
 
-        expenses.forEach {
-            pieExpenses.add(PieEntry(it.amount, it.type))
+        categoryExpenses.forEach {
+            pieExpenses.add(PieEntry(it.total, it.name))
+        }
+
+        pieExpenses.forEach{
+            Log.d("PIE EXPENSES", it.label + " " + it.value)
         }
 
         var pieDataSet = PieDataSet(pieExpenses, "Expenses")
@@ -83,16 +90,16 @@ class PieChartFragment : Fragment() {
 
         //set to true to enable rotation of chart
         chartPie.isRotationEnabled = false
-        var sum = 0f
-        for(expense in getExpensesByCategory()){
-            Log.d("Expenses", expense.toString())
-            sum+=expense
-        }
-
-        for(expense in getExpensesByCategory()){
-            val percent = expense / sum * 100
-            Log.d("Percent", percent.toString())
-        }
+//        var sum = 0f
+//        for(expense in getExpensesByCategory()){
+//            Log.d("Expenses", expense.toString())
+//            sum+=expense
+//        }
+//
+//        for(expense in getExpensesByCategory()){
+//            val percent = expense / sum * 100
+//            Log.d("Percent", percent.toString())
+//        }
         return rootView
     }
 
@@ -112,5 +119,28 @@ class PieChartFragment : Fragment() {
         }
 
         return expenses
+    }
+
+    fun getMonthExpenses(start: String, end:String): ArrayList<CategoryExpense> {
+        val aggs = ArrayList<HashMap<String, String>>()
+        val sumHash = HashMap<String, String>()
+        sumHash[Keys.KEY_AGG_TYPE.toString()] = BudgetBuilderDbHelper.AGG_SUM
+        sumHash[Keys.KEY_COLUMN_NAME.toString()] = BudgetBuilderDbHelper.COLUMN_EXPENSE_AMOUNT
+        sumHash[Keys.KEY_COLUMN_ALIAS.toString()] = "SUM"
+        aggs.add(sumHash)
+
+        val cursor = db.findAggExpensesBetween(
+            start,
+            end,
+            arrayListOf(BudgetBuilderDbHelper.COLUMN_EXPENSE_TYPE),
+            aggs,
+            arrayListOf<String>(BudgetBuilderDbHelper.COLUMN_EXPENSE_TYPE),
+            null,
+            null
+        )
+
+        Log.d("DB-DUMP", DatabaseUtils.dumpCursorToString(cursor))
+
+        return DataHelper.getCategoryExpensesSumFromCursor(cursor, "SUM", BudgetBuilderDbHelper.COLUMN_EXPENSE_TYPE)
     }
 }

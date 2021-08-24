@@ -5,10 +5,11 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import android.widget.Toast
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
+import kotlin.collections.HashMap
 
 class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -36,15 +37,25 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         const val EXPENSE_TABLE = "expenses"
         private const val COLUMN_EXPENSE_ID = "expense_id"
-        private const val COLUMN_EXPENSE_TYPE = "expense_type"
-        private const val COLUMN_EXPENSE_AMOUNT = "expense_amount"
-        private const val COLUMN_EXPENSE_DESC = "expense_desc"
-        private const val COLUMN_EXPENSE_DATE = "date"
+        const val COLUMN_EXPENSE_TYPE = "expense_type"
+        const val COLUMN_EXPENSE_AMOUNT = "expense_amount"
+        const val COLUMN_EXPENSE_DESC = "expense_desc"
+        const val COLUMN_EXPENSE_DATE = "date"
 
         const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
         val dateFormatterComplete = SimpleDateFormat(DATE_FORMAT)
         const val DATE_NO_TIME_FORMAT = "yyyy-MM-dd"
         val dateFormatterNoTime = SimpleDateFormat(DATE_NO_TIME_FORMAT)
+
+        const val AGG_AVG = "avg"
+        const val AGG_COUNT = "count"
+        const val AGG_GROUP_CONCAT = "group_concat"
+        const val AGG_MAX = "max"
+        const val AGG_MIN = "min"
+        const val AGG_SUM = "sum"
+        const val AGG_TOTAL = "total"
+
+        private val aggList = arrayOf("avg", "count", "max", "min", "sum", "total")
     }
 
     private val context = context
@@ -301,8 +312,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val data = ArrayList<Furniture>()
 
-        if (cursor != null) {
-            cursor.moveToFirst()
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 val furniture = Furniture(
                     cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_IMG)),
@@ -325,6 +335,12 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return data
     }
 
+    /**
+     * This function finds all the expenses between two dates (inclusive)
+     * @param start the start date (yyyy-MM-dd)
+     * @param end the end date (yyyy-MM-dd)
+     * @return returns an arraylist of expenses
+     * */
     fun findAllExpensesBetween(start: String, end: String): ArrayList<Expense> {
         val query = "SELECT * " +
                 "FROM $EXPENSE_TABLE " +
@@ -361,6 +377,73 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         }
 
         return data
+    }
+
+    fun findAggExpensesBetween(
+        start: String,
+        end: String,
+        columns: ArrayList<String>?,
+        agg: ArrayList<HashMap<String, String>>,
+        groups: ArrayList<String>,
+        orderColumn: String?,
+        orderType: String?): Cursor? {
+        var query = StringBuilder()
+        val db = readableDatabase
+        query.append("SELECT ")
+        var count = 0
+
+        if (columns != null) {
+            for (column in columns) {
+                if (count > 0)
+                    query.append(", ")
+
+                query.append(column)
+                count++
+            }
+        }
+
+        for (hashmap in agg) {
+            if(
+                hashmap.containsKey(Keys.KEY_COLUMN_NAME.toString()) &&
+                hashmap.containsKey(Keys.KEY_COLUMN_ALIAS.toString()) &&
+                hashmap.containsKey(Keys.KEY_AGG_TYPE.toString())
+                    ) {
+                if (count > 0)
+                    query.append(", ")
+                query.append(hashmap[Keys.KEY_AGG_TYPE.toString()]).append("(")
+                    .append(hashmap[Keys.KEY_COLUMN_NAME.toString()]).append(") \"")
+                    .append(hashmap[Keys.KEY_COLUMN_ALIAS.toString()]).append("\" ")
+                count++
+
+            }
+        }
+
+        count = 0
+
+        query.append("FROM $EXPENSE_TABLE ")
+        query.append("WHERE $COLUMN_EXPENSE_DATE BETWEEN \'$start\' AND \'$end\' ")
+
+        if (groups.size > 0)
+            query.append("GROUP BY ")
+        for (group in groups) {
+            if (count > 0)
+                query.append(", ")
+            query.append(group).append(" ")
+        }
+
+        if (orderColumn != null && orderType != null) {
+            query.append("ORDER BY ")
+                .append(orderColumn)
+                .append(" ")
+                .append(orderType)
+        }
+        Log.d("QUERY", query.toString())
+        var cursor: Cursor? = null
+        if (db != null) {
+            cursor = db.rawQuery(query.toString(), null)
+        }
+
+        return cursor
     }
 
     fun updateFurniture(furniture: Furniture): Boolean {
@@ -413,4 +496,5 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         return result != -1
     }
+
 }
