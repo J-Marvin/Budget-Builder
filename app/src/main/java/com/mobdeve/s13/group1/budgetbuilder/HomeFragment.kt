@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -29,6 +30,15 @@ class HomeFragment : Fragment() {
         rootView.btn_see_all.setOnClickListener{
            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_expenseFragment)
         }
+
+        rootView.iv_budget_bg.setOnClickListener{
+
+        }
+
+        rootView.btn_add_expense.setOnClickListener{
+            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_addExpenseFragment)
+        }
+
 
         updateBalance(rootView)
 
