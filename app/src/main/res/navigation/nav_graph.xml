@@ -18,17 +18,28 @@
         <action
             android:id="@+id/action_homeFragment_to_summaryFragment"
             app:destination="@id/summaryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addExpenseFragment"
+            app:destination="@id/addExpenseFragment" />
     </fragment>
     <fragment
         android:id="@+id/expenseFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.ExpenseFragment"
         android:label="fragment_expense"
-        tools:layout="@layout/fragment_expense" />
+        tools:layout="@layout/fragment_expense" >
+        <action
+            android:id="@+id/action_expenseFragment_to_addExpenseFragment"
+            app:destination="@id/addExpenseFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shopFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.ShopFragment"
         android:label="fragment_shop"
-        tools:layout="@layout/fragment_shop" />
+        tools:layout="@layout/fragment_shop" >
+        <action
+            android:id="@+id/action_shopFragment_to_addExpenseFragment"
+            app:destination="@id/addExpenseFragment" />
+    </fragment>
     <fragment
         android:id="@+id/summaryFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.SummaryFragment"
@@ -37,10 +48,18 @@
         <action
             android:id="@+id/action_summaryFragment_to_pieChartFragment"
             app:destination="@id/pieChartFragment" />
+        <action
+            android:id="@+id/action_summaryFragment_to_addExpenseFragment"
+            app:destination="@id/addExpenseFragment" />
     </fragment>
     <fragment
         android:id="@+id/pieChartFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.PieChartFragment"
         android:label="fragment_pie_chart"
         tools:layout="@layout/fragment_pie_chart" />
+    <fragment
+        android:id="@+id/addExpenseFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.AddExpenseFragment"
+        android:label="fragment_add_expense"
+        tools:layout="@layout/fragment_add_expense" />
 </navigation>
