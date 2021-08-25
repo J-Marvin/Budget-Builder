@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Budget Builder</string>
+    <string name="customize">Customize Your Room</string>
+    <string name="furniture">Furniture</string>
+    <string name="furniture_chair">Chair</string>
+    <string name="furniture_bed">Bed</string>
+    <string name="Desk">Desk</string>
+    <string name="gallery">Gallery</string>
+    <string name="prev_rooms">Previous Rooms</string>
+    <string name="add_expense">Add expense</string>
+    <string name="lbl_recentTnx">Recent Expenses</string>
+    <string name="btn_see_all">See All</string>
+    <string name="lbl_summary">Summary</string>
+    <string name="rb_line">Line</string>
+    <string name="rb_pie">Pie</string>
+    <string name="purchase">Purchase</string>
+    <string name="cancel">Cancel</string>
+    <string name="expense_total">-%c %f</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

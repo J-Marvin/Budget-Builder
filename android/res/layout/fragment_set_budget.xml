@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_set_budget"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corner"
+    android:backgroundTint="@color/beige"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="10dp"
+    tools:context=".SetBudgetFragment">
+
+    <TextView
+        android:id="@+id/tv_lbl_set_budget"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Set Budget"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etNum_set_budget_amt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="Amount"
+        android:inputType="number"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/tv_lbl_set_budget"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_set_budget"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lbl_set_budget" />
+
+    <Button
+        android:id="@+id/btn_set_budget"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/inter"
+        android:text="Set"
+        android:textStyle="bold"
+        app:backgroundTint="@color/dark_green"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/etNum_set_budget_amt"
+        app:layout_constraintStart_toStartOf="@+id/etNum_set_budget_amt"
+        app:layout_constraintTop_toBottomOf="@+id/etNum_set_budget_amt" />
+
+    <Button
+        android:id="@+id/btn_cancel_set_budget"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/inter"
+        android:text="Back"
+        android:textStyle="bold"
+        app:backgroundTint="@color/maroon"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_set_budget"
+        app:layout_constraintStart_toStartOf="@+id/btn_set_budget"
+        app:layout_constraintTop_toBottomOf="@+id/btn_set_budget" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige"
+    tools:context=".HomeFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_budget_expense_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_rectangle"
+        android:elevation="6dp"
+        android:paddingBottom="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_right_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_left_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_left_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.52" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_right_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.48" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_right_icon_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.19" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_right_icon_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.67" />
+
+        <Space
+            android:id="@+id/space_coins_bottom"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_coin_balance"
+            app:layout_constraintStart_toStartOf="@id/iv_currency"
+            app:layout_constraintTop_toBottomOf="@id/tv_coin_balance" />
+
+        <Space
+            android:id="@+id/space_coins_top"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_coin_balance"
+            app:layout_constraintStart_toStartOf="@id/iv_currency"
+            app:layout_constraintTop_toBottomOf="@id/tv_curr_date" />
+
+        <Space
+            android:id="@+id/space_coins_right"
+            android:layout_width="7dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/space_coins_bottom"
+            app:layout_constraintStart_toEndOf="@id/tv_coin_balance"
+            app:layout_constraintTop_toTopOf="@id/space_coins_top" />
+
+        <Space
+            android:id="@+id/space_coins_left"
+            android:layout_width="7dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/space_coins_bottom"
+            app:layout_constraintEnd_toStartOf="@id/iv_currency"
+            app:layout_constraintTop_toTopOf="@id/space_coins_top" />
+
+        <Space
+            android:id="@+id/space_top_icon"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
+            app:layout_constraintStart_toStartOf="@id/gl_left_header"
+            app:layout_constraintTop_toBottomOf="@+id/space_coins_bottom" />
+
+        <Space
+            android:id="@+id/space_bottom_icon"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
+            app:layout_constraintStart_toStartOf="@id/gl_left_header"
+            app:layout_constraintTop_toBottomOf="@id/iv_icon_budget" />
+
+        <Space
+            android:id="@+id/space_budget_icon_left"
+            android:layout_width="10dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/space_bottom_icon"
+            app:layout_constraintStart_toStartOf="@id/gl_left_header"
+            app:layout_constraintTop_toTopOf="@id/space_top_icon" />
+
+        <Space
+            android:id="@+id/space_expense_icon_left"
+            android:layout_width="10dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/space_bottom_icon"
+            app:layout_constraintStart_toStartOf="@id/gl_left_expense"
+            app:layout_constraintTop_toTopOf="@id/space_top_icon" />
+
+        <TextView
+            android:id="@+id/tv_curr_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/inter_extrabold"
+            android:text="October 1, 2021"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
+            app:layout_constraintStart_toStartOf="@id/gl_left_header"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_coins_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/pill"
+            app:layout_constraintBottom_toBottomOf="@id/space_coins_bottom"
+            app:layout_constraintEnd_toEndOf="@id/space_coins_right"
+            app:layout_constraintStart_toStartOf="@id/space_coins_left"
+            app:layout_constraintTop_toTopOf="@id/space_coins_top" />
+
+        <ImageView
+            android:id="@+id/iv_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/tv_coin_balance"
+            app:layout_constraintEnd_toStartOf="@id/tv_coin_balance"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/gl_left_header"
+            app:layout_constraintTop_toTopOf="@id/tv_coin_balance"
+            app:srcCompat="@drawable/money" />
+
+        <TextView
+            android:id="@+id/tv_coin_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="0.7"
+            android:fontFamily="@font/inter"
+            android:text="9999999"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
+            app:layout_constraintStart_toEndOf="@+id/iv_currency"
+            app:layout_constraintTop_toBottomOf="@id/space_coins_top" />
+
+        <ImageView
+            android:id="@+id/iv_budget_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/dark_green"
+            android:src="@drawable/rounded_corner"
+            app:layout_constraintBottom_toBottomOf="@id/space_bottom_icon"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_budget"
+            app:layout_constraintStart_toStartOf="@id/gl_left_header"
+            app:layout_constraintTop_toTopOf="@id/space_top_icon" />
+
+        <ImageView
+            android:id="@+id/iv_icon_budget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_inner"
+            android:backgroundTint="@color/white"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:tintMode="add"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_icon_budget"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/space_budget_icon_left"
+            app:layout_constraintTop_toBottomOf="@id/space_top_icon"
+            app:layout_constraintWidth_max="70dp"
+            app:srcCompat="@drawable/cash_flow_in"
+            app:tint="@color/dark_green" />
+
+        <ImageView
+            android:id="@+id/iv_expense_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/maroon"
+            android:src="@drawable/rounded_corner"
+            app:layout_constraintBottom_toBottomOf="@+id/space_bottom_icon"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
+            app:layout_constraintStart_toStartOf="@id/gl_left_expense"
+            app:layout_constraintTop_toTopOf="@+id/space_top_icon" />
+
+        <TextView
+            android:id="@+id/tv_budget_expense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/inter"
+            android:text="$1200"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/gl_right_header"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_expense"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lbl_expense" />
+
+        <ImageView
+            android:id="@+id/iv_icon_expense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_inner"
+            android:backgroundTint="@color/white"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:tintMode="add"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_icon_expense"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/space_expense_icon_left"
+            app:layout_constraintTop_toBottomOf="@+id/space_top_icon"
+            app:layout_constraintWidth_max="70dp"
+            app:srcCompat="@drawable/cash_flow_out"
+            app:tint="@color/maroon" />
+
+        <TextView
+            android:id="@+id/tv_lbl_expense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/inter_extrabold"
+            android:text="Expense"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_expense"
+            app:layout_constraintTop_toBottomOf="@+id/space_top_icon" />
+
+        <TextView
+            android:id="@+id/tv_lbl_budget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/inter_extrabold"
+            android:text="Budget"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/gl_right_budget"
+            app:layout_constraintStart_toEndOf="@+id/iv_icon_budget"
+            app:layout_constraintTop_toBottomOf="@id/space_top_icon" />
+
+        <TextView
+            android:id="@+id/tv_budget_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/inter"
+            android:text="$5000"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/gl_right_budget"
+            app:layout_constraintStart_toEndOf="@+id/iv_icon_budget"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lbl_budget" />
+
+        <View
+            android:id="@+id/view_set_budget"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_transparent_layer_btn"
+            app:layout_constraintBottom_toBottomOf="@id/iv_budget_bg"
+            app:layout_constraintEnd_toEndOf="@id/iv_budget_bg"
+            app:layout_constraintStart_toStartOf="@id/iv_budget_bg"
+            app:layout_constraintTop_toTopOf="@id/iv_budget_bg" />
+
+        <TextView
+            android:id="@+id/tv_lbl_remaining_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_extrabold"
+            android:text="Remaining Budget"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tv_remaining_budget"
+            app:layout_constraintStart_toStartOf="@+id/tv_remaining_budget"
+            app:layout_constraintTop_toBottomOf="@id/space_bottom_icon" />
+
+        <TextView
+            android:id="@+id/tv_remaining_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
+            android:text="$3800"
+            android:textColor="#000000"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/gl_right_header"
+            app:layout_constraintStart_toStartOf="@id/gl_left_header"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lbl_remaining_budget" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/iv_home_room"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@id/gl_bot_room"
+        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/gl_left_parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_budget_expense_info"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/temp_room" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_bot_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <TextView
+        android:id="@+id/tv_lbl_recentTnx"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="@string/lbl_recentTnx"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/btn_see_all"
+        app:layout_constraintStart_toEndOf="@id/gl_left_parent"
+        app:layout_constraintTop_toBottomOf="@id/gl_bot_room" />
+
+    <Button
+        android:id="@+id/btn_see_all"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_seeall"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/inter_extrabold"
+        android:minHeight="35dp"
+        android:text="@string/btn_see_all"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:backgroundTint="@color/dark_brown"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/tv_lbl_recentTnx"
+        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
+        app:layout_constraintTop_toTopOf="@id/tv_lbl_recentTnx"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragView_expenselist_home"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ExpenseListFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
+        app:layout_constraintStart_toStartOf="@id/gl_left_parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_see_all"
+        tools:layout="@layout/fragment_expense_list" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige"
+    tools:context=".ViewExpenseItemFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_viewexpense_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_rectangle"
+        android:elevation="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_viewexpense_header_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_viewexpense_header_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/inter_extrabold"
+            android:text="View Expense Item"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/gl_viewexpense_header_left"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_viewexpense_pic_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_viewexpense_item_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_viewexpense_item_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <ImageView
+        android:id="@+id/iv_viewexpense_item_pic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/rounded_inner"
+        android:backgroundTint="#BAE5E6"
+        android:padding="10dp"
+        android:tintMode="src_in"
+        app:layout_constraintEnd_toEndOf="@id/gl_viewexpense_pic_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/gl_viewexpense_item_left"
+        app:layout_constraintTop_toBottomOf="@id/cl_viewexpense_header"
+        app:layout_constraintWidth_max="90dp"
+        app:srcCompat="@drawable/expense_type_entertainment"
+        app:tint="#008A8A" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_lbl_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Category Type"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/cl_viewexpense_header" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/inter"
+        android:text="Entertainment"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/tv_viewexpense_lbl_type" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_lbl_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Amount"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/tv_viewexpense_type" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="- $150"
+        android:textAlignment="textEnd"
+        android:textColor="@color/maroon"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/tv_viewexpense_lbl_amount" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_lbl_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Description"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/tv_viewexpense_amount" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/inter"
+        android:text="Netflix Subscription"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/tv_viewexpense_lbl_desc" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_lbl_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="Date"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/tv_viewexpense_desc" />
+
+    <TextView
+        android:id="@+id/tv_viewexpense_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/inter"
+        android:text="August 20, 2021 04:27 PM"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toEndOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintTop_toBottomOf="@id/tv_viewexpense_lbl_date" />
+
+    <ImageButton
+        android:id="@+id/btn_viewexpense_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_inner"
+        android:backgroundTint="@color/dark_green"
+        android:contentDescription="Edit"
+        android:padding="5dp"
+        android:src="@drawable/ic_baseline_edit_24"
+        app:layout_constraintEnd_toStartOf="@id/gl_viewexpense_pic_right"
+        app:layout_constraintStart_toStartOf="@id/gl_viewexpense_item_left"
+        app:layout_constraintTop_toBottomOf="@id/iv_viewexpense_item_pic"
+        app:layout_constraintWidth_max="90dp"
+        app:tint="@color/white"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <ImageButton
+        android:id="@+id/btn_viewexpense_delete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_inner"
+        android:backgroundTint="@color/maroon"
+        android:contentDescription="Edit"
+        android:padding="5dp"
+        android:src="@drawable/ic_baseline_delete_24"
+        app:layout_constraintEnd_toStartOf="@id/gl_viewexpense_pic_right"
+        app:layout_constraintStart_toStartOf="@id/gl_viewexpense_item_left"
+        app:layout_constraintTop_toBottomOf="@id/btn_viewexpense_edit"
+        app:layout_constraintWidth_max="90dp"
+        app:tint="@color/white"
+        tools:ignore="TouchTargetSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

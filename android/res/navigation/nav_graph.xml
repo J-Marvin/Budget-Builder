@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_expenseFragment"
+            app:destination="@id/expenseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shopFragment"
+            app:destination="@id/shopFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_setBudgetFragment"
+            app:destination="@id/setBudgetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/expenseFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ExpenseFragment"
+        android:label="fragment_expense"
+        tools:layout="@layout/fragment_expense" />
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ShopFragment"
+        android:label="fragment_shop"
+        tools:layout="@layout/fragment_shop" />
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.SummaryFragment"
+        android:label="fragment_summary"
+        tools:layout="@layout/fragment_summary" >
+        <action
+            android:id="@+id/action_summaryFragment_to_pieChartFragment"
+            app:destination="@id/pieChartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pieChartFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.PieChartFragment"
+        android:label="fragment_pie_chart"
+        tools:layout="@layout/fragment_pie_chart" />
+    <dialog
+        android:id="@+id/addExpenseFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.AddExpenseFragment"
+        android:label="fragment_add_expense"
+        tools:layout="@layout/fragment_add_expense" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
+    <action android:id="@+id/action_global_addExpenseFragment" app:destination="@id/addExpenseFragment" />
+    <dialog
+        android:id="@+id/setBudgetFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.SetBudgetFragment"
+        android:label="fragment_set_budget"
+        tools:layout="@layout/fragment_set_budget" />
+    <fragment
+        android:id="@+id/viewExpenseItemFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ViewExpenseItemFragment"
+        android:label="fragment_view_expense_item"
+        tools:layout="@layout/fragment_view_expense_item" />
+    <action android:id="@+id/action_global_viewExpenseItemFragment" app:destination="@id/viewExpenseItemFragment"/>
+</navigation>

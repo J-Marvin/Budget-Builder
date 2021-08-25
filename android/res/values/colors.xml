@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_100">#D7B8FB</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark_green">#464D27</color>
+    <color name="beige">#F2E1BE</color>
+    <color name="orange">#FB7414</color>
+    <color name="maroon">#A32C04</color>
+    <color name="light_orange">#FB9C04</color>
+    <color name="light_brown">#B69A75</color>
+    <color name="light_yellow">#F6C376</color>
+    <color name="dark_beige">#F6C376</color>
+    <color name="dark_brown">#AC6525</color>
+    <color name="green_100">#A6C684</color>
+    <color name="green">#4F9A00</color>
+    <color name="red_100">#EDC4C4</color>
+    <color name="red_500">#CF3B3B</color>
+    <color name="gray">#94988c</color>
+    <color name="category_entertainment">#008A8A</color>
+    <color name="category_food">#CF3B3B</color>
+    <color name="category_transportation">#6200EE</color>
+    <color name="category_utilities">#FB7414</color>
+    <color name="category_personal">#2133BF</color>
+    <color name="category_medical">#E81A95</color>
+    <color name="category_others">#4F9A00</color>
+</resources>

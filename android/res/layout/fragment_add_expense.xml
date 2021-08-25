@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_add_expense"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corner"
+    android:backgroundTint="@color/beige"
+    android:elevation="10dp"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="10dp"
+    tools:context=".AddExpenseFragment">
+
+    <TextView
+        android:id="@+id/tv_lbl_add_expense"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="@string/add_expense"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_add_expense_category"
+        style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:dropDownWidth="wrap_content"
+        android:entries="@array/categories_array"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@id/tv_lbl_add_expense"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_add_expense"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_add_expense" />
+
+    <EditText
+        android:id="@+id/etStr_add_expense_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="Description"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/spinner_add_expense_category"
+        app:layout_constraintStart_toStartOf="@id/spinner_add_expense_category"
+        app:layout_constraintTop_toBottomOf="@id/spinner_add_expense_category" />
+
+    <EditText
+        android:id="@+id/etNum_add_expense_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="Amount"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/etStr_add_expense_description"
+        app:layout_constraintStart_toStartOf="@id/etStr_add_expense_description"
+        app:layout_constraintTop_toBottomOf="@+id/etStr_add_expense_description" />
+
+    <Button
+        android:id="@+id/btn_add_expense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Add"
+        app:backgroundTint="@color/dark_green"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/etNum_add_expense_amount"
+        app:layout_constraintStart_toStartOf="@id/etNum_add_expense_amount"
+        app:layout_constraintTop_toBottomOf="@+id/etNum_add_expense_amount" />
+
+    <Button
+        android:id="@+id/btn_cancel_add_expense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="Back"
+        app:backgroundTint="@color/maroon"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/etNum_add_expense_amount"
+        app:layout_constraintStart_toStartOf="@id/etNum_add_expense_amount"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_expense" />
+</androidx.constraintlayout.widget.ConstraintLayout>
