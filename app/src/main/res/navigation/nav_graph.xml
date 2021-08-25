@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_galleryFragment"
             app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_setBudgetFragment"
+            app:destination="@id/setBudgetFragment" />
     </fragment>
     <fragment
         android:id="@+id/expenseFragment"
@@ -56,5 +59,10 @@
         android:name="com.mobdeve.s13.group1.budgetbuilder.GalleryFragment"
         android:label="fragment_gallery"
         tools:layout="@layout/fragment_gallery" />
-    <action android:id="@+id/action_global_addExpenseFragment" app:destination="@id/addExpenseFragment"/>
+    <action android:id="@+id/action_global_addExpenseFragment" app:destination="@id/addExpenseFragment" />
+    <dialog
+        android:id="@+id/setBudgetFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.SetBudgetFragment"
+        android:label="fragment_set_budget"
+        tools:layout="@layout/fragment_set_budget" />
 </navigation>

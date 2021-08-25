@@ -15,6 +15,7 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val tvType: TextView
     val tvDesc: TextView
     val tvExpenseAmount: TextView
+    val tvDate: TextView
     val tvTime: TextView
 
     init {
@@ -22,6 +23,7 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         tvType = view.findViewById(R.id.tv_expense_type)
         tvDesc = view.findViewById(R.id.tv_expense_desc)
         tvExpenseAmount = view.findViewById(R.id.tv_expense_amount)
+        tvDate = view.findViewById(R.id.tv_expense_item_date)
         tvTime = view.findViewById(R.id.tv_expense_item_time)
     }
 
@@ -45,9 +47,9 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         tvExpenseAmount.text = "-" + amount.toString()
     }
 
-    fun setTime(currTime: Date) {
-        var currTimeText = SimpleDateFormat("hh:mm a").format(currTime)
-        tvTime.text = currTimeText
+    fun setDateTime(currTime: Date) {
+        tvDate.text = SimpleDateFormat("MMM dd, yyyy").format(currTime)
+        tvTime.text = SimpleDateFormat("hh:mm a").format(currTime)
     }
 
 }

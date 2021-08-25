@@ -8,6 +8,7 @@
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/bg_gradient.xml" value="0.3828125" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/bg_navbar.xml" value="0.24177631578947367" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/bg_radiogroup.xml" value="0.24177631578947367" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/bg_setbudget_transparent.xml" value="0.3828125" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/expense_rounded_corner.xml" value="0.24177631578947367" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/header_div.xml" value="0.24177631578947367" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/drawable/header_divider.xml" value="0.24177631578947367" />
@@ -25,14 +26,16 @@
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_expense.xml" value="0.22" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_shop.xml" value="0.25" />
-        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/expense_item.xml" value="0.25" />
-        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_add_expense.xml" value="0.1" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/category_expense_item.xml" value="0.36186594202898553" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/expense_item.xml" value="0.5" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_add_expense.xml" value="0.33" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_expense.xml" value="0.22" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_expense_list.xml" value="0.23157894736842105" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_gallery.xml" value="0.23092105263157894" />
-        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_landing.xml" value="0.23157894736842105" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_pie_chart.xml" value="0.23157894736842105" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_set_budget.xml" value="0.36186594202898553" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_shop.xml" value="0.22" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_summary.xml" value="0.25" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/furniture.xml" value="0.23157894736842105" />

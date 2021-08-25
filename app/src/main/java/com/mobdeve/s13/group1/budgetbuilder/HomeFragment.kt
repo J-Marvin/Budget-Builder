@@ -27,6 +27,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
+
         rootView.btn_see_all.setOnClickListener{
            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_expenseFragment)
         }
@@ -35,14 +36,9 @@ class HomeFragment : Fragment() {
             Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_galleryFragment)
         }
 
-        rootView.iv_budget_bg.setOnClickListener{
-
+        rootView.view_set_budget.setOnClickListener{
+            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_setBudgetFragment)
         }
-
-//        rootView.btn_add_expense.setOnClickListener{
-//            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_addExpenseFragment)
-//        }
-
 
         updateBalance(rootView)
 

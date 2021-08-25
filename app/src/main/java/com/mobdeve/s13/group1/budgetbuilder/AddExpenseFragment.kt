@@ -37,7 +37,7 @@ class AddExpenseFragment: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view. btn_add_expense.setOnClickListener {
-            Toast.makeText(this.requireContext(), "Added", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.requireContext(), "Added", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 

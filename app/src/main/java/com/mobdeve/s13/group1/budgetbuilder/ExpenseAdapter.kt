@@ -20,7 +20,7 @@ class ExpenseAdapter(private val dataSet: ArrayList<Expense>) : RecyclerView.Ada
         holder.setType(currExpense.type)
         holder.setDesc(currExpense.desc)
         holder.setAmount(currExpense.amount)
-        holder.setTime(currExpense.date)
+        holder.setDateTime(currExpense.date)
 
     }
 

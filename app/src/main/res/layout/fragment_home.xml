@@ -318,6 +318,16 @@
             app:layout_constraintStart_toEndOf="@+id/iv_icon_budget"
             app:layout_constraintTop_toBottomOf="@+id/tv_lbl_budget" />
 
+        <View
+            android:id="@+id/view_set_budget"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_transparent_layer_btn"
+            app:layout_constraintBottom_toBottomOf="@id/iv_budget_bg"
+            app:layout_constraintEnd_toEndOf="@id/iv_budget_bg"
+            app:layout_constraintStart_toStartOf="@id/iv_budget_bg"
+            app:layout_constraintTop_toTopOf="@id/iv_budget_bg" />
+
         <TextView
             android:id="@+id/tv_lbl_remaining_budget"
             android:layout_width="wrap_content"
