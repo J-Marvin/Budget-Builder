@@ -8,7 +8,7 @@ class GalleryViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val ivRoom: ImageView
 
     init {
-        ivRoom = view.findViewById(R.id.iv_gallery_room)
+        ivRoom = view.findViewById(R.id.iv_room)
     }
 
     fun setImg(img: Int) {

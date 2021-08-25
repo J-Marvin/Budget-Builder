@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_addExpenseFragment"
             app:destination="@id/addExpenseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/expenseFragment"
@@ -62,4 +65,9 @@
         android:name="com.mobdeve.s13.group1.budgetbuilder.AddExpenseFragment"
         android:label="fragment_add_expense"
         tools:layout="@layout/fragment_add_expense" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
 </navigation>

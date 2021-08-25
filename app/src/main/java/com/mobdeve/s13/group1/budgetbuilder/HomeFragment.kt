@@ -31,13 +31,17 @@ class HomeFragment : Fragment() {
            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_expenseFragment)
         }
 
+        rootView.iv_home_room.setOnClickListener{
+            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_galleryFragment)
+        }
+
         rootView.iv_budget_bg.setOnClickListener{
 
         }
 
-        rootView.btn_add_expense.setOnClickListener{
-            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_addExpenseFragment)
-        }
+//        rootView.btn_add_expense.setOnClickListener{
+//            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_addExpenseFragment)
+//        }
 
 
         updateBalance(rootView)

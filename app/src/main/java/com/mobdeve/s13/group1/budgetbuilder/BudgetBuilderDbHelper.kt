@@ -131,6 +131,21 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         }
     }
 
+    fun initRoomFurniture(month: Int, year: Int): Long {
+        val db = writableDatabase
+        val roomId = addRoom(month, year)
+        val furniture = DataHelper.getFurniture()
+
+        if (roomId != -1L) {
+            for(item in furniture){
+                item.roomId = roomId.toString()
+                addFurniture(db, item)
+            }
+        }
+
+        return roomId
+    }
+
     fun addRoom(month: Int, year: Int): Long {
         val db = writableDatabase
         val cv = ContentValues()
@@ -302,6 +317,41 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
     fun findAllFurniture(): ArrayList<Furniture> {
         val query = "SELECT * FROM $FURNITURE_TABLE"
+        val db = this.readableDatabase
+
+        var cursor: Cursor? = null
+
+        if (db!= null) {
+            cursor = db.rawQuery(query, null)
+        }
+
+        val data = ArrayList<Furniture>()
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val furniture = Furniture(
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_IMG)),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_PRICE)),
+                    owned = cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_OWNED)) == 1,
+                    equipped = cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_EQUIPPED)) == 1,
+                    cursor.getString(cursor.getColumnIndex(COLUMN_FURNITURE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_FURNITURE_TYPE))
+                )
+
+                furniture.roomId = cursor.getInt(cursor.getColumnIndex(COLUMN_ROOM_ID)).toString()
+                furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(COLUMN_FURNITURE_ID)).toString()
+
+                data.add(furniture)
+            } while (cursor.moveToNext())
+
+            cursor.close()
+        }
+
+        return data
+    }
+
+    fun findAllFurnitureOfRoom(roomId: String): ArrayList<Furniture> {
+        val query = "SELECT * FROM $FURNITURE_TABLE WHERE $COLUMN_ROOM_ID = $roomId"
         val db = this.readableDatabase
 
         var cursor: Cursor? = null

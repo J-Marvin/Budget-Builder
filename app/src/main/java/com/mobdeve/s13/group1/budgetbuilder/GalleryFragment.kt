@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 
 import kotlinx.android.synthetic.main.fragment_gallery.*
+import kotlinx.android.synthetic.main.fragment_gallery.view.*
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -36,18 +37,18 @@ class GalleryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_gallery, container, false)
-        initRecyclerView()
+        initRecyclerView(view)
         return view
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerView(rootView:View) {
         var data = ArrayList<Int>()
 
         for(i in 1..10)
             data.add(R.drawable.temp_room)
 
-        rv_prev_rooms.adapter = GalleryAdapter(data)
-        rv_prev_rooms.layoutManager = GridLayoutManager(this.context, 3)
+        rootView.rv_prev_rooms.adapter = GalleryAdapter(data)
+        rootView.rv_prev_rooms.layoutManager = GridLayoutManager(this.context, 3)
     }
 
 //    companion object {
