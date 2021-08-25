@@ -14,12 +14,10 @@ class Room(): ApplicationAdapter(){
     lateinit var batch: SpriteBatch
     lateinit var img: Texture
     lateinit var tileMap: TiledMap
-    lateinit var sprite: Sprite
 
     override fun create() {
         batch = SpriteBatch()
         img = Texture("temp_room.png")
-        sprite = Sprite(img)
     }
 
     override fun render() {

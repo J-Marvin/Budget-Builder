@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 
-class ShopFragment : Fragment(){
+class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
     lateinit var chairs: ArrayList<Furniture>
     lateinit var beds: ArrayList<Furniture>
     lateinit var db: BudgetBuilderDbHelper
@@ -36,8 +36,9 @@ class ShopFragment : Fragment(){
         initBalance()
 
         rootView.tv_shop_balance.text = getBalance().toString()
-        room = RoomFragment()
-        activity?.supportFragmentManager?.beginTransaction()?.add(R.id.fcv_shop_room, room)?.commit()
+        val activity = activity as MainActivity
+//        room = activity.roomFragment
+//        activity?.supportFragmentManager?.beginTransaction()?.add(R.id.fcv_shop_room, room)?.commit()
         return rootView
     }
 
@@ -104,6 +105,10 @@ class ShopFragment : Fragment(){
         spEditor.putInt(Keys.KEY_BALANCE.toString(), bal)
         spEditor.apply()
         view?.tv_shop_balance?.text = bal.toString()
+    }
+
+    override fun exit() {
+        TODO("Not yet implemented")
     }
 
 }
