@@ -40,11 +40,11 @@ class ExpenseListFragment : Fragment() {
         //if not home fragment, then display all expense items
         //if less than 3 items, display all
         if(homeFrag == null || this.expenses.size <= 3) {
-            rootView.rv_expenses.adapter = ExpenseAdapter(this.expenses)
+            rootView.rv_expenses.adapter = ExpenseAdapter(childFragmentManager, this.expenses)
         }
         //if home fragment, display only 3 latest expense items
         else if(this.expenses.size > 3){
-            rootView.rv_expenses.adapter = ExpenseAdapter(this.expenses.take(3) as ArrayList<Expense>)
+            rootView.rv_expenses.adapter = ExpenseAdapter(childFragmentManager, this.expenses.take(3) as ArrayList<Expense>)
         }
 
         rootView.rv_expenses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)

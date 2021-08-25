@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_add_expense"
+    android:id="@+id/cl_edit_expense"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_corner"
@@ -12,7 +12,7 @@
     android:paddingTop="10dp"
     android:paddingEnd="20dp"
     android:paddingBottom="10dp"
-    tools:context=".AddExpenseFragment">
+    tools:context=".EditExpenseDialogFragment">
 
     <TextView
         android:id="@+id/tv_lbl_edit_expense"
@@ -20,14 +20,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/inter_extrabold"
-        android:text="@string/add_expense"
+        android:text="@string/edit_expense"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner_add_expense_category"
+        android:id="@+id/spinner_edit_expense"
         style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_lbl_edit_expense" />
 
     <EditText
-        android:id="@+id/etStr_add_expense_description"
+        android:id="@+id/etStr_edit_expense_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -48,12 +48,12 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/spinner_add_expense_category"
-        app:layout_constraintStart_toStartOf="@id/spinner_add_expense_category"
-        app:layout_constraintTop_toBottomOf="@id/spinner_add_expense_category" />
+        app:layout_constraintEnd_toEndOf="@id/spinner_edit_expense"
+        app:layout_constraintStart_toStartOf="@id/spinner_edit_expense"
+        app:layout_constraintTop_toBottomOf="@id/spinner_edit_expense" />
 
     <EditText
-        android:id="@+id/etNum_add_expense_amount"
+        android:id="@+id/etNum_edit_expense_amount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -61,21 +61,21 @@
         android:inputType="number"
         android:minHeight="48dp"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/etStr_add_expense_description"
-        app:layout_constraintStart_toStartOf="@id/etStr_add_expense_description"
-        app:layout_constraintTop_toBottomOf="@+id/etStr_add_expense_description" />
+        app:layout_constraintEnd_toEndOf="@id/etStr_edit_expense_desc"
+        app:layout_constraintStart_toStartOf="@id/etStr_edit_expense_desc"
+        app:layout_constraintTop_toBottomOf="@id/etStr_edit_expense_desc" />
 
     <Button
-        android:id="@+id/btn_add_expense"
+        android:id="@+id/btn_edit_expense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Add"
+        android:text="EDIT"
         app:backgroundTint="@color/dark_green"
         app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="@id/etNum_add_expense_amount"
-        app:layout_constraintStart_toStartOf="@id/etNum_add_expense_amount"
-        app:layout_constraintTop_toBottomOf="@+id/etNum_add_expense_amount" />
+        app:layout_constraintEnd_toEndOf="@id/etNum_edit_expense_amount"
+        app:layout_constraintStart_toStartOf="@id/etNum_edit_expense_amount"
+        app:layout_constraintTop_toBottomOf="@id/etNum_edit_expense_amount" />
 
     <Button
         android:id="@+id/btn_cancel_edit_expense"
@@ -87,7 +87,7 @@
         app:backgroundTint="@color/maroon"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/etNum_add_expense_amount"
-        app:layout_constraintStart_toStartOf="@id/etNum_add_expense_amount"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_expense" />
+        app:layout_constraintEnd_toEndOf="@id/btn_edit_expense"
+        app:layout_constraintStart_toStartOf="@id/btn_edit_expense"
+        app:layout_constraintTop_toBottomOf="@id/btn_edit_expense" />
 </androidx.constraintlayout.widget.ConstraintLayout>

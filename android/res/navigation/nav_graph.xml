@@ -71,4 +71,9 @@
         android:label="fragment_view_expense_item"
         tools:layout="@layout/fragment_view_expense_item" />
     <action android:id="@+id/action_global_viewExpenseItemFragment" app:destination="@id/viewExpenseItemFragment"/>
+    <dialog
+        android:id="@+id/deleteExpenseDialogFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.DeleteExpenseDialogFragment"
+        android:label="fragment_delete_expense_dialog"
+        tools:layout="@layout/fragment_delete_expense_dialog" /><action android:id="@+id/action_global_deleteExpenseDialogFragment" app:destination="@id/deleteExpenseDialogFragment"/>
 </navigation>

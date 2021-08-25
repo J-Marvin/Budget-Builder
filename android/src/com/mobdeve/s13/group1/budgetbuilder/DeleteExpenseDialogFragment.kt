@@ -1,4 +1,5 @@
 package com.mobdeve.s13.group1.budgetbuilder
+
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,32 +9,30 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.fragment_add_expense.view.*
+import kotlinx.android.synthetic.main.fragment_delete_expense_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
 
-class AddExpenseFragment: DialogFragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        var rootView: View = inflater.inflate(R.layout.fragment_add_expense, container, false)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-
-        rootView.etNum_add_expense_amount.setOnFocusChangeListener { v, hasFocus ->
-//            if(hasFocus) {
-//                dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-//            } else {
-//                dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-//            }
-        }
-
-        return rootView
+class DeleteExpenseDialogFragment : DialogFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun dismiss() {
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         super.dismiss()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        var rootView = inflater.inflate(R.layout.fragment_delete_expense_dialog, container, false)
+
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+        return rootView
     }
 
     override fun onResume() {
@@ -45,15 +44,14 @@ class AddExpenseFragment: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view. btn_add_expense.setOnClickListener {
-            Toast.makeText(this.requireContext(), "Added", Toast.LENGTH_SHORT).show()
+        view.btn_delete_expense.setOnClickListener{
+            Toast.makeText(view.context, "Deleted", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
-        view.btn_cancel_edit_expense.setOnClickListener{
+        view.btn_cancel_delete_expense.setOnClickListener {
             dismiss()
         }
-
     }
 
     fun hideSystemUI(){
@@ -63,5 +61,4 @@ class AddExpenseFragment: DialogFragment() {
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
     }
-
 }

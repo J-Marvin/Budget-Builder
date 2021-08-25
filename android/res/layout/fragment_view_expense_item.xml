@@ -40,7 +40,7 @@
             android:fontFamily="@font/inter_extrabold"
             android:text="View Expense Item"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/gl_viewexpense_header_left"
