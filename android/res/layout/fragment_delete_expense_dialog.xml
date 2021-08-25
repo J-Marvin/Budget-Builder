@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corner"
+    android:backgroundTint="@color/beige"
+    android:elevation="10dp"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="10dp"
+    tools:context=".DeleteExpenseDialogFragment">
+
+    <TextView
+        android:id="@+id/tv_lbl_delete_expense"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="@string/delete_expense"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_delete_warning"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter"
+        android:text="@string/delete_warning"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/tv_lbl_delete_expense"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_delete_expense"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_delete_expense" />
+
+    <Button
+        android:id="@+id/btn_delete_expense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="DELETE"
+        app:backgroundTint="@color/dark_green"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/tv_delete_warning"
+        app:layout_constraintStart_toStartOf="@id/tv_delete_warning"
+        app:layout_constraintTop_toBottomOf="@id/tv_delete_warning" />
+
+    <Button
+        android:id="@+id/btn_cancel_delete_expense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="Back"
+        app:backgroundTint="@color/maroon"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/btn_delete_expense"
+        app:layout_constraintStart_toStartOf="@id/btn_delete_expense"
+        app:layout_constraintTop_toBottomOf="@id/btn_delete_expense" />
+</androidx.constraintlayout.widget.ConstraintLayout>

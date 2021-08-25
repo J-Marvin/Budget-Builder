@@ -9,6 +9,8 @@
     <string name="prev_rooms">Previous Rooms</string>
     <string name="add_expense">Add expense</string>
     <string name="edit_expense">Edit expense</string>
+    <string name="delete_expense">Delete expense</string>
+    <string name="delete_warning">Are you sure you want to delete this expense?</string>
     <string name="lbl_recentTnx">Recent Expenses</string>
     <string name="btn_see_all">See All</string>
     <string name="lbl_summary">Summary</string>
