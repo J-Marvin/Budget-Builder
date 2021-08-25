@@ -19,6 +19,15 @@ class AddExpenseFragment: DialogFragment() {
         var rootView: View = inflater.inflate(R.layout.fragment_add_expense, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+        rootView.etNum_add_expense_amount.setOnFocusChangeListener { v, hasFocus ->
+//            if(hasFocus) {
+//                dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+//            } else {
+//                dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+//            }
+        }
+
         return rootView
     }
 

@@ -10,22 +10,25 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks {
 
     private lateinit var db: BudgetBuilderDbHelper
     private lateinit var sp: SharedPreferences
+    public lateinit var roomFragment: RoomFragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         applicationContext.deleteDatabase("BudgetBuilder.db")
         db = BudgetBuilderDbHelper(this)
         initNavBar()
         this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+       roomFragment = RoomFragment()
     }
 
     override fun onResume() {
@@ -54,6 +57,9 @@ class MainActivity : AppCompatActivity() {
         fab_add_expense.setOnClickListener{
             navController.navigate(R.id.action_global_addExpenseFragment)
         }
+    }
+
+    override fun exit() {
     }
 
 }
