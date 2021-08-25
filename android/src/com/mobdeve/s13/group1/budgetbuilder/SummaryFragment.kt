@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_summary.*
 import kotlinx.android.synthetic.main.fragment_summary.view.*
 
 class SummaryFragment : Fragment() {
@@ -24,6 +27,23 @@ class SummaryFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView =  inflater.inflate(R.layout.fragment_summary, container, false)
         initRecyclerView(rootView)
+
+        rootView.radiobtn_line.setOnClickListener {
+            if(it.radiobtn_line.isChecked) {
+                this.childFragmentManager.commit {
+                    replace<LineChartFragment>(R.id.fragView_summary)
+                }
+            }
+        }
+
+        rootView.radiobtn_pie.setOnClickListener {
+            if(it.radiobtn_pie.isChecked) {
+                this.childFragmentManager.commit {
+                    replace<PieChartFragment>(R.id.fragView_summary)
+                }
+            }
+        }
+
         return rootView
     }
 
