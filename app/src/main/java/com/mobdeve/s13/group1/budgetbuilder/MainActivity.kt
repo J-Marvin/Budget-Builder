@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
         bottom_navigation_view.background = null
         bottom_navigation_view.menu.getItem(2).isEnabled = false
+
+        fab_add_expense.setOnClickListener{
+            navController.navigate(R.id.action_global_addExpenseFragment)
+        }
     }
 
 }

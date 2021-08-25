@@ -7,7 +7,7 @@
     <string name="Desk">Desk</string>
     <string name="gallery">Gallery</string>
     <string name="prev_rooms">Previous Rooms</string>
-    <string name="fab_add_expense">Add expense</string>
+    <string name="add_expense">Add expense</string>
     <string name="lbl_recentTnx">Recent Expenses</string>
     <string name="btn_see_all">See All</string>
     <string name="lbl_summary">Summary</string>
