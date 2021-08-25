@@ -39,16 +39,7 @@
         android:id="@+id/summaryFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.SummaryFragment"
         android:label="fragment_summary"
-        tools:layout="@layout/fragment_summary" >
-        <action
-            android:id="@+id/action_summaryFragment_to_pieChartFragment"
-            app:destination="@id/pieChartFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/pieChartFragment"
-        android:name="com.mobdeve.s13.group1.budgetbuilder.PieChartFragment"
-        android:label="fragment_pie_chart"
-        tools:layout="@layout/fragment_pie_chart" />
+        tools:layout="@layout/fragment_summary" />
     <dialog
         android:id="@+id/addExpenseFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.AddExpenseFragment"
@@ -75,5 +66,6 @@
         android:id="@+id/deleteExpenseDialogFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.DeleteExpenseDialogFragment"
         android:label="fragment_delete_expense_dialog"
-        tools:layout="@layout/fragment_delete_expense_dialog" /><action android:id="@+id/action_global_deleteExpenseDialogFragment" app:destination="@id/deleteExpenseDialogFragment"/>
+        tools:layout="@layout/fragment_delete_expense_dialog" />
+    <action android:id="@+id/action_global_deleteExpenseDialogFragment" app:destination="@id/deleteExpenseDialogFragment" />
 </navigation>
