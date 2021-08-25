@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./app/src/main/res/drawable/logo_round.png" alt="Brewcipe logo" width="150" height="150" align="center">
+  <img src="./android/res/drawable/logo_round.png" alt="Budget Builder logo" width="150" height="150" align="center">
 </div>
 <h3 align ="center"> Budget Builder </h3>
 <h4 align = "center">
