@@ -41,7 +41,7 @@ class AddExpenseFragment: DialogFragment() {
             dismiss()
         }
 
-        view.btn_cancel_add_expense.setOnClickListener{
+        view.btn_cancel_edit_expense.setOnClickListener{
             dismiss()
         }
 
