@@ -27,7 +27,7 @@
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/activity_shop.xml" value="0.25" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/category_expense_item.xml" value="0.36186594202898553" />
-        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/expense_item.xml" value="0.5" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/expense_item.xml" value="0.25" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_add_expense.xml" value="0.33" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_expense.xml" value="0.22" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_expense_list.xml" value="0.23157894736842105" />
@@ -38,6 +38,7 @@
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_set_budget.xml" value="0.36186594202898553" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_shop.xml" value="0.22" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_summary.xml" value="0.25" />
+        <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/fragment_view_expense_item.xml" value="0.23157894736842105" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/furniture.xml" value="0.23157894736842105" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/furniture_shop_item.xml" value="0.23157894736842105" />
         <entry key="..\:/Personal/BS CS-ST/MOBDEVE/MP/MOBDEVE_S13_AY2021_T3/app/src/main/res/layout/room_item.xml" value="0.23157894736842105" />

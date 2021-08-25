@@ -8,9 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 

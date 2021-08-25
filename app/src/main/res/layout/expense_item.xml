@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_expense_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="15dp"
@@ -110,18 +111,18 @@
             app:layout_constraintTop_toBottomOf="@id/tv_expense_desc" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_expense_item_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.04" />
-
-        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_expense_pic_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.18" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_expense_item_info_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.73" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_expense_item_right"
@@ -131,10 +132,10 @@
             app:layout_constraintGuide_percent="0.96" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_expense_item_info_left"
+            android:id="@+id/gl_expense_item_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.73" />
+            app:layout_constraintGuide_percent="0.04" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
@@ -17,6 +18,7 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val tvExpenseAmount: TextView
     val tvDate: TextView
     val tvTime: TextView
+    val cardExpense: CardView
 
     init {
         ivExpenseItemPic = view.findViewById(R.id.iv_expense_item_pic)
@@ -25,6 +27,7 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         tvExpenseAmount = view.findViewById(R.id.tv_expense_amount)
         tvDate = view.findViewById(R.id.tv_expense_item_date)
         tvTime = view.findViewById(R.id.tv_expense_item_time)
+        cardExpense = view.findViewById(R.id.card_expense_item)
     }
 
     fun setType(type: String) {
@@ -50,6 +53,10 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     fun setDateTime(currTime: Date) {
         tvDate.text = SimpleDateFormat("MMM dd, yyyy").format(currTime)
         tvTime.text = SimpleDateFormat("hh:mm a").format(currTime)
+    }
+
+    fun setOnClickListener(listener: View.OnClickListener){
+        cardExpense.setOnClickListener(listener)
     }
 
 }

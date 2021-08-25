@@ -65,4 +65,10 @@
         android:name="com.mobdeve.s13.group1.budgetbuilder.SetBudgetFragment"
         android:label="fragment_set_budget"
         tools:layout="@layout/fragment_set_budget" />
+    <fragment
+        android:id="@+id/viewExpenseItemFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ViewExpenseItemFragment"
+        android:label="fragment_view_expense_item"
+        tools:layout="@layout/fragment_view_expense_item" />
+    <action android:id="@+id/action_global_viewExpenseItemFragment" app:destination="@id/viewExpenseItemFragment"/>
 </navigation>
