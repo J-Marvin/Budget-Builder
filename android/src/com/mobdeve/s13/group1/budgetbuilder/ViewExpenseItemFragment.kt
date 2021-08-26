@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.commit
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_view_expense_item.view.*
 
@@ -32,6 +33,10 @@ class ViewExpenseItemFragment : Fragment() {
 
         rootView.btn_viewexpense_delete.setOnClickListener {
             Navigation.findNavController(rootView).navigate(R.id.action_global_deleteExpenseDialogFragment)
+        }
+
+        rootView.btn_viewexpense_back.setOnClickListener {
+           Navigation.findNavController(rootView).popBackStack()
         }
 
         return rootView
