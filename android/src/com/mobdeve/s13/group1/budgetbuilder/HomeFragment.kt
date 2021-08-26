@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 
 class HomeFragment : Fragment() {
@@ -35,6 +36,10 @@ class HomeFragment : Fragment() {
 
         rootView.view_set_budget.setOnClickListener{
             Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_setBudgetFragment)
+        }
+
+        rootView.btn_home_settings.setOnClickListener {
+            Navigation.findNavController(rootView).navigate(R.id.action_global_settingsFragment)
         }
 
         updateBalance(rootView)

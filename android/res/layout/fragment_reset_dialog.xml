@@ -11,49 +11,49 @@
     android:paddingTop="10dp"
     android:paddingEnd="20dp"
     android:paddingBottom="10dp"
-    tools:context=".DeleteExpenseDialogFragment">
+    tools:context=".ResetDialogFragment">
 
     <TextView
-        android:id="@+id/tv_lbl_delete_expense"
+        android:id="@+id/tv_lbl_reset_dialog"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/inter_extrabold"
-        android:text="@string/delete_expense"
+        android:text="@string/reset_lbl"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_delete_warning"
+        android:id="@+id/tv_reset_warning"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/inter"
-        android:text="@string/delete_warning"
+        android:text="@string/reset_warning"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/tv_lbl_delete_expense"
-        app:layout_constraintStart_toStartOf="@id/tv_lbl_delete_expense"
-        app:layout_constraintTop_toBottomOf="@id/tv_lbl_delete_expense" />
+        app:layout_constraintEnd_toEndOf="@id/tv_lbl_reset_dialog"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_reset_dialog"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_reset_dialog" />
 
     <Button
-        android:id="@+id/btn_delete_expense"
+        android:id="@+id/btn_reset_dialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="DELETE"
+        android:text="RESET"
         android:textColor="@color/white"
         app:backgroundTint="@color/dark_green"
         app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="@id/tv_delete_warning"
-        app:layout_constraintStart_toStartOf="@id/tv_delete_warning"
-        app:layout_constraintTop_toBottomOf="@id/tv_delete_warning" />
+        app:layout_constraintEnd_toEndOf="@id/tv_reset_warning"
+        app:layout_constraintStart_toStartOf="@id/tv_reset_warning"
+        app:layout_constraintTop_toBottomOf="@id/tv_reset_warning" />
 
     <Button
-        android:id="@+id/btn_cancel_delete_expense"
+        android:id="@+id/btn_cancel_reset_dialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -63,7 +63,7 @@
         app:backgroundTint="@color/maroon"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/btn_delete_expense"
-        app:layout_constraintStart_toStartOf="@id/btn_delete_expense"
-        app:layout_constraintTop_toBottomOf="@id/btn_delete_expense" />
+        app:layout_constraintEnd_toEndOf="@id/btn_reset_dialog"
+        app:layout_constraintStart_toStartOf="@id/btn_reset_dialog"
+        app:layout_constraintTop_toBottomOf="@id/btn_reset_dialog" />
 </androidx.constraintlayout.widget.ConstraintLayout>

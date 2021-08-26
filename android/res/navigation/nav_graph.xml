@@ -72,4 +72,19 @@
         android:label="fragment_delete_expense_dialog"
         tools:layout="@layout/fragment_delete_expense_dialog" />
     <action android:id="@+id/action_global_deleteExpenseDialogFragment" app:destination="@id/deleteExpenseDialogFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_resetDialogFragment"
+            app:destination="@id/resetDialogFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
+    <dialog
+        android:id="@+id/resetDialogFragment"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.ResetDialogFragment"
+        android:label="fragment_reset_dialog"
+        tools:layout="@layout/fragment_reset_dialog" />
 </navigation>

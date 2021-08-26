@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import kotlinx.android.synthetic.main.fragment_shop.view.*
@@ -36,6 +36,11 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
         initBalance()
 
         rootView.tv_shop_balance.text = getBalance().toString()
+
+        rootView.btn_shop_settings.setOnClickListener {
+            Navigation.findNavController(rootView).navigate(R.id.action_global_settingsFragment)
+        }
+
         val activity = activity as MainActivity
 //        room = activity.roomFragment
 //        activity?.supportFragmentManager?.beginTransaction()?.add(R.id.fcv_shop_room, room)?.commit()

@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige">
-
+    android:background="@color/beige"
+    tools:context=".SettingsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/cl_settings_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_rectangle"
@@ -17,57 +17,186 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Space
+            android:id="@+id/space_settings_header"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_settings_header_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_settings_header_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <ImageButton
+            android:id="@+id/btn_settings_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/rounded_inner"
+            android:contentDescription="@string/btn_back"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_lbl_settings"
+            app:layout_constraintStart_toStartOf="@id/gl_settings_header_left"
+            app:layout_constraintTop_toTopOf="@id/tv_lbl_settings"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+            app:tint="@color/dark_brown" />
+
         <TextView
             android:id="@+id/tv_lbl_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/inter_extrabold"
             android:text="Settings"
 
             android:textColor="#000000"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/gl_settings_header_right"
+            app:layout_constraintStart_toStartOf="@id/gl_settings_header_left"
+            app:layout_constraintTop_toBottomOf="@id/space_settings_header" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textView4"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_settings_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_settings_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_settings_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.68" />
+
+    <TextView
+        android:id="@+id/tv_lbl_settings_budget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/inter_extrabold"
-        android:text="Daily Budget"
+        android:text="@string/settings_budget"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintEnd_toEndOf="@id/gl_settings_mid"
+        app:layout_constraintStart_toStartOf="@id/gl_settings_left"
+        app:layout_constraintTop_toBottomOf="@+id/cl_settings_header" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvt_settings_desc_budget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:text="@string/settings_desc_budget"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/gl_settings_mid"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_settings_budget"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_settings_budget" />
+
+    <EditText
+        android:id="@+id/etNum_settings_budget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Amount"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toStartOf="@id/gl_settings_right"
+        app:layout_constraintStart_toStartOf="@id/gl_settings_mid"
+        app:layout_constraintTop_toTopOf="@id/tv_lbl_settings_budget"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/tv_lbl_settings_currency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/inter_extrabold"
+        android:text="@string/settings_currency"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/gl_settings_mid"
+        app:layout_constraintStart_toStartOf="@id/gl_settings_left"
+        app:layout_constraintTop_toBottomOf="@id/tvt_settings_desc_budget" />
+
+    <TextView
+        android:id="@+id/tvt_settings_desc_currency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:text="@string/settings_desc_currency"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/gl_settings_mid"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_settings_currency"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_settings_currency" />
+
+    <Spinner
+        android:id="@+id/spinner_settings_currency"
+        style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/currency_array"
+        android:minHeight="48dp"
+        android:popupBackground="@color/beige"
+        app:layout_constraintEnd_toEndOf="@id/gl_settings_right"
+        app:layout_constraintStart_toStartOf="@id/gl_settings_mid"
+        app:layout_constraintTop_toTopOf="@id/tv_lbl_settings_currency" />
+
+    <TextView
+        android:id="@+id/tv_lbl_settings_reset"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/inter_extrabold"
-        android:text="Currency"
+        android:text="@string/settings_reset"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintEnd_toEndOf="@id/gl_settings_mid"
+        app:layout_constraintStart_toStartOf="@id/gl_settings_left"
+        app:layout_constraintTop_toBottomOf="@id/tvt_settings_desc_currency" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvt_settings_desc_reset"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/inter_extrabold"
-        android:text=" Reset Budget Builder"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        android:fontFamily="@font/inter"
+        android:text="@string/settings_desc_resest"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/gl_settings_mid"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_settings_reset"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_settings_reset" />
+
+    <Button
+        android:id="@+id/btn_settings_reset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:text="RESET"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/maroon"
+        app:layout_constraintEnd_toStartOf="@id/gl_settings_right"
+        app:layout_constraintStart_toStartOf="@id/gl_settings_mid"
+        app:layout_constraintTop_toTopOf="@id/tv_lbl_settings_reset" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

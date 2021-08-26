@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_summary.*
 import kotlinx.android.synthetic.main.fragment_summary.view.*
 
 class SummaryFragment : Fragment() {
@@ -27,6 +26,10 @@ class SummaryFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView =  inflater.inflate(R.layout.fragment_summary, container, false)
         initRecyclerView(rootView)
+
+        rootView.btn_summary_settings.setOnClickListener {
+            Navigation.findNavController(rootView).navigate(R.id.action_global_settingsFragment)
+        }
 
         rootView.radiobtn_line.setOnClickListener {
             if(it.radiobtn_line.isChecked) {
