@@ -33,10 +33,7 @@ class GalleryFragment : Fragment() {
     }
 
     private fun initRecyclerView(rootView:View) {
-        var data = ArrayList<Int>()
-
-        for(i in 1..10)
-            data.add(R.drawable.temp_room)
+        var data = DataHelper.getRooms()
 
         rootView.rv_prev_rooms.adapter = GalleryAdapter(data)
         rootView.rv_prev_rooms.layoutManager = GridLayoutManager(this.context, 3)

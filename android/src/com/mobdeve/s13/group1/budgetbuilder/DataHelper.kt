@@ -133,7 +133,7 @@ class DataHelper {
             ))
 
             data.add(Furniture(
-                R.drawable.bathtub_sw,
+                R.drawable.bathtub_se,
                 100,
                 owned = false,
                 equipped =false,
@@ -304,6 +304,19 @@ class DataHelper {
             for (category in data){
                 category.percent = floor((category.total / total).toDouble() * 100).toInt()
             }
+
+            return data
+        }
+
+        fun getRooms(): ArrayList<Room> {
+            val data = ArrayList<Room>()
+
+            data.add(Room(R.drawable.temp_room, "King"))
+            data.add(Room(R.drawable.temp_room, "Not the Best"))
+            data.add(Room(R.drawable.temp_room, "Peasant"))
+            data.add(Room(R.drawable.temp_room, "Meh"))
+            data.add(Room(R.drawable.temp_room, "Pog"))
+            data.add(Room(R.drawable.temp_room, "Cringe"))
 
             return data
         }

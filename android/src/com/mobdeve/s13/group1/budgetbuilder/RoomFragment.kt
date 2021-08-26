@@ -8,7 +8,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 
 class RoomFragment(): AndroidFragmentApplication() {
-    private lateinit var room : Room
+    private lateinit var roomApplication : RoomApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +20,8 @@ class RoomFragment(): AndroidFragmentApplication() {
         savedInstanceState: Bundle?
     ): View? {
         val config = AndroidApplicationConfiguration()
-        room = Room()
-        return initializeForView(room)
+        roomApplication = RoomApplication()
+        return initializeForView(roomApplication)
     }
 
 }

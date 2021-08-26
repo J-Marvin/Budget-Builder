@@ -20,16 +20,6 @@ class PieChartFragment : Fragment() {
     lateinit var categoryExpenses: ArrayList<CategoryExpense>
     private lateinit var db: BudgetBuilderDbHelper
 
-    private companion object {
-        const val ENT_INDEX = 0
-        const val FOOD_INDEX = 1
-        const val TRANS_INDEX = 2
-        const val UTIL_INDEX = 3
-        const val PERS_INDEX = 4
-        const val MED_INDEX = 5
-        const val OTHERS_INDEX = 6
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -90,35 +80,8 @@ class PieChartFragment : Fragment() {
 
         //set to true to enable rotation of chart
         chartPie.isRotationEnabled = false
-//        var sum = 0f
-//        for(expense in getExpensesByCategory()){
-//            Log.d("Expenses", expense.toString())
-//            sum+=expense
-//        }
-//
-//        for(expense in getExpensesByCategory()){
-//            val percent = expense / sum * 100
-//            Log.d("Percent", percent.toString())
-//        }
+
         return rootView
-    }
-
-    fun getExpensesByCategory(): FloatArray{
-        val expenses = floatArrayOf(0F, 0F, 0F, 0F, 0F, 0F, 0F)
-
-        for (expense in this.expenses) {
-            when(expense.type) {
-                "Entertainment" -> expenses[ENT_INDEX] += expense.amount
-                "Food" -> expenses[FOOD_INDEX] += expense.amount
-                "Transportation" -> expenses[TRANS_INDEX] += expense.amount
-                "Utilities" -> expenses[UTIL_INDEX] += expense.amount
-                "Personal" -> expenses[PERS_INDEX] += expense.amount
-                "Medical" -> expenses[MED_INDEX] += expense.amount
-                "Others" -> expenses[OTHERS_INDEX] += expense.amount
-            }
-        }
-
-        return expenses
     }
 
     fun getMonthExpenses(start: String, end:String): ArrayList<CategoryExpense> {

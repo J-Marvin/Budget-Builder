@@ -23,7 +23,7 @@
         android:layout_gravity="bottom"
         android:backgroundTint="@color/dark_brown"
         app:fabAlignmentMode="center"
-        app:fabCradleMargin= "10dp"
+        app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

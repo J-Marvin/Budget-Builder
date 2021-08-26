@@ -49,7 +49,11 @@
         android:id="@+id/galleryFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.GalleryFragment"
         android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <action android:id="@+id/action_global_addExpenseFragment" app:destination="@id/addExpenseFragment" />
     <dialog
         android:id="@+id/setBudgetFragment"

@@ -25,6 +25,8 @@ class EditExpenseDialogFragment : DialogFragment() {
         }
     }
 
+    private lateinit var mainActivity: MainActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,6 +46,10 @@ class EditExpenseDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
 
+        mainActivity = activity as MainActivity
+
+        MainActivity.initLayoutListener(dialog!!, this.requireActivity())
+
         return rootView
     }
 
@@ -53,6 +59,11 @@ class EditExpenseDialogFragment : DialogFragment() {
         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mainActivity.setSystemUI()
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.etStr_edit_expense_desc.setText(requireArguments().getString(Keys.KEY_EDIT_EXPENSE_DESC.toString()))

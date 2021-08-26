@@ -1,4 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
+import android.app.Activity
+import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -6,11 +8,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.PopupWindow
+import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.widget.ListPopupWindow
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 
 class AddExpenseFragment: DialogFragment() {
+
+    private lateinit var mainActivity: MainActivity
+
+    fun Spinner.avoidDropdownFocus() {
+        try {
+            val listPopup = Spinner::class.java
+                .getDeclaredField("mPopup")
+                .apply { isAccessible = true }
+                .get(this)
+            Toast.makeText(activity?.applicationContext, "LISTPOPUP", Toast.LENGTH_SHORT)
+            if (listPopup is ListPopupWindow) {
+                val popup = ListPopupWindow::class.java
+                    .getDeclaredField("mPopup")
+                    .apply { isAccessible = true }
+                    .get(listPopup)
+                if (popup is PopupWindow) {
+                    popup.isFocusable = false
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -20,13 +50,19 @@ class AddExpenseFragment: DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
 
+        val activity = requireActivity() as MainActivity
+        mainActivity = activity
+
         rootView.etNum_add_expense_amount.setOnFocusChangeListener { v, hasFocus ->
-//            if(hasFocus) {
-//                dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-//            } else {
-//                dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-//            }
+            dialog?.window?.decorView?.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         }
+
+        MainActivity.initLayoutListener(this.dialog!!, this.requireActivity())
+        rootView.spinner_add_expense_category?.avoidDropdownFocus()
 
         return rootView
     }
@@ -56,6 +92,11 @@ class AddExpenseFragment: DialogFragment() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mainActivity.setSystemUI()
+    }
+
     fun hideSystemUI(){
         dialog?.window?.decorView?.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -63,5 +104,4 @@ class AddExpenseFragment: DialogFragment() {
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
     }
-
 }
