@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 
-import kotlinx.android.synthetic.main.fragment_gallery.*
 import kotlinx.android.synthetic.main.fragment_gallery.view.*
 
 class GalleryFragment : Fragment() {
@@ -25,7 +24,7 @@ class GalleryFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_gallery, container, false)
         initRecyclerView(view)
 
-        view.btn_gallery_back.setOnClickListener {
+        view.btn_settings_back.setOnClickListener {
             Navigation.findNavController(view).popBackStack()
         }
 

@@ -61,6 +61,10 @@ class AddExpenseFragment: DialogFragment() {
                             or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         }
 
+        rootView.btn_add_expense.setOnClickListener {
+
+        }
+
         MainActivity.initLayoutListener(this.dialog!!, this.requireActivity())
         rootView.spinner_add_expense_category?.avoidDropdownFocus()
 

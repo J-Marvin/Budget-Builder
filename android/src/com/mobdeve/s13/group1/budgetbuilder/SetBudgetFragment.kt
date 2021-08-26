@@ -1,7 +1,10 @@
 package com.mobdeve.s13.group1.budgetbuilder
+import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +14,22 @@ import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_set_budget.view.*
 
 class SetBudgetFragment: DialogFragment() {
+
+    private lateinit var sp: SharedPreferences
+    private lateinit var spEditor: SharedPreferences.Editor
+
+    lateinit var onDismissListener: DialogInterface.OnDismissListener
+
+    companion object {
+        fun newInstance(budget: Float): SetBudgetFragment{
+            val args = Bundle()
+            args.putFloat(Keys.KEY_BUDGET.toString(), budget)
+            val dialog = SetBudgetFragment()
+            dialog.arguments = args
+            return dialog
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -19,12 +38,20 @@ class SetBudgetFragment: DialogFragment() {
         var rootView: View = inflater.inflate(R.layout.fragment_set_budget, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+        this.sp = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
+        this.spEditor = sp.edit()
         return rootView
     }
 
     override fun dismiss() {
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        MainActivity.hideSystemUI(dialog?.window!!)
         super.dismiss()
+
+        if (this.onDismissListener != null) {
+            this.onDismissListener.onDismiss(dialog)
+        }
     }
 
     override fun onResume() {
@@ -36,8 +63,13 @@ class SetBudgetFragment: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.etNum_set_budget_amt.setText( requireArguments().getFloat(Keys.KEY_BUDGET.toString(), 5000F).toString())
+
         view. btn_set_budget.setOnClickListener {
             Toast.makeText(this.requireContext(), "Set", Toast.LENGTH_SHORT).show()
+            val budget = view.etNum_set_budget_amt.text.toString()
+            spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget.toFloat())
+            spEditor.commit()
             dismiss()
         }
 

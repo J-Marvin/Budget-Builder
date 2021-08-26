@@ -60,6 +60,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
     private val context = context
 
+    /** This function creates the database
+     *  @param db the SQLiteDatabase
+     * */
     override fun onCreate(db: SQLiteDatabase?) {
         val createRoomTable = "CREATE TABLE $ROOM_TABLE (" +
                 "$COLUMN_ROOM_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
@@ -102,6 +105,11 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         initDb(db)
     }
 
+    /** This function recreates the database when the app upgrades
+     *  @param db - the database
+     *  @param oldVersion - the old version
+     *  @param newVersion - the new version
+     * */
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $EXPENSE_TABLE")
         db?.execSQL("DROP TABLE IF EXISTS $BUDGET_TABLE")
@@ -110,6 +118,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         this.onCreate(db)
     }
 
+    /** This function initializes the data in the database
+     *  @param db - the database
+     * */
     fun initDb(db: SQLiteDatabase?){
         var furnitures = DataHelper.getFurniture()
         var expenses = DataHelper.getExpenses()
@@ -131,6 +142,11 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         }
     }
 
+    /** This function inserts a room in the database and initializes all the furniture
+     *  @param month - the month for the room(1-based index)
+     *  @param year - the year for the room
+     *  @return returns the row_id of the room
+     * */
     fun initRoomFurniture(month: Int, year: Int): Long {
         val db = writableDatabase
         val roomId = addRoom(month, year)
@@ -146,6 +162,11 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return roomId
     }
 
+    /** This function inserts a room in the database
+     *  @param month - the month for the room(1-based index)
+     *  @param year - the year for the room
+     *  @return returns the row_id of the room
+     * */
     fun addRoom(month: Int, year: Int): Long {
         val db = writableDatabase
         val cv = ContentValues()
@@ -155,15 +176,15 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db.insert(ROOM_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert room", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted room", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function inserts a room in the database
+     *  @param db - the database
+     *  @param month - the month for the room(1-based index)
+     *  @param year - the year for the room
+     *  @return returns the row_id of the room
+     * */
     fun addRoom(db: SQLiteDatabase?, month: Int, year: Int): Long? {
         val cv = ContentValues()
 
@@ -172,15 +193,13 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db?.insert(ROOM_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert room", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted room", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function inserts one furniture inside the database
+     *  @param furniture - the furniture to be inserted
+     *  @return returns the row_id of the furniture
+     * */
     fun addFurniture(furniture: Furniture): Long{
         val db = writableDatabase
         val cv = ContentValues()
@@ -195,15 +214,14 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db.insert(FURNITURE_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted ${furniture.name}", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function adds one furniture to a given database
+     *  @param db - the database
+     *  @param furniture - the furniture to be inserted
+     *  @return returns the row_id of the furniture
+     * */
     fun addFurniture(db: SQLiteDatabase?, furniture: Furniture): Long?{
         val cv = ContentValues()
 
@@ -217,15 +235,13 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db?.insert(FURNITURE_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Furniture", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted Furniture", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function adds an expense
+     *  @param expense - the expense to be added
+     *  @return returns the row_id of the expense
+     * */
     fun addExpense(expense: Expense): Long{
         val db = writableDatabase
         val cv = ContentValues()
@@ -238,15 +254,14 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db.insert(EXPENSE_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Expense", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted Expense", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function adds an expense to a given database
+     *  @param db - the database
+     *  @param expense - the expense to be added
+     *  @return returns the row_id of the database
+     * */
     fun addExpense(db: SQLiteDatabase?, expense: Expense): Long?{
         val cv = ContentValues()
 
@@ -258,15 +273,14 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db?.insert(EXPENSE_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Expense", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted Expense", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function adds a budget to the database
+     *  @param amount - the amount of the budget
+     *  @param date - the date of the budget (yyyy-MM-dd)
+     *  @return returns the row_id of the database
+     * */
     fun addBudget(amount: Float, date: String): Long {
         val db = writableDatabase
         val cv = ContentValues()
@@ -276,15 +290,15 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db.insert(BUDGET_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Budget", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted Budget", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function adds a budget to a given database
+     *  @param db - the database
+     *  @param amount - the amount of the budget
+     *  @param date - the date of the budget (yyyy-MM-dd)
+     *  @return returns the row_id of the database
+     * */
     fun addBudget(db: SQLiteDatabase?, amount: Float, date: String): Long? {
         val cv = ContentValues()
 
@@ -293,15 +307,13 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         val result = db?.insert(BUDGET_TABLE, null, cv)
 
-        if (result == -1L) {
-            Toast.makeText(this.context, "Failed to insert Budget", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Successfully inserted Budget", Toast.LENGTH_SHORT).show()
-        }
-
         return result
     }
 
+    /** This function returns all the rows of a given table
+     *  @param table - the table name
+     *  @return returns a Cursor containing all the rows of the given table
+     * */
     fun findAll(table: String): Cursor? {
         val query = "SELECT * FROM $table"
         val db = this.readableDatabase
@@ -315,6 +327,9 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return cursor
     }
 
+    /** This function returns all the furniture in the furniture table
+     *  @return returns an ArrayList<Furniture> of all the furniture inside the table
+     * */
     fun findAllFurniture(): ArrayList<Furniture> {
         val query = "SELECT * FROM $FURNITURE_TABLE"
         val db = this.readableDatabase
@@ -350,6 +365,10 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return data
     }
 
+    /** This function returns all the furniture in the furniture table of a given room
+     *  @param roomId - the row_id of the room
+     *  @return returns an ArrayList<Furniture> of all the furniture of a given room
+     * */
     fun findAllFurnitureOfRoom(roomId: String): ArrayList<Furniture> {
         val query = "SELECT * FROM $FURNITURE_TABLE WHERE $COLUMN_ROOM_ID = $roomId"
         val db = this.readableDatabase
@@ -429,6 +448,17 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return data
     }
 
+    /** This function returns a Cursor given the arguments for an aggregation statement for the expense table
+     *  @param start - the start date (yyyy-MM-dd)
+     *  @param end - the end date (yyyy-MM-dd)
+     *  @param columns - the ArrayList<String> of column names
+     *  @param agg - an ArrayList containing HashMaps which map the name, type and alias of a typical sqlite statement
+     *  @param groups - the ArrayList of column names for the data to be grouped
+     *  @param orderColumn - the column where the sorting will be based on
+     *  @param orderType - the type of ordering
+     *  @param limit - the number or rows to be taken
+     *  @return returns a Cursor for the data
+     * */
     fun findAggExpensesBetween(
         start: String,
         end: String,
@@ -436,7 +466,8 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         agg: ArrayList<HashMap<String, String>>,
         groups: ArrayList<String>,
         orderColumn: String?,
-        orderType: String?): Cursor? {
+        orderType: String?,
+        limit: Int): Cursor? {
         var query = StringBuilder()
         val db = readableDatabase
         query.append("SELECT ")
@@ -487,7 +518,10 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
                 .append(" ")
                 .append(orderType)
         }
-        Log.d("QUERY", query.toString())
+
+        if (limit != null) {
+            query.append("LIMIT $limit")
+        }
         var cursor: Cursor? = null
         if (db != null) {
             cursor = db.rawQuery(query.toString(), null)
@@ -496,6 +530,10 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return cursor
     }
 
+    /** This function updates the row of a piece of furniture
+     *  @param furniture - the furniture containing the updated data (also contains the row_id)
+     *  @return returns true if the record has been updated. Otherwise, returns false
+     * */
     fun updateFurniture(furniture: Furniture): Boolean {
         val db = this.writableDatabase
         val cv = ContentValues();
@@ -517,6 +555,11 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
+    /** This function updates the row of a budget
+     *  @param rowId - the id of the budget
+     *  @param amount - the updated amount of the budget
+     *  @return returns true if the record has been updated. Otherwise, returns false
+     * */
     fun updateBudget(rowId: String, amount: Float): Boolean{
         val db = this.writableDatabase
         val cv = ContentValues()
@@ -528,18 +571,47 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    fun updateExpense(rowId: String, type: String, amount: Float): Boolean{
+    /** This function updates the row of a expense
+     *  @param rowId - the id of the expense
+     *  @param type - the category of the expense
+     *  @param desc - the description of the expense
+     *  @param amount - the updated amount of the expense
+     *  @return returns true if the record has been updated. Otherwise, returns false
+     * */
+    fun updateExpense(rowId: String, type: String, desc: String, amount: Float): Boolean{
         val db = this.writableDatabase
         val cv = ContentValues()
 
         cv.put(COLUMN_EXPENSE_TYPE, type)
         cv.put(COLUMN_EXPENSE_AMOUNT, amount)
+        cv.put(COLUMN_EXPENSE_DESC, desc)
 
         val result = db.update(EXPENSE_TABLE, cv, "$COLUMN_EXPENSE_ID=?", arrayOf(rowId))
 
         return result != -1
     }
 
+    /** This function updates the row of an expense
+     *  @param expense - the expense containing the updated data (also contains the row_id)
+     *  @return returns true if the record has been updated. Otherwise, returns false
+     * */
+    fun updateExpense(expense: Expense): Boolean{
+        val db = this.writableDatabase
+        val cv = ContentValues()
+
+        cv.put(COLUMN_EXPENSE_TYPE, expense.type)
+        cv.put(COLUMN_EXPENSE_AMOUNT, expense.amount)
+        cv.put(COLUMN_EXPENSE_DESC, expense.desc)
+
+        val result = db.update(EXPENSE_TABLE, cv, "$COLUMN_EXPENSE_ID=?", arrayOf(expense.expenseId))
+
+        return result != -1
+    }
+
+    /** This function deletes an Expense
+     *  @param rowId - the row_id of the expense to be deleted
+     *  @return returns true if the record has been deleted. Otherwise, returns false
+     * */
     fun deleteExpense(rowId: String):Boolean {
         val db = this.writableDatabase
         val result = db.delete(EXPENSE_TABLE, "$COLUMN_EXPENSE_ID=?", arrayOf(rowId))

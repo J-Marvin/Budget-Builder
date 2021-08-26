@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        applicationContext.deleteDatabase("BudgetBuilder.db")
+        applicationContext.deleteDatabase("BudgetBuilder.db")
         db = BudgetBuilderDbHelper(this)
         initNavBar()
         this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
