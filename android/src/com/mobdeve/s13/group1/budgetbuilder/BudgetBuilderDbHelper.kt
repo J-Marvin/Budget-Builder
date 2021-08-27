@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,7 +59,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
     private val context = context
 
-    /** This function creates the database
+    /** This method creates the database
      *  @param db the SQLiteDatabase
      * */
     override fun onCreate(db: SQLiteDatabase?) {
@@ -105,7 +104,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         initDb(db)
     }
 
-    /** This function recreates the database when the app upgrades
+    /** This method recreates the database when the app upgrades
      *  @param db - the database
      *  @param oldVersion - the old version
      *  @param newVersion - the new version
@@ -118,7 +117,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         this.onCreate(db)
     }
 
-    /** This function initializes the data in the database
+    /** This method initializes the data in the database
      *  @param db - the database
      * */
     fun initDb(db: SQLiteDatabase?){
@@ -142,7 +141,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         }
     }
 
-    /** This function inserts a room in the database and initializes all the furniture
+    /** This method inserts a room in the database and initializes all the furniture
      *  @param month - the month for the room(1-based index)
      *  @param year - the year for the room
      *  @return returns the row_id of the room
@@ -162,7 +161,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return roomId
     }
 
-    /** This function inserts a room in the database
+    /** This method inserts a room in the database
      *  @param month - the month for the room(1-based index)
      *  @param year - the year for the room
      *  @return returns the row_id of the room
@@ -179,7 +178,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function inserts a room in the database
+    /** This method inserts a room in the database
      *  @param db - the database
      *  @param month - the month for the room(1-based index)
      *  @param year - the year for the room
@@ -196,7 +195,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function inserts one furniture inside the database
+    /** This method inserts one furniture inside the database
      *  @param furniture - the furniture to be inserted
      *  @return returns the row_id of the furniture
      * */
@@ -217,7 +216,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function adds one furniture to a given database
+    /** This method adds one furniture to a given database
      *  @param db - the database
      *  @param furniture - the furniture to be inserted
      *  @return returns the row_id of the furniture
@@ -238,7 +237,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function adds an expense
+    /** This method adds an expense
      *  @param expense - the expense to be added
      *  @return returns the row_id of the expense
      * */
@@ -257,7 +256,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function adds an expense to a given database
+    /** This method adds an expense to a given database
      *  @param db - the database
      *  @param expense - the expense to be added
      *  @return returns the row_id of the database
@@ -276,7 +275,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function adds a budget to the database
+    /** This method adds a budget to the database
      *  @param amount - the amount of the budget
      *  @param date - the date of the budget (yyyy-MM-dd)
      *  @return returns the row_id of the database
@@ -293,7 +292,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function adds a budget to a given database
+    /** This method adds a budget to a given database
      *  @param db - the database
      *  @param amount - the amount of the budget
      *  @param date - the date of the budget (yyyy-MM-dd)
@@ -310,7 +309,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result
     }
 
-    /** This function returns all the rows of a given table
+    /** This method returns all the rows of a given table
      *  @param table - the table name
      *  @return returns a Cursor containing all the rows of the given table
      * */
@@ -327,7 +326,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return cursor
     }
 
-    /** This function returns all the furniture in the furniture table
+    /** This method returns all the furniture in the furniture table
      *  @return returns an ArrayList<Furniture> of all the furniture inside the table
      * */
     fun findAllFurniture(): ArrayList<Furniture> {
@@ -365,7 +364,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return data
     }
 
-    /** This function returns all the furniture in the furniture table of a given room
+    /** This method returns all the furniture in the furniture table of a given room
      *  @param roomId - the row_id of the room
      *  @return returns an ArrayList<Furniture> of all the furniture of a given room
      * */
@@ -405,7 +404,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
     }
 
     /**
-     * This function finds all the expenses between two dates (inclusive)
+     * This method finds all the expenses between two dates (inclusive)
      * @param start the start date (yyyy-MM-dd)
      * @param end the end date (yyyy-MM-dd)
      * @return returns an arraylist of expenses
@@ -448,7 +447,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return data
     }
 
-    /** This function returns a Cursor given the arguments for an aggregation statement for the expense table
+    /** This method returns a Cursor given the arguments for an aggregation statement for the expense table
      *  @param start - the start date (yyyy-MM-dd)
      *  @param end - the end date (yyyy-MM-dd)
      *  @param columns - the ArrayList<String> of column names
@@ -467,7 +466,8 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         groups: ArrayList<String>,
         orderColumn: String?,
         orderType: String?,
-        limit: Int): Cursor? {
+        limit: Int?
+    ): Cursor? {
         var query = StringBuilder()
         val db = readableDatabase
         query.append("SELECT ")
@@ -530,7 +530,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return cursor
     }
 
-    /** This function updates the row of a room
+    /** This method updates the row of a room
      *  @param row_id - the row_id of the room to be updated
      *  @param month - the month (1-index based) of the room
      *  @param year - the year of the room
@@ -548,7 +548,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function updates the row of a piece of furniture
+    /** This method updates the row of a piece of furniture
      *  @param furniture - the furniture containing the updated data (also contains the row_id)
      *  @return returns true if the record has been updated. Otherwise, returns false
      * */
@@ -573,7 +573,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function updates the row of a budget
+    /** This method updates the row of a budget
      *  @param rowId - the id of the budget
      *  @param amount - the updated amount of the budget
      *  @return returns true if the record has been updated. Otherwise, returns false
@@ -589,7 +589,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function updates the row of a expense
+    /** This method updates the row of a expense
      *  @param rowId - the id of the expense
      *  @param type - the category of the expense
      *  @param desc - the description of the expense
@@ -609,7 +609,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function updates the row of an expense
+    /** This method updates the row of an expense
      *  @param expense - the expense containing the updated data (also contains the row_id)
      *  @return returns true if the record has been updated. Otherwise, returns false
      * */
@@ -626,7 +626,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function deletes an Expense
+    /** This method deletes an Expense
      *  @param rowId - the row_id of the expense to be deleted
      *  @return returns true if the record has been deleted. Otherwise, returns false
      * */
@@ -637,7 +637,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function deletes a Budget
+    /** This method deletes a Budget
      *  @param rowId - the row_id of the budget to be deleted
      *  @return returns true if the record has been deleted. Otherwise, returns false
      * */
@@ -648,7 +648,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function deletes a Room
+    /** This method deletes a Room
      *  @param rowId - the row_id of the room to be deleted
      *  @return returns true if the record has been deleted. Otherwise, returns false
      * */
@@ -659,7 +659,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return result != -1
     }
 
-    /** This function deletes a Furniture
+    /** This method deletes a Furniture
      *  @param rowId - the row_id of the furniture to be deleted
      *  @return returns true if the record has been deleted. Otherwise, returns false
      * */

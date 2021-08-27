@@ -99,6 +99,7 @@ class PieChartFragment : Fragment() {
             aggs,
             arrayListOf<String>(BudgetBuilderDbHelper.COLUMN_EXPENSE_TYPE),
             null,
+            null,
             null
         )
 
