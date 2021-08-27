@@ -530,6 +530,24 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return cursor
     }
 
+    /** This function updates the row of a room
+     *  @param row_id - the row_id of the room to be updated
+     *  @param month - the month (1-index based) of the room
+     *  @param year - the year of the room
+     *  @return returns true if the record has been updated. Otherwise, returns false
+     * */
+    fun updateRoom(row_id: String, month: Int, year: Int): Boolean {
+        val db = this.writableDatabase
+        val cv = ContentValues()
+
+        cv.put(COLUMN_ROOM_MONTH, month)
+        cv.put(COLUMN_ROOM_YEAR, year)
+
+        val result = db.update(ROOM_TABLE, cv, "$COLUMN_ROOM_ID=?", arrayOf(row_id))
+
+        return result != -1
+    }
+
     /** This function updates the row of a piece of furniture
      *  @param furniture - the furniture containing the updated data (also contains the row_id)
      *  @return returns true if the record has been updated. Otherwise, returns false
@@ -615,6 +633,39 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
     fun deleteExpense(rowId: String):Boolean {
         val db = this.writableDatabase
         val result = db.delete(EXPENSE_TABLE, "$COLUMN_EXPENSE_ID=?", arrayOf(rowId))
+
+        return result != -1
+    }
+
+    /** This function deletes a Budget
+     *  @param rowId - the row_id of the budget to be deleted
+     *  @return returns true if the record has been deleted. Otherwise, returns false
+     * */
+    fun deleteBudget(rowId: String): Boolean {
+        val db = this.writableDatabase
+        val result = db.delete(BUDGET_TABLE, "$COLUMN_BUDGET_ID=?", arrayOf(rowId))
+
+        return result != -1
+    }
+
+    /** This function deletes a Room
+     *  @param rowId - the row_id of the room to be deleted
+     *  @return returns true if the record has been deleted. Otherwise, returns false
+     * */
+    fun deleteRoom (rowId: String): Boolean {
+        val db = this.writableDatabase
+        val result = db.delete(ROOM_TABLE, "$COLUMN_ROOM_ID=?", arrayOf(rowId))
+
+        return result != -1
+    }
+
+    /** This function deletes a Furniture
+     *  @param rowId - the row_id of the furniture to be deleted
+     *  @return returns true if the record has been deleted. Otherwise, returns false
+     * */
+    fun deleteFurniture(rowId: String): Boolean {
+        val db = this.writableDatabase
+        val result = db.delete(FURNITURE_TABLE, "$COLUMN_FURNITURE_ID=?", arrayOf(rowId))
 
         return result != -1
     }
