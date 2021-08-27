@@ -64,6 +64,7 @@ class EditExpenseDialogFragment : DialogFragment() {
         mainActivity.setSystemUI()
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.etStr_edit_expense_desc.setText(requireArguments().getString(Keys.KEY_EDIT_EXPENSE_DESC.toString()))

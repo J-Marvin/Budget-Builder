@@ -50,11 +50,13 @@ class HomeFragment : Fragment() {
 
             dialog.onDismissListener = DialogInterface.OnDismissListener {
                 setBudget(rootView)
-                Log.d("FUCK", "DISMISS")
-                Toast.makeText(context, "DISMISS TEST", Toast.LENGTH_SHORT).show()
             }
 
             dialog.show(requireActivity().supportFragmentManager, "setBudget_tag")
+        }
+
+        rootView.btn_home_settings.setOnClickListener {
+            Navigation.findNavController(rootView).navigate(R.id.action_global_settingsFragment)
         }
 
         updateBalance(rootView)
