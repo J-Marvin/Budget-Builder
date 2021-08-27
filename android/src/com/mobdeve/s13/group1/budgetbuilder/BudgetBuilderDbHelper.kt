@@ -203,7 +203,6 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         val db = writableDatabase
         val cv = ContentValues()
 
-        cv.put(COLUMN_ROOM_ID, furniture.roomId)
         cv.put(COLUMN_FURNITURE_TYPE, furniture.type)
         cv.put(COLUMN_FURNITURE_NAME, furniture.name)
         cv.put(COLUMN_FURNITURE_PRICE, furniture.price)
@@ -562,13 +561,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         cv.put(COLUMN_FURNITURE_EQUIPPED, if(furniture.equipped) 1 else 0)
         cv.put(COLUMN_FURNITURE_OWNED, if(furniture.owned) 1 else 0)
 
-        val result = db.update(FURNITURE_TABLE, cv, "$COLUMN_FURNITURE_ID=?", arrayOf(furniture.roomId))
-
-        if (result == -1) {
-            Toast.makeText(this.context, "Failed to update Furniture", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this.context, "Updated Furniture", Toast.LENGTH_SHORT).show()
-        }
+        val result = db.update(FURNITURE_TABLE, cv, "$COLUMN_FURNITURE_ID=?", arrayOf(furniture.furnitureId))
 
         return result != -1
     }
@@ -585,26 +578,6 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         cv.put(COLUMN_BUDGET_AMOUNT, amount)
 
         val result = db.update(BUDGET_TABLE, cv, "$COLUMN_BUDGET_ID=?", arrayOf(rowId))
-
-        return result != -1
-    }
-
-    /** This method updates the row of a expense
-     *  @param rowId - the id of the expense
-     *  @param type - the category of the expense
-     *  @param desc - the description of the expense
-     *  @param amount - the updated amount of the expense
-     *  @return returns true if the record has been updated. Otherwise, returns false
-     * */
-    fun updateExpense(rowId: String, type: String, desc: String, amount: Float): Boolean{
-        val db = this.writableDatabase
-        val cv = ContentValues()
-
-        cv.put(COLUMN_EXPENSE_TYPE, type)
-        cv.put(COLUMN_EXPENSE_AMOUNT, amount)
-        cv.put(COLUMN_EXPENSE_DESC, desc)
-
-        val result = db.update(EXPENSE_TABLE, cv, "$COLUMN_EXPENSE_ID=?", arrayOf(rowId))
 
         return result != -1
     }
