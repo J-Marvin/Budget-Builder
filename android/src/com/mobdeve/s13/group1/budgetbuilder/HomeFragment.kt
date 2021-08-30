@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
 
         setBudget(rootView)
 
-
         rootView.btn_see_all.setOnClickListener{
            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_expenseFragment)
         }

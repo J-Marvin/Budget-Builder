@@ -148,7 +148,7 @@ class DataHelper {
             val data = ArrayList<Expense>()
             var cal = Calendar.getInstance()
 
-            cal.set(2021, 8, 20, 16, 27, 0)
+            cal.set(2019, 8, 20, 16, 27, 0)
             data.add(Expense(
                 cal.time,
                 "Entertainment",

@@ -44,7 +44,11 @@
         android:id="@+id/addExpenseFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.AddExpenseFragment"
         android:label="fragment_add_expense"
-        tools:layout="@layout/fragment_add_expense" />
+        tools:layout="@layout/fragment_add_expense" >
+        <action
+            android:id="@+id/action_addExpenseFragment_to_expenseFragment"
+            app:destination="@id/expenseFragment" />
+    </dialog>
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.mobdeve.s13.group1.budgetbuilder.GalleryFragment"

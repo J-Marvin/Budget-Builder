@@ -1,6 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,12 +14,23 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.Navigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
+import java.util.*
+
 
 class AddExpenseFragment: DialogFragment() {
 
     private lateinit var mainActivity: MainActivity
+    lateinit var db: BudgetBuilderDbHelper
+    lateinit var sendFragmentData: SendFragmentData
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        db = BudgetBuilderDbHelper(context)
+        sendFragmentData = context as SendFragmentData
+    }
 
     fun Spinner.avoidDropdownFocus() {
         try {
@@ -61,10 +73,6 @@ class AddExpenseFragment: DialogFragment() {
                             or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         }
 
-        rootView.btn_add_expense.setOnClickListener {
-
-        }
-
         MainActivity.initLayoutListener(this.dialog!!, this.requireActivity())
         rootView.spinner_add_expense_category?.avoidDropdownFocus()
 
@@ -86,8 +94,29 @@ class AddExpenseFragment: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view. btn_add_expense.setOnClickListener {
-            Toast.makeText(this.requireContext(), "Added", Toast.LENGTH_SHORT).show()
-            dismiss()
+            var categorySpinner = view.spinner_add_expense_category.selectedItem.toString()
+            var expenseDesc = view.etStr_add_expense_description.text.toString()
+            var expenseAmt = view.etNum_add_expense_amount.text.toString()
+
+            if(expenseDesc.isBlank()) {
+                view.etStr_add_expense_description.error = "Please enter description"
+            }
+            else if (expenseAmt.isBlank()) {
+                view.etNum_add_expense_amount.error = "Please enter amount"
+            }
+            else {
+                //add expense to db
+                var categoryType = categorySpinner.split(" ")
+                var expense = Expense(Calendar.getInstance().time, categoryType[0], expenseAmt.toFloat(), expenseDesc)
+
+                var result = db.addExpense(expense)
+
+                if(result != -1L)
+                    sendFragmentData.refreshExpenseAdapter(expense)
+
+                dismiss()
+            }
+
         }
 
         view.btn_cancel_edit_expense.setOnClickListener{

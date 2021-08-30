@@ -246,9 +246,12 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
         cv.put(COLUMN_EXPENSE_TYPE, expense.type)
         cv.put(COLUMN_EXPENSE_AMOUNT, expense.amount)
-        cv.put(COLUMN_EXPENSE_DATE, expense.date.toString())
+        cv.put(COLUMN_EXPENSE_DATE, dateFormatterComplete.format(expense.date))
         cv.put(COLUMN_EXPENSE_DESC, expense.desc)
-        cv.put(COLUMN_BUDGET_ID, expense.budgetId)
+//        cv.put(COLUMN_BUDGET_ID, expense.budgetId)
+
+        /*TODO: remove once find curr budget id is implemented*/
+        cv.put(COLUMN_BUDGET_ID, "1")
 
         val result = db.insert(EXPENSE_TABLE, null, cv)
 
@@ -411,7 +414,8 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
     fun findAllExpensesBetween(start: String, end: String): ArrayList<Expense> {
         val query = "SELECT * " +
                 "FROM $EXPENSE_TABLE " +
-                "WHERE $COLUMN_EXPENSE_DATE BETWEEN \'$start\' AND \'$end\'"
+                "WHERE $COLUMN_EXPENSE_DATE BETWEEN \'$start\' AND \'$end\' " +
+                "ORDER BY $COLUMN_EXPENSE_DATE DESC"
 
         val db = readableDatabase
 
@@ -527,6 +531,49 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         }
 
         return cursor
+    }
+
+    /**
+     * This method finds the 3 latest expenses
+     * @return returns an arraylist of the 3 latest expenses
+     * */
+    fun findRecentExpenses(): ArrayList<Expense> {
+        val query = "SELECT * " +
+                "FROM $EXPENSE_TABLE " +
+                "ORDER BY $COLUMN_EXPENSE_DATE DESC " +
+                "LIMIT 3"
+
+        val db = readableDatabase
+
+        var cursor: Cursor? = null
+
+        if (db != null) {
+            cursor = db.rawQuery(query, null)
+        }
+
+        val data = ArrayList<Expense>()
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val expense = Expense(
+                    dateFormatterComplete.parse(cursor.getString(cursor.getColumnIndex(
+                        COLUMN_EXPENSE_DATE)))!!,
+                    cursor.getString(cursor.getColumnIndex(COLUMN_EXPENSE_TYPE)),
+                    cursor.getFloat(cursor.getColumnIndex(COLUMN_EXPENSE_AMOUNT)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_EXPENSE_DESC))
+                )
+
+                expense.budgetId = cursor.getInt(cursor.getColumnIndex(COLUMN_BUDGET_ID)).toString()
+                expense.expenseId = cursor.getInt(cursor.getColumnIndex(COLUMN_EXPENSE_ID)).toString()
+
+                data.add(expense)
+
+            } while (cursor.moveToNext())
+
+            cursor.close()
+        }
+
+        return data
     }
 
     /** This method updates the row of a room

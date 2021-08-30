@@ -11,14 +11,13 @@ import java.text.SimpleDateFormat
 
 class ExpenseAdapter(
     private val fragmentManager: FragmentManager?,
-    private val dataSet: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseViewHolder>(){
+    var dataSet: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseViewHolder>(){
     lateinit var view: View
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
 
         view = LayoutInflater.from(parent.context).inflate(R.layout.expense_item, parent, false)
         val holder = ExpenseViewHolder(view)
-        // attach onclicklistener here
         return holder
     }
 
@@ -48,4 +47,5 @@ class ExpenseAdapter(
     override fun getItemCount(): Int{
         return dataSet.size
     }
+
 }

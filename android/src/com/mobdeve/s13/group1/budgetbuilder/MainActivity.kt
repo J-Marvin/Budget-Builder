@@ -9,20 +9,20 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
-import android.widget.Spinner
+import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
-class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks {
+class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, SendFragmentData {
 
     private lateinit var db: BudgetBuilderDbHelper
     private lateinit var sp: SharedPreferences
     public lateinit var roomFragment: RoomFragment
+    lateinit var expenseAdapter: ExpenseAdapter
+    lateinit var expenseListCaller: String
 
     companion object{
         fun initLayoutListener(dialog: Dialog, activity: Activity) {
@@ -100,6 +100,21 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks {
 
 
     override fun exit() {
+    }
+
+    override fun refreshExpenseAdapter(expense: Expense) {
+        this.expenseAdapter.dataSet.add(0, expense)
+        if(expenseListCaller.equals("HomeFragment", true))
+            this.expenseAdapter.dataSet = this.expenseAdapter.dataSet.take(3) as ArrayList<Expense>
+
+        this.expenseAdapter.notifyDataSetChanged()
+
+        Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun sendExpenseAdapter(expenseAdapter: ExpenseAdapter, fragmentCaller: String) {
+        this.expenseAdapter = expenseAdapter
+        this.expenseListCaller = fragmentCaller
     }
 
 }
