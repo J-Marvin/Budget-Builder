@@ -13,15 +13,19 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeFragment : Fragment(), BudgetHandler {
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
     lateinit var dbHelper: BudgetBuilderDbHelper
+    lateinit var db: BudgetBuilderDbHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        db = BudgetBuilderDbHelper(requireContext())
     }
 
     override fun onCreateView(
@@ -36,6 +40,8 @@ class HomeFragment : Fragment(), BudgetHandler {
         dbHelper = BudgetBuilderDbHelper(requireActivity().applicationContext)
 
         setBudget(rootView)
+        initBudget()
+        initDate(rootView)
 
         rootView.btn_see_all.setOnClickListener{
            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_expenseFragment)
@@ -65,14 +71,21 @@ class HomeFragment : Fragment(), BudgetHandler {
         return rootView
     }
 
+    private fun initDate(rootView: View) {
+        val today = Calendar.getInstance()
+        val month = today.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)
+        val year = today.get(Calendar.YEAR)
+        val day = today.get(Calendar.DAY_OF_MONTH)
+        rootView.tv_curr_date.text = String.format(resources.getString(R.string.curr_date), month, day, year)
+    }
+
     private fun setBudget(rootView: View) {
         val currency = sp.getString(Keys.KEY_CURRENCY.toString(), "$")
         val budget = sp.getFloat(Keys.KEY_BUDGET.toString(), 5000f)
 
         val budgetFloor = kotlin.math.floor(budget).toInt()
 
-
-        rootView.tv_budget_amount.text = "$currency$budgetFloor"
+        rootView.tv_budget_amount.text = String.format(resources.getString(R.string.budget), currency,budget)
     }
 
     private fun updateDifference(rootView: View) {
@@ -82,7 +95,15 @@ class HomeFragment : Fragment(), BudgetHandler {
     private fun updateBalance(rootView: View){
         val bal = sp.getInt(Keys.KEY_BALANCE.toString(), 100)
         rootView.tv_coin_balance.text = bal.toString()
+    }
 
+    fun setBudget() {
+        val currency = sp.getString(Keys.KEY_CURRENCY.toString(), "$")
+        val budget = sp.getFloat(Keys.KEY_BUDGET.toString(), 5000f)
+
+        val budgetFloor = kotlin.math.floor(budget).toInt()
+
+        this.view?.tv_budget_amount?.text = String.format(resources.getString(R.string.budget), currency,budget)
     }
 
     override fun setBudget(budget: Float) {
@@ -97,5 +118,75 @@ class HomeFragment : Fragment(), BudgetHandler {
     override fun cancelBudget() {
     }
 
+    fun initBudget() {
+        val prevDateString = sp.getString(Keys.KEY_PREV_DATE.toString(), "")
+        val today = Calendar.getInstance()
+        val dateFormatter = FormatHelper.dateFormatter
+        var prevDate: Calendar
+
+        if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
+            val strToday = dateFormatter.format(today.time)
+            val budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f)
+            val budgetId = db.addBudget(budget, strToday)
+            spEditor.putString(Keys.KEY_PREV_DATE.toString(), strToday)
+            spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+            spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
+            spEditor.commit()
+        } else {
+            if (prevDateString != null) {
+                if (prevDateString.isNotEmpty()) {
+                    prevDate = Calendar.getInstance()
+                    prevDate.time = dateFormatter.parse(prevDateString)
+
+                    // If not the same day
+                    if (isSameDate(prevDate, today)) {
+                        // show set budget
+                        showInitSetBudget()
+                    }
+                } else {
+                    showInitSetBudget()
+                }
+            }
+        }
+    }
+
+    fun isSameDate(d1: Calendar, d2: Calendar): Boolean {
+        return d1.get(Calendar.MONTH) != d2.get(Calendar.MONTH) ||
+        d1.get(Calendar.YEAR) != d2.get(Calendar.YEAR) ||
+        d1.get(Calendar.DAY_OF_MONTH) != d2.get(Calendar.DAY_OF_MONTH)
+    }
+
+    fun showInitSetBudget() {
+        val budgetDialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F), false)
+        budgetDialog.listener = object: BudgetHandler {
+            override fun setBudget(budget: Float) {
+                val today = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+                val budgetId = db.addBudget(budget, today)
+                spEditor.putString(Keys.KEY_PREV_DATE.toString(), today)
+                spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+                spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
+                spEditor.commit()
+                setBudget(view!!)
+            }
+
+            override fun cancelBudget() {
+                val today = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+                var budget = 5000f
+                if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
+                    budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f)
+                }
+                val budgetId = db.addBudget(budget, today)
+                spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
+                spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+                spEditor.putString(Keys.KEY_PREV_DATE.toString(), today)
+                spEditor.commit()
+                setBudget(view!!)
+            }
+
+        }
+        budgetDialog.onDismissListener = DialogInterface.OnDismissListener {
+        }
+        budgetDialog.show(requireActivity().supportFragmentManager, "setBudget_tag")
+    }
 
 }
