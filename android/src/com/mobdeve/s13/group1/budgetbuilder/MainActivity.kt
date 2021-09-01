@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         this.spEditor = this.sp.edit()
 
-        this.spEditor.clear()
-        this.spEditor.apply()
+//        this.spEditor.clear()
+//        this.spEditor.apply()
 
        roomFragment = RoomFragment()
     }
