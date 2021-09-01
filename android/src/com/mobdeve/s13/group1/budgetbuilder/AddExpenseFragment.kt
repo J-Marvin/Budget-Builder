@@ -32,15 +32,19 @@ class AddExpenseFragment: DialogFragment() {
         sendFragmentData = context as SendFragmentData
     }
 
+    // Source: https://gist.github.com/kakajika/a236ba721a5c0ad3c1446e16a7423a63
     fun Spinner.avoidDropdownFocus() {
         try {
-            val listPopup = Spinner::class.java
+            val isAppCompat = this is androidx.appcompat.widget.AppCompatSpinner
+            val spinnerClass = if (isAppCompat) androidx.appcompat.widget.AppCompatSpinner::class.java else Spinner::class.java
+            val popupWindowClass = if (isAppCompat) androidx.appcompat.widget.ListPopupWindow::class.java else android.widget.ListPopupWindow::class.java
+
+            val listPopup = spinnerClass
                 .getDeclaredField("mPopup")
                 .apply { isAccessible = true }
                 .get(this)
-            Toast.makeText(activity?.applicationContext, "LISTPOPUP", Toast.LENGTH_SHORT)
-            if (listPopup is ListPopupWindow) {
-                val popup = ListPopupWindow::class.java
+            if (popupWindowClass.isInstance(listPopup)) {
+                val popup = popupWindowClass
                     .getDeclaredField("mPopup")
                     .apply { isAccessible = true }
                     .get(listPopup)
@@ -73,8 +77,8 @@ class AddExpenseFragment: DialogFragment() {
                             or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         }
 
-        MainActivity.initLayoutListener(this.dialog!!, this.requireActivity())
-        rootView.spinner_add_expense_category?.avoidDropdownFocus()
+        DialogHelper.initLayoutListener(this.dialog!!, this.requireActivity())
+        rootView.spinner_add_expense_category.avoidDropdownFocus()
 
         return rootView
     }

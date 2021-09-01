@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.PopupWindow
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
@@ -22,6 +24,31 @@ class EditExpenseDialogFragment : DialogFragment() {
             val dialog = EditExpenseDialogFragment()
             dialog.arguments = args
             return dialog
+        }
+    }
+
+    // Source: https://gist.github.com/kakajika/a236ba721a5c0ad3c1446e16a7423a63
+    fun Spinner.avoidDropdownFocus() {
+        try {
+            val isAppCompat = this is androidx.appcompat.widget.AppCompatSpinner
+            val spinnerClass = if (isAppCompat) androidx.appcompat.widget.AppCompatSpinner::class.java else Spinner::class.java
+            val popupWindowClass = if (isAppCompat) androidx.appcompat.widget.ListPopupWindow::class.java else android.widget.ListPopupWindow::class.java
+
+            val listPopup = spinnerClass
+                .getDeclaredField("mPopup")
+                .apply { isAccessible = true }
+                .get(this)
+            if (popupWindowClass.isInstance(listPopup)) {
+                val popup = popupWindowClass
+                    .getDeclaredField("mPopup")
+                    .apply { isAccessible = true }
+                    .get(listPopup)
+                if (popup is PopupWindow) {
+                    popup.isFocusable = false
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -45,10 +72,13 @@ class EditExpenseDialogFragment : DialogFragment() {
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-
+        dialog?.window?.decorView?.setOnSystemUiVisibilityChangeListener {
+            DialogHelper.hideSystemUI(dialog?.window!!)
+        }
         mainActivity = activity as MainActivity
 
-        MainActivity.initLayoutListener(dialog!!, this.requireActivity())
+        DialogHelper.initLayoutListener(dialog!!, this.requireActivity())
+        rootView.spinner_edit_expense.avoidDropdownFocus()
 
         return rootView
     }
