@@ -41,7 +41,7 @@ class SetBudgetFragment: DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         dialog?.window?.decorView?.setOnSystemUiVisibilityChangeListener {
-            MainActivity.hideSystemUI(dialog?.window!!)
+            DialogHelper.hideSystemUI(dialog?.window!!)
         }
 
         this.sp = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
@@ -52,7 +52,7 @@ class SetBudgetFragment: DialogFragment() {
 
     override fun dismiss() {
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-        MainActivity.hideSystemUI(dialog?.window!!)
+        DialogHelper.hideSystemUI(dialog?.window!!)
         super.dismiss()
 
         this.onDismissListener.onDismiss(dialog)
