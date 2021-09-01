@@ -15,8 +15,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), BudgetHandler {
     lateinit var sp: SharedPreferences
+    lateinit var spEditor: SharedPreferences.Editor
     lateinit var dbHelper: BudgetBuilderDbHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
+        spEditor = sp.edit()
 
         dbHelper = BudgetBuilderDbHelper(requireActivity().applicationContext)
 
@@ -46,7 +48,7 @@ class HomeFragment : Fragment() {
         rootView.view_set_budget.setOnClickListener{
 //            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_setBudgetFragment)
             val dialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F))
-
+            dialog.listener = this
             dialog.onDismissListener = DialogInterface.OnDismissListener {
                 setBudget(rootView)
             }
@@ -75,12 +77,24 @@ class HomeFragment : Fragment() {
 
     private fun updateDifference(rootView: View) {
         val budget = sp.getFloat(Keys.KEY_BUDGET.toString(), 5000f)
-
     }
 
     private fun updateBalance(rootView: View){
         val bal = sp.getInt(Keys.KEY_BALANCE.toString(), 100)
         rootView.tv_coin_balance.text = bal.toString()
+
+    }
+
+    override fun setBudget(budget: Float) {
+        val budgetId = sp.getString(Keys.KEY_BUDGET_ID.toString(), null)
+        if (budgetId !== null) {
+            dbHelper.updateBudget(budgetId, budget)
+        }
+        spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
+        spEditor.commit()
+    }
+
+    override fun cancelBudget() {
     }
 
 
