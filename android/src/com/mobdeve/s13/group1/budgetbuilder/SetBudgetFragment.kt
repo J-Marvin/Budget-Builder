@@ -40,6 +40,9 @@ class SetBudgetFragment: DialogFragment() {
         var rootView: View = inflater.inflate(R.layout.fragment_set_budget, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        dialog?.window?.decorView?.setOnSystemUiVisibilityChangeListener {
+            MainActivity.hideSystemUI(dialog?.window!!)
+        }
 
         this.sp = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
         this.spEditor = sp.edit()
@@ -69,9 +72,9 @@ class SetBudgetFragment: DialogFragment() {
         view. btn_set_budget.setOnClickListener {
             if (view.etNum_set_budget_amt.text.toString().isEmpty()) {
                 view.etNum_set_budget_amt.error = "Required"
-            } else if(view.etNum_set_budget_amt.text.toString().toIntOrNull() == null) {
+            } else if(view.etNum_set_budget_amt.text.toString().toFloatOrNull() == null) {
                 view.etNum_set_budget_amt.error = "Please enter a valid number"
-            } else if(view.etNum_set_budget_amt.text.toString().toInt() < 0) {
+            } else if(view.etNum_set_budget_amt.text.toString().toFloat() < 0) {
                 view.etNum_set_budget_amt.error = "Budget cannot be negative"
             } else {
                 Toast.makeText(this.requireContext(), "Set", Toast.LENGTH_SHORT).show()

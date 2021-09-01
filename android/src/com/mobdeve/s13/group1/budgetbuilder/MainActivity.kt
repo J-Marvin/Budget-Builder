@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
                         val dialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F), false)
                         dialog.listener = this
                         dialog.onDismissListener = DialogInterface.OnDismissListener {
-
+                            setSystemUI()
                         }
                         dialog.show(this.supportFragmentManager, "setBudget_tag")
                     }
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
                     val dialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F), false)
                     dialog.listener = this
                     dialog.onDismissListener = DialogInterface.OnDismissListener {
-
+                        setSystemUI()
                     }
                     dialog.show(this.supportFragmentManager, "setBudget_tag")
                 }
