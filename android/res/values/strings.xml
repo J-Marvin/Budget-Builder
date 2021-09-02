@@ -29,6 +29,10 @@
     <string name="settings_desc_currency">The currency to be used.</string>
     <string name="settings_desc_resest">Erases all your data (i.e. budget, expenses, rooms and coins).</string>
     <string name="settings_btn">Settings</string>
+
+    <string name="curr_date">%1s %2d, %3d</string>
+    <string name="budget">%1s%2.02f</string>
+    <string name="month_year">%1s %2d</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

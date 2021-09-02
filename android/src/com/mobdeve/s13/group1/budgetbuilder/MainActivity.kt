@@ -1,51 +1,31 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-import android.app.Activity
-import android.app.Dialog
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.View
-import android.view.Window
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, SendFragmentData {
 
     private lateinit var db: BudgetBuilderDbHelper
     private lateinit var sp: SharedPreferences
-    public lateinit var roomFragment: RoomFragment
+    private lateinit var spEditor: SharedPreferences.Editor
+    lateinit var roomFragment: RoomFragment
     lateinit var expenseAdapter: ExpenseAdapter
     lateinit var expenseListCaller: String
-
-    companion object{
-        fun initLayoutListener(dialog: Dialog, activity: Activity) {
-            val activityRootView = dialog.window?.decorView?.findViewById<View>(android.R.id.content)
-            activityRootView?.viewTreeObserver?.addOnGlobalLayoutListener {
-                val heightDiff = activity.window?.decorView?.findViewById<View>(android.R.id.content)?.rootView?.height?.minus(activityRootView.height)
-
-                if (heightDiff != null) {
-                    if (heightDiff > 100) {
-                        hideSystemUI(dialog.window!!)
-                    }
-                }
-            }
-        }
-
-        fun hideSystemUI(window: Window) {
-            window.decorView.systemUiVisibility = (
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -54,6 +34,10 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         db = BudgetBuilderDbHelper(this)
         initNavBar()
         this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        this.spEditor = this.sp.edit()
+
+//        this.spEditor.clear()
+//        this.spEditor.apply()
 
        roomFragment = RoomFragment()
     }
@@ -62,6 +46,7 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         super.onResume()
         setSystemUI()
         initNavBar()
+        initPreferences()
     }
 
     fun setSystemUI() {
@@ -71,6 +56,14 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+
+        window.decorView.setOnSystemUiVisibilityChangeListener {
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+        }
     }
 
     fun initNavBar() {
@@ -117,4 +110,9 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         this.expenseListCaller = fragmentCaller
     }
 
+    private fun initPreferences() {
+        if (!sp.contains(Keys.KEY_CURRENCY.toString())) {
+            spEditor.putString(Keys.KEY_CURRENCY.toString(), "$")
+        }
+    }
 }

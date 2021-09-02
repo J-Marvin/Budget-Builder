@@ -19,11 +19,13 @@ class SetBudgetFragment: DialogFragment() {
     private lateinit var spEditor: SharedPreferences.Editor
 
     lateinit var onDismissListener: DialogInterface.OnDismissListener
+    lateinit var listener: BudgetHandler
 
     companion object {
-        fun newInstance(budget: Float): SetBudgetFragment{
+        fun newInstance(budget: Float, canCancel: Boolean = true): SetBudgetFragment{
             val args = Bundle()
             args.putFloat(Keys.KEY_BUDGET.toString(), budget)
+            args.putBoolean(Keys.KEY_DIALOG_CANCEL.toString(), canCancel)
             val dialog = SetBudgetFragment()
             dialog.arguments = args
             return dialog
@@ -38,20 +40,22 @@ class SetBudgetFragment: DialogFragment() {
         var rootView: View = inflater.inflate(R.layout.fragment_set_budget, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        dialog?.window?.decorView?.setOnSystemUiVisibilityChangeListener {
+            DialogHelper.hideSystemUI(dialog?.window!!)
+        }
 
         this.sp = PreferenceManager.getDefaultSharedPreferences(requireActivity().applicationContext)
         this.spEditor = sp.edit()
+        this.requireDialog().setCanceledOnTouchOutside(requireArguments().getBoolean(Keys.KEY_DIALOG_CANCEL.toString()))
         return rootView
     }
 
     override fun dismiss() {
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-        MainActivity.hideSystemUI(dialog?.window!!)
+        DialogHelper.hideSystemUI(dialog?.window!!)
         super.dismiss()
 
-        if (this.onDismissListener != null) {
-            this.onDismissListener.onDismiss(dialog)
-        }
+        this.onDismissListener.onDismiss(dialog)
     }
 
     override fun onResume() {
@@ -66,25 +70,32 @@ class SetBudgetFragment: DialogFragment() {
         view.etNum_set_budget_amt.setText( requireArguments().getFloat(Keys.KEY_BUDGET.toString(), 5000F).toString())
 
         view. btn_set_budget.setOnClickListener {
-            Toast.makeText(this.requireContext(), "Set", Toast.LENGTH_SHORT).show()
-            val budget = view.etNum_set_budget_amt.text.toString()
-            spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget.toFloat())
-            spEditor.commit()
-            dismiss()
+            if (view.etNum_set_budget_amt.text.toString().isEmpty()) {
+                view.etNum_set_budget_amt.error = "Required"
+            } else if(view.etNum_set_budget_amt.text.toString().toFloatOrNull() == null) {
+                view.etNum_set_budget_amt.error = "Please enter a valid number"
+            } else if(view.etNum_set_budget_amt.text.toString().toFloat() < 0) {
+                view.etNum_set_budget_amt.error = "Budget cannot be negative"
+            } else {
+                Toast.makeText(this.requireContext(), "Set", Toast.LENGTH_SHORT).show()
+                val budget = view.etNum_set_budget_amt.text.toString()
+                listener.setBudget(budget.toFloat())
+                dismiss()
+            }
         }
 
         view.btn_cancel_set_budget.setOnClickListener{
+            listener.cancelBudget()
             dismiss()
         }
 
     }
 
-    fun hideSystemUI(){
+    private fun hideSystemUI(){
         dialog?.window?.decorView?.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                         or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
     }
-
 }
