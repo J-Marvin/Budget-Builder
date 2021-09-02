@@ -102,10 +102,10 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
     override fun exit() {
     }
 
-    override fun refreshExpenseAdapter(expense: Expense) {
+    override fun refreshAddExpenseAdapter(expense: Expense) {
         this.expenseAdapter.dataSet.add(0, expense)
         if(expenseListCaller.equals("HomeFragment", true))
-            this.expenseAdapter.dataSet = this.expenseAdapter.dataSet.take(3) as ArrayList<Expense>
+            this.expenseAdapter.dataSet.removeLast()
 
         this.expenseAdapter.notifyDataSetChanged()
 

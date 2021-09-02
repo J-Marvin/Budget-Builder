@@ -111,12 +111,15 @@ class AddExpenseFragment: DialogFragment() {
 
                 var result = db.addExpense(expense)
 
-                if(result != -1L)
-                    sendFragmentData.refreshExpenseAdapter(expense)
+                if(result != -1L) {
+                    //update expenseId of newly inserted object because expenseId will be null if find expense is not called for the adapter
+                    //i.e. if view is not changed, recycler view will not call findExpense
+                    expense.expenseId = result.toString()
+                    sendFragmentData.refreshAddExpenseAdapter(expense)
+                }
 
                 dismiss()
             }
-
         }
 
         view.btn_cancel_edit_expense.setOnClickListener{
