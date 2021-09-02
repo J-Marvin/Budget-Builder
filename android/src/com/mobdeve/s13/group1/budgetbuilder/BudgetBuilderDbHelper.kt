@@ -248,10 +248,7 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         cv.put(COLUMN_EXPENSE_AMOUNT, expense.amount)
         cv.put(COLUMN_EXPENSE_DATE, dateFormatterComplete.format(expense.date))
         cv.put(COLUMN_EXPENSE_DESC, expense.desc)
-//        cv.put(COLUMN_BUDGET_ID, expense.budgetId)
-
-        /*TODO: remove once find curr budget id is implemented*/
-        cv.put(COLUMN_BUDGET_ID, "1")
+        cv.put(COLUMN_BUDGET_ID, expense.budgetId)
 
         val result = db.insert(EXPENSE_TABLE, null, cv)
 

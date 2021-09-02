@@ -2,9 +2,11 @@ package com.mobdeve.s13.group1.budgetbuilder
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -112,6 +114,10 @@ class AddExpenseFragment: DialogFragment() {
                 //add expense to db
                 var categoryType = categorySpinner.split(" ")
                 var expense = Expense(Calendar.getInstance().time, categoryType[0], expenseAmt.toFloat(), expenseDesc)
+
+                var sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
+
+                expense.budgetId = sp.getString(Keys.KEY_BUDGET_ID.toString(), null)
 
                 var result = db.addExpense(expense)
 
