@@ -1,5 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,12 +11,28 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_delete_expense_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
 
 class DeleteExpenseDialogFragment : DialogFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    lateinit var db: BudgetBuilderDbHelper
+    lateinit var buttonPressed: String
+
+    companion object {
+        fun newInstance(rowId: String): DeleteExpenseDialogFragment{
+            val args = Bundle()
+            args.putString(Keys.KEY_VIEW_EXPENSE_ID.name, rowId)
+
+            val dialog = DeleteExpenseDialogFragment()
+            dialog.arguments = args
+            return dialog
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        db = BudgetBuilderDbHelper(context)
     }
 
     override fun dismiss() {
@@ -45,11 +63,17 @@ class DeleteExpenseDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.btn_delete_expense.setOnClickListener{
-            Toast.makeText(view.context, "Deleted", Toast.LENGTH_SHORT).show()
-            dismiss()
+            val result = db.deleteExpense(requireArguments().getString(Keys.KEY_VIEW_EXPENSE_ID.name)!!)
+
+            if(result) {
+                Toast.makeText(view.context, "Deleted", Toast.LENGTH_SHORT).show()
+                buttonPressed = "delete"
+                dismiss()
+            }
         }
 
         view.btn_cancel_delete_expense.setOnClickListener {
+            buttonPressed = "cancel"
             dismiss()
         }
     }
@@ -60,5 +84,11 @@ class DeleteExpenseDialogFragment : DialogFragment() {
                         or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        if(buttonPressed == "delete")
+            (parentFragment as DialogInterface.OnDismissListener).onDismiss(dialog)
     }
 }

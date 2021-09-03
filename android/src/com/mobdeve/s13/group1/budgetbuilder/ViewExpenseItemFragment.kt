@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -16,19 +17,20 @@ import kotlinx.android.synthetic.main.fragment_view_expense_item.view.*
 import org.w3c.dom.Text
 
 
-class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler {
+class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler, DialogInterface.OnDismissListener {
     lateinit var tvDesc: TextView
     lateinit var tvAmt: TextView
     lateinit var tvDate: TextView
     lateinit var tvType: TextView
     lateinit var ivPic: ImageView
+    lateinit var rootView: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var rootView = inflater.inflate(R.layout.fragment_view_expense_item, container, false)
+        rootView = inflater.inflate(R.layout.fragment_view_expense_item, container, false)
 
         tvDesc = rootView.tv_viewexpense_desc
         tvAmt = rootView.tv_viewexpense_amount
@@ -50,7 +52,8 @@ class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler {
         }
 
         rootView.btn_viewexpense_delete.setOnClickListener {
-            Navigation.findNavController(rootView).navigate(R.id.action_global_deleteExpenseDialogFragment)
+            var dialog = DeleteExpenseDialogFragment.newInstance(requireArguments().getString(Keys.KEY_VIEW_EXPENSE_ID.name)!!)
+            dialog.show(this.childFragmentManager, "deleteExpense_tag")
         }
 
         rootView.btn_viewexpense_back.setOnClickListener {
@@ -85,6 +88,10 @@ class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler {
         ivPic.setColorFilter(Color.parseColor(enumCategory.iconColor))
         ivPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor(enumCategory.backColor))
 
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        Navigation.findNavController(rootView).popBackStack()
     }
 
 }
