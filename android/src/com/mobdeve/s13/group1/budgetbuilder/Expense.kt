@@ -3,10 +3,10 @@ package com.mobdeve.s13.group1.budgetbuilder
 import java.util.*
 
 class Expense(
-    val date: Date,
-    val type: String,
-    val amount: Float,
-    val desc: String
+    var date: Date,
+    var type: String,
+    var amount: Float,
+    var desc: String
     ) {
 
     var expenseId: String? = null

@@ -688,12 +688,15 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
     /** This method clears the entire database of Budget Builder and reverts to factory data
      */
-    fun resetBudgetBuilder(): Boolean{
-//        val db = this.writableDatabase
-//        return  context.deleteDatabase("BudgetBuilder.db")
+    fun resetBudgetBuilder(): Boolean {
+        val db = this.writableDatabase
+        db?.execSQL("DROP TABLE IF EXISTS $EXPENSE_TABLE")
+        db?.execSQL("DROP TABLE IF EXISTS $BUDGET_TABLE")
+        db?.execSQL("DROP TABLE IF EXISTS $FURNITURE_TABLE")
+        db?.execSQL("DROP TABLE IF EXISTS $ROOM_TABLE")
+        this.onCreate(db)
 
-        Toast.makeText(context, "Reset Budget Builder Back", Toast.LENGTH_SHORT).show()
-
-        return true;
+        return true
     }
+
 }

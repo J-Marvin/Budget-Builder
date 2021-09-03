@@ -53,17 +53,16 @@ class ResetDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.btn_reset_dialog.setOnClickListener{
+            //TODO: Reset SharedPreferences
 
-            val isDeleted = db.resetBudgetBuilder()
-
-            if(isDeleted){
+            val result = db.resetBudgetBuilder()
+            if(result) {
+                Toast.makeText(view.context, "Reset Successful", Toast.LENGTH_SHORT).show()
                 dismiss()
-                val intent = Intent (getActivity(), MainActivity::class.java)
-                activity?.startActivity(intent)
-
-            }else
-                Toast.makeText(view.context, "DB NOT DELETED", Toast.LENGTH_SHORT).show();
-
+            }
+            else {
+                Toast.makeText(view.context, "Reset Failed", Toast.LENGTH_SHORT).show()
+            }
         }
 
         view.btn_cancel_reset_dialog.setOnClickListener {

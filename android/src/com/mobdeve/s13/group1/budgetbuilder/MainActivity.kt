@@ -31,8 +31,10 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         super.onCreate(savedInstanceState)
         Toast.makeText(applicationContext,"On Create Main Activity", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main)
-        applicationContext.deleteDatabase("BudgetBuilder.db")
+
+//        applicationContext.deleteDatabase("BudgetBuilder.db")
         db = BudgetBuilderDbHelper(this)
+
         initNavBar()
         this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         this.spEditor = this.sp.edit()
