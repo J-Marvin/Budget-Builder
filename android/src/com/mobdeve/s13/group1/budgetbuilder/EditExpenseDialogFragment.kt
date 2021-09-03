@@ -1,8 +1,10 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +13,24 @@ import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.fragment_add_expense.view.*
+import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.*
 import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.btn_cancel_edit_expense
+import java.util.*
 
 class EditExpenseDialogFragment : DialogFragment() {
+    lateinit var db : BudgetBuilderDbHelper
+    lateinit var updateExpenseHandler: UpdateExpenseHandler
+
     companion object {
-        fun newInstance(amount: Float, categoryType: String, desc: String): EditExpenseDialogFragment{
+        fun newInstance(amount: Float, categoryType: String, desc: String, sentexpenseId: String, sentdate: String): EditExpenseDialogFragment{
             val args = Bundle()
-            args.putFloat(Keys.KEY_EDIT_EXPENSE_AMOUNT.toString(), amount)
-            args.putString(Keys.KEY_EDIT_EXPENSE_TYPE.toString(), categoryType)
-            args.putString(Keys.KEY_EDIT_EXPENSE_DESC.toString(), desc)
+            args.putFloat(Keys.KEY_EDIT_EXPENSE_AMOUNT.name, amount)
+            args.putString(Keys.KEY_EDIT_EXPENSE_TYPE.name, categoryType)
+            args.putString(Keys.KEY_EDIT_EXPENSE_DESC.name, desc)
+            args.putString(Keys.KEY_EDIT_EXPENSE_ID.name, sentexpenseId)
+            args.putString(Keys.KEY_EDIT_EXPENSE_DATE.name, sentdate)
 
             val dialog = EditExpenseDialogFragment()
             dialog.arguments = args
@@ -54,8 +65,10 @@ class EditExpenseDialogFragment : DialogFragment() {
 
     private lateinit var mainActivity: MainActivity
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        db = BudgetBuilderDbHelper(context)
+        updateExpenseHandler = parentFragment as UpdateExpenseHandler
     }
 
     override fun dismiss() {
@@ -103,8 +116,37 @@ class EditExpenseDialogFragment : DialogFragment() {
         view.spinner_edit_expense.setSelection(ExpenseType.valueOf(fullCategoryType!!.uppercase()).ordinal)
 
         view.btn_edit_expense.setOnClickListener{
-            Toast.makeText(view.context, "Edited", Toast.LENGTH_SHORT).show()
-            dismiss()
+            var expenseDesc = etStr_edit_expense_desc.text.toString()
+            var expenseAmt = etNum_edit_expense_amount.text.toString()
+
+            if(expenseDesc.isBlank()) {
+                view.etStr_edit_expense_desc.error = "Please enter description"
+            }
+            else if (expenseAmt.isBlank()) {
+                view.etNum_edit_expense_amount.error = "Please enter amount"
+            }
+            else {
+                val spinnerType = view.spinner_edit_expense.selectedItem.toString()
+                var categoryType = spinnerType.split(" ")
+
+                var date = Date(requireArguments().getString(Keys.KEY_EDIT_EXPENSE_DATE.name))
+
+                var expense = Expense(date, categoryType[0], expenseAmt.toFloat(), expenseDesc)
+
+                var sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
+
+                expense.budgetId = sp.getString(Keys.KEY_BUDGET_ID.toString(), null)
+                expense.expenseId = requireArguments().getString(Keys.KEY_EDIT_EXPENSE_ID.name)
+
+                var result = db.updateExpense(expense)
+
+                if(result) {
+                    updateExpenseHandler.updateExpenseView(expense)
+                    Toast.makeText(view.context, "Edited", Toast.LENGTH_SHORT).show()
+                    dismiss()
+                }
+
+            }
         }
 
         view.btn_cancel_edit_expense.setOnClickListener {

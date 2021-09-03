@@ -13,12 +13,27 @@ import java.text.SimpleDateFormat
 class ExpenseAdapter(
     private val fragmentManager: FragmentManager?,
     var dataSet: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseViewHolder>(){
-    lateinit var view: View
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
 
-        view = LayoutInflater.from(parent.context).inflate(R.layout.expense_item, parent, false)
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.expense_item, parent, false)
         val holder = ExpenseViewHolder(view)
+
+        holder.setOnClickListener(View.OnClickListener {
+            var currExpense = dataSet[holder.bindingAdapterPosition]
+            var words = currExpense.type.split(" ")
+            var dateText = SimpleDateFormat("MMM dd, yyyy hh:mm a").format(currExpense.date)
+
+            val args = Bundle()
+            args.putFloat(Keys.KEY_VIEW_EXPENSE_AMOUNT.name, currExpense.amount)
+            args.putString(Keys.KEY_VIEW_EXPENSE_TYPE.name, words[0])
+            args.putString(Keys.KEY_VIEW_EXPENSE_DESC.name, currExpense.desc)
+            args.putString(Keys.KEY_VIEW_EXPENSE_DATE.name, dateText)
+            args.putString(Keys.KEY_VIEW_EXPENSE_ID.name, currExpense.expenseId)
+
+            Navigation.findNavController(view).navigate(R.id.action_global_viewExpenseItemFragment, args)
+        })
+
         return holder
     }
 
@@ -29,20 +44,6 @@ class ExpenseAdapter(
         holder.setDesc(currExpense.desc)
         holder.setAmount(currExpense.amount)
         holder.setDateTime(currExpense.date)
-
-        holder.setOnClickListener(View.OnClickListener {
-            var words = currExpense.type.split(" ")
-            var dateText = SimpleDateFormat("MMM dd, yyyy hh:mm a").format(currExpense.date)
-
-            val args = Bundle()
-            args.putFloat(Keys.KEY_VIEW_EXPENSE_AMOUNT.toString(), currExpense.amount)
-            args.putString(Keys.KEY_VIEW_EXPENSE_TYPE.toString(), words[0])
-            args.putString(Keys.KEY_VIEW_EXPENSE_DESC.toString(), currExpense.desc)
-            args.putString(Keys.KEY_VIEW_EXPENSE_DATE.toString(), dateText)
-
-            Navigation.findNavController(view).navigate(R.id.action_global_viewExpenseItemFragment, args)
-
-        })
     }
 
     override fun getItemCount(): Int{
