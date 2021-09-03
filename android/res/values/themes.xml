@@ -18,4 +18,12 @@
     <style name="interFont" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/inter</item>
     </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_view</item>
+        <item name="colorPrimary">@color/beige</item>
+        <item name="colorPrimaryDark">@color/dark_brown</item>
+        <item name="colorPrimaryVariant">#003700B3</item>
+        <item name="colorAccent">@color/dark_brown</item>
+    </style>
 </resources>

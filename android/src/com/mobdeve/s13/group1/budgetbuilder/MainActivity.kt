@@ -1,12 +1,10 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
@@ -14,9 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, SendFragmentData {
 
@@ -29,7 +24,8 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        Toast.makeText(applicationContext,"On Create Main Activity", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(applicationContext,"On Create Main Activity", Toast.LENGTH_SHORT).show()
+
         setContentView(R.layout.activity_main)
 
 //        applicationContext.deleteDatabase("BudgetBuilder.db")
