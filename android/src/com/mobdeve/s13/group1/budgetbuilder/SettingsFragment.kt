@@ -72,6 +72,7 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             Navigation.findNavController(rootView).navigate(R.id.action_settingsFragment_to_resetDialogFragment)
         }
 
+
         initSpinner(rootView)
         initBudget(rootView)
 

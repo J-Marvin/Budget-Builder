@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+        Toast.makeText(applicationContext,"On Create Main Activity", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main)
         applicationContext.deleteDatabase("BudgetBuilder.db")
         db = BudgetBuilderDbHelper(this)

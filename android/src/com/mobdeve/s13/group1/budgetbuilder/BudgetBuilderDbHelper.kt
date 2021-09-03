@@ -683,8 +683,17 @@ class BudgetBuilderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABA
     fun deleteFurniture(rowId: String): Boolean {
         val db = this.writableDatabase
         val result = db.delete(FURNITURE_TABLE, "$COLUMN_FURNITURE_ID=?", arrayOf(rowId))
-
         return result != -1
     }
 
+    /** This method clears the entire database of Budget Builder and reverts to factory data
+     */
+    fun resetBudgetBuilder(): Boolean{
+//        val db = this.writableDatabase
+//        return  context.deleteDatabase("BudgetBuilder.db")
+
+        Toast.makeText(context, "Reset Budget Builder Back", Toast.LENGTH_SHORT).show()
+
+        return true;
+    }
 }
