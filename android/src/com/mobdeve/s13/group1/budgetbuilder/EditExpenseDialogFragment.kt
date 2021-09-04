@@ -13,6 +13,8 @@ import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.*
 import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.btn_canc
 import java.util.*
 
 class EditExpenseDialogFragment : DialogFragment() {
-    lateinit var db : BudgetBuilderDbHelper
+    lateinit var db : ExpenseDAOImpl
     lateinit var updateExpenseHandler: UpdateExpenseHandler
 
     companion object {
@@ -67,7 +69,7 @@ class EditExpenseDialogFragment : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        db = BudgetBuilderDbHelper(context)
+        db = ExpenseDAOImpl(context)
         updateExpenseHandler = parentFragment as UpdateExpenseHandler
     }
 
@@ -131,7 +133,7 @@ class EditExpenseDialogFragment : DialogFragment() {
 
                 var date = Date(requireArguments().getString(Keys.KEY_EDIT_EXPENSE_DATE.name))
 
-                var expense = Expense(date, categoryType[0], expenseAmt.toFloat(), expenseDesc)
+                var expense = ExpenseModel(date, categoryType[0], expenseAmt.toFloat(), expenseDesc)
 
                 var sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
 

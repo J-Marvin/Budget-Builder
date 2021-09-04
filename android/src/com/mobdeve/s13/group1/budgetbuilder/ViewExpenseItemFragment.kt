@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.commit
 import androidx.navigation.Navigation
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_view_expense_item.view.*
 import org.w3c.dom.Text
 
@@ -78,11 +79,11 @@ class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler, DialogInterfac
         ivPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor(enumCategory.backColor))
     }
 
-    override fun updateExpenseView(expense: Expense) {
+    override fun updateExpenseView(expense: ExpenseModel) {
         tvDesc.text = expense.desc
         tvAmt.text = expense.amount.toString()
 
-        var enumCategory = ExpenseType.valueOf(expense.type.uppercase())
+        var enumCategory = ExpenseType.valueOf(expense.type!!.uppercase())
         tvType.text = enumCategory.textType
         ivPic.setImageResource(enumCategory.iconImg)
         ivPic.setColorFilter(Color.parseColor(enumCategory.iconColor))

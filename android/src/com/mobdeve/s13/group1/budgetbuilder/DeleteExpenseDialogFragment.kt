@@ -12,11 +12,12 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.Navigation
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import kotlinx.android.synthetic.main.fragment_delete_expense_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
 
 class DeleteExpenseDialogFragment : DialogFragment() {
-    lateinit var db: BudgetBuilderDbHelper
+    lateinit var db: ExpenseDAOImpl
     lateinit var buttonPressed: String
 
     companion object {
@@ -32,7 +33,7 @@ class DeleteExpenseDialogFragment : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        db = BudgetBuilderDbHelper(context)
+        db = ExpenseDAOImpl(context)
     }
 
     override fun dismiss() {

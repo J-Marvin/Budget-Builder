@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
 import kotlinx.android.synthetic.main.fragment_reset_dialog.view.*
 
 class ResetDialogFragment : DialogFragment() {
@@ -19,7 +20,7 @@ class ResetDialogFragment : DialogFragment() {
 
     override fun onAttach(context: Context){
         super.onAttach(context)
-        db = BudgetBuilderDbHelper(context)
+        db = BudgetBuilderDbHelper.getInstance(context)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +56,7 @@ class ResetDialogFragment : DialogFragment() {
         view.btn_reset_dialog.setOnClickListener{
             //TODO: Reset SharedPreferences
 
-            val result = db.resetBudgetBuilder()
+            val result = db.resetDb()
             if(result) {
                 Toast.makeText(view.context, "Reset Successful", Toast.LENGTH_SHORT).show()
                 dismiss()

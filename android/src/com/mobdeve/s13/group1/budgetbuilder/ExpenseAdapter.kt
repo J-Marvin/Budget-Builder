@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 
 class ExpenseAdapter(
     private val fragmentManager: FragmentManager?,
-    var dataSet: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseViewHolder>(){
+    var dataSet: ArrayList<ExpenseModel>) : RecyclerView.Adapter<ExpenseViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
 
@@ -20,13 +20,13 @@ class ExpenseAdapter(
         val holder = ExpenseViewHolder(view)
 
         holder.setOnClickListener(View.OnClickListener {
-            var currExpense = dataSet[holder.bindingAdapterPosition]
-            var words = currExpense.type.split(" ")
+            var currExpense = dataSet[holder.adapterPosition]
+            var words = currExpense.type?.split(" ")
             var dateText = SimpleDateFormat("MMM dd, yyyy hh:mm a").format(currExpense.date)
 
             val args = Bundle()
-            args.putFloat(Keys.KEY_VIEW_EXPENSE_AMOUNT.name, currExpense.amount)
-            args.putString(Keys.KEY_VIEW_EXPENSE_TYPE.name, words[0])
+            args.putFloat(Keys.KEY_VIEW_EXPENSE_AMOUNT.name, currExpense.amount!!)
+            args.putString(Keys.KEY_VIEW_EXPENSE_TYPE.name, words!![0])
             args.putString(Keys.KEY_VIEW_EXPENSE_DESC.name, currExpense.desc)
             args.putString(Keys.KEY_VIEW_EXPENSE_DATE.name, dateText)
             args.putString(Keys.KEY_VIEW_EXPENSE_ID.name, currExpense.expenseId)
@@ -40,10 +40,10 @@ class ExpenseAdapter(
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         var currExpense = dataSet[position]
 
-        holder.setType(currExpense.type)
-        holder.setDesc(currExpense.desc)
-        holder.setAmount(currExpense.amount)
-        holder.setDateTime(currExpense.date)
+        holder.setType(currExpense.type!!)
+        holder.setDesc(currExpense.desc!!)
+        holder.setAmount(currExpense.amount!!)
+        holder.setDateTime(currExpense.date!!)
     }
 
     override fun getItemCount(): Int{
