@@ -71,4 +71,13 @@ class BudgetBuilderDbHelper(context: Context?) : SQLiteOpenHelper(context, DbRef
             }
         }
     }
+
+    fun resetDb() {
+        val db = this.writableDatabase
+        db?.execSQL(DbReferences.DROP_EXPENSE_TABLE)
+        db?.execSQL(DbReferences.DROP_BUDGET_TABLE)
+        db?.execSQL(DbReferences.DROP_FURNITURE_TABLE)
+        db?.execSQL(DbReferences.DROP_ROOM_TABLE)
+        this.onCreate(db)
+    }
 }
