@@ -13,17 +13,37 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
 import com.mobdeve.s13.group1.budgetbuilder.dao.DbReferences
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_pie_chart.view.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class PieChartFragment : Fragment() {
     lateinit var expens: ArrayList<ExpenseModel>
     lateinit var categoryExpenses: ArrayList<CategoryExpense>
     private lateinit var db: ExpenseDAOImpl
+
+    companion object{
+        fun newInstance(month: Int, year: Int): SetBudgetFragment{
+            val time = Calendar.getInstance()
+            time.set(year, month, 1)
+            val args = Bundle()
+            args.putString(Keys.KEY_START_DATE.toString(),
+                FormatHelper.dateFormatterNoTime.format(time.time))
+
+            time.set(Calendar.DAY_OF_MONTH, time.getActualMaximum(Calendar.DAY_OF_MONTH))
+
+            args.putString(Keys.KEY_END_DATE.toString(),
+                FormatHelper.dateFormatterNoTime.format(time.time))
+            val dialog = SetBudgetFragment()
+            dialog.arguments = args
+            return dialog
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,9 +59,15 @@ class PieChartFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_pie_chart, container, false)
+        var startDate: String = "2019-08-01"
+        var endDate: String = "2022-08-31"
 
-        expens = db.getExpensesByDate("2019-08-01", "2022-08-31", false) //should get from db
-        categoryExpenses = this.getMonthExpenses("2019-08-01", "2022-08-31")
+        if (arguments != null) {
+            startDate = requireArguments().getString(Keys.KEY_START_DATE.toString())!!
+            endDate = requireArguments().getString(Keys.KEY_END_DATE.toString())!!
+        }
+
+        categoryExpenses = this.getMonthExpenses(startDate, endDate)
 
         var pieExpenses = ArrayList<PieEntry>()
         var chartPie = rootView.chart_pie

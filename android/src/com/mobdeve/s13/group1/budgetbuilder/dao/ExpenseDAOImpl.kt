@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import com.badlogic.gdx.utils.Null
 import com.mobdeve.s13.group1.budgetbuilder.FormatHelper
 import com.mobdeve.s13.group1.budgetbuilder.Keys
 import java.util.HashMap
@@ -141,6 +140,20 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         }
 
         return data
+    }
+
+    fun getSumOfDate(start: String, end: String?): Float {
+        var sum = 0F
+        val db = db.readableDatabase
+        val cursor = db.rawQuery(DbReferences.FIND_SUM_OF_EXPENSES_BY_DATE, arrayOf(start, end?:start))
+
+        if (cursor != null && cursor.moveToFirst()) {
+            sum += cursor.getFloat(cursor.getColumnIndex(DbReferences.COLUMN_AGG_SUM))
+        }
+
+        cursor.close()
+
+        return sum
     }
 
     /** This method updates the row of an expense

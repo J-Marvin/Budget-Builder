@@ -40,6 +40,8 @@ class DbReferences {
         const val AGG_SUM = "sum"
         const val AGG_TOTAL = "total"
 
+        const val COLUMN_AGG_SUM = "sum"
+
         val aggList = arrayOf("avg", "count", "max", "min", "sum", "total")
 
         const val CREATE_ROOM_TABLE = "CREATE TABLE $ROOM_TABLE (" +
@@ -92,6 +94,10 @@ class DbReferences {
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? " +
                 "ORDER BY $COLUMN_EXPENSE_DATE"
+
+        const val FIND_SUM_OF_EXPENSES_BY_DATE = "SELECT SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
+                "FROM $EXPENSE_TABLE " +
+                "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? "
 
         const val FIND_ALL_FURNITURE = "SELECT * FROM $FURNITURE_TABLE"
         const val FIND_FURNITURE_BY_ROOM = "SELECT * FROM $FURNITURE_TABLE WHERE $COLUMN_ROOM_ID = ?"

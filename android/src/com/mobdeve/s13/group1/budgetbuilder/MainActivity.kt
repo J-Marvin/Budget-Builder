@@ -37,17 +37,30 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         this.spEditor = this.sp.edit()
 
-//        this.spEditor.clear()
-//        this.spEditor.apply()
-
        roomFragment = RoomFragment()
     }
 
     override fun onResume() {
         super.onResume()
+
         setSystemUI()
         initNavBar()
         initPreferences()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // TODO: REMOVE THIS IF DONE TESTING
+        this.spEditor.clear()
+        this.spEditor.putString(Keys.KEY_PREV_DATE.toString(), "2020-01-01")
+        this.spEditor.commit()
+    }
+    override fun onStop() {
+        super.onStop()
+        // TODO: REMOVE THIS IF DONE TESTING
+        this.spEditor.clear()
+        this.spEditor.putString(Keys.KEY_PREV_DATE.toString(), "2020-01-01")
+        this.spEditor.commit()
     }
 
     fun setSystemUI() {

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
 
 class DeleteExpenseDialogFragment : DialogFragment() {
     lateinit var db: ExpenseDAOImpl
-    lateinit var buttonPressed: String
+    var buttonPressed: String? = null
 
     companion object {
         fun newInstance(rowId: String): DeleteExpenseDialogFragment{

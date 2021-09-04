@@ -79,7 +79,7 @@ class SetBudgetFragment: DialogFragment() {
             } else {
                 Toast.makeText(this.requireContext(), "Set", Toast.LENGTH_SHORT).show()
                 val budget = view.etNum_set_budget_amt.text.toString()
-                listener.setBudget(budget.toFloat())
+                listener.okBudget(budget.toFloat())
                 dismiss()
             }
         }

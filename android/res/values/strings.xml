@@ -29,6 +29,9 @@
     <string name="settings_desc_currency">The currency to be used.</string>
     <string name="settings_desc_resest">Erases all your data (i.e. budget, expenses, rooms and coins).</string>
     <string name="settings_btn">Settings</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="earned">You have earned some coins!</string>
+    <string name="okay">Okay</string>
 
     <string name="curr_date">%1s %2d, %3d</string>
     <string name="budget">%1s%2.02f</string>
