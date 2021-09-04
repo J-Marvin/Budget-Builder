@@ -1,5 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,7 +14,13 @@ import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_reset_dialog.view.*
 
 class ResetDialogFragment : DialogFragment() {
+    private lateinit var mainActiviy: MainActivity
+    lateinit var db: BudgetBuilderDbHelper
 
+    override fun onAttach(context: Context){
+        super.onAttach(context)
+        db = BudgetBuilderDbHelper(context)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,8 +53,16 @@ class ResetDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.btn_reset_dialog.setOnClickListener{
-            Toast.makeText(view.context, "Reset", Toast.LENGTH_SHORT).show()
-            dismiss()
+            //TODO: Reset SharedPreferences
+
+            val result = db.resetBudgetBuilder()
+            if(result) {
+                Toast.makeText(view.context, "Reset Successful", Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
+            else {
+                Toast.makeText(view.context, "Reset Failed", Toast.LENGTH_SHORT).show()
+            }
         }
 
         view.btn_cancel_reset_dialog.setOnClickListener {
