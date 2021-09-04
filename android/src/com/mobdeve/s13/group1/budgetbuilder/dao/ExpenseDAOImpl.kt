@@ -74,10 +74,12 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
 
         Log.d("getExpensedByDate", "Start: $start\nEnd: $endDate")
         if (db != null) {
-            if (ascending == true) {
-                cursor = db.rawQuery(DbReferences.FIND_EXPENSES_BY_DATE_ASC, arrayOf("\"$start\"", "\"$endDate\""))
+            cursor = if (ascending == true) {
+                db.rawQuery(DbReferences.FIND_EXPENSES_BY_DATE_ASC, arrayOf(start, endDate))
             } else {
-                cursor = db.rawQuery(DbReferences.FIND_EXPENSES_BY_DATE_DESC, arrayOf("\"$start\"", "\"$endDate\""))
+                db.rawQuery(DbReferences.FIND_EXPENSES_BY_DATE_DESC, arrayOf(start,
+                    endDate
+                ))
             }
         }
 
