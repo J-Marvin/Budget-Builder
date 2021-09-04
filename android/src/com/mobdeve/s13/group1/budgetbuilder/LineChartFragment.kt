@@ -65,7 +65,7 @@ class LineChartFragment : Fragment() {
         //you can replace this data object with  your custom object
         for (i in dataset.indices) {
             val expense = dataset[i]
-            entries.add(Entry(i.toFloat(), expense.amount))
+            entries.add(Entry(i.toFloat(), expense.amount!!))
         }
 
         val lineDataSet = LineDataSet(entries, "")

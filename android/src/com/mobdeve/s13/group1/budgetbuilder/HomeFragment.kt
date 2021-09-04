@@ -4,28 +4,24 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetDAOImpl
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 
 class HomeFragment : Fragment(), BudgetHandler {
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
-    lateinit var dbHelper: BudgetBuilderDbHelper
-    lateinit var db: BudgetBuilderDbHelper
+    lateinit var budgetDb: BudgetDAOImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        db = BudgetBuilderDbHelper(requireContext())
+        budgetDb = BudgetDAOImpl(requireContext())
     }
 
     override fun onCreateView(
@@ -36,8 +32,6 @@ class HomeFragment : Fragment(), BudgetHandler {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
         spEditor = sp.edit()
-
-        dbHelper = BudgetBuilderDbHelper(requireActivity().applicationContext)
 
         setBudget(rootView)
         initBudget()
@@ -108,8 +102,9 @@ class HomeFragment : Fragment(), BudgetHandler {
 
     override fun setBudget(budget: Float) {
         val budgetId = sp.getString(Keys.KEY_BUDGET_ID.toString(), null)
+        val db = BudgetDAOImpl(requireActivity().applicationContext)
         if (budgetId !== null) {
-            dbHelper.updateBudget(budgetId, budget)
+            db.updateBudget(budgetId, budget)
         }
         spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
         spEditor.commit()
@@ -121,13 +116,13 @@ class HomeFragment : Fragment(), BudgetHandler {
     fun initBudget() {
         val prevDateString = sp.getString(Keys.KEY_PREV_DATE.toString(), "")
         val today = Calendar.getInstance()
-        val dateFormatter = FormatHelper.dateFormatter
+        val dateFormatter = FormatHelper.dateFormatterNoTime
         var prevDate: Calendar
 
         if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
             val strToday = dateFormatter.format(today.time)
             val budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f)
-            val budgetId = db.addBudget(budget, strToday)
+            val budgetId = budgetDb.addBudget(budget, strToday)
             spEditor.putString(Keys.KEY_PREV_DATE.toString(), strToday)
             spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
             spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
@@ -136,7 +131,6 @@ class HomeFragment : Fragment(), BudgetHandler {
             if (prevDateString != null) {
                 if (prevDateString.isNotEmpty()) {
                     prevDate = Calendar.getInstance()
-                    prevDate.time = dateFormatter.parse(prevDateString)
 
                     // If not the same day
                     if (isSameDate(prevDate, today)) {
@@ -160,8 +154,8 @@ class HomeFragment : Fragment(), BudgetHandler {
         val budgetDialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F), false)
         budgetDialog.listener = object: BudgetHandler {
             override fun setBudget(budget: Float) {
-                val today = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
-                val budgetId = db.addBudget(budget, today)
+                val today = FormatHelper.DATE_NO_TIME_FORMAT.format(Calendar.getInstance().time)
+                val budgetId = budgetDb.addBudget(budget, today)
                 spEditor.putString(Keys.KEY_PREV_DATE.toString(), today)
                 spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
                 spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
@@ -170,12 +164,12 @@ class HomeFragment : Fragment(), BudgetHandler {
             }
 
             override fun cancelBudget() {
-                val today = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+                val today = FormatHelper.DATE_NO_TIME_FORMAT.format(Calendar.getInstance().time)
                 var budget = 5000f
                 if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
                     budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f)
                 }
-                val budgetId = db.addBudget(budget, today)
+                val budgetId = budgetDb.addBudget(budget, today)
                 spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
                 spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
                 spEditor.putString(Keys.KEY_PREV_DATE.toString(), today)

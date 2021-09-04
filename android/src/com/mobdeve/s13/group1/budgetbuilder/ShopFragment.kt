@@ -11,20 +11,23 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureDAOImpl
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 
 class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
-    lateinit var chairs: ArrayList<Furniture>
-    lateinit var beds: ArrayList<Furniture>
-    lateinit var db: BudgetBuilderDbHelper
-    lateinit var furniture: ArrayList<Furniture>
+    lateinit var chairs: ArrayList<FurnitureModel>
+    lateinit var beds: ArrayList<FurnitureModel>
+    lateinit var db: FurnitureDAOImpl
+    lateinit var furnitureModel: ArrayList<FurnitureModel>
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
     lateinit var room: RoomFragment
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        db = BudgetBuilderDbHelper(context)
+        db = FurnitureDAOImpl(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,10 +61,10 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
     }
 
     private fun initData() {
-        this.furniture = db.findAllFurniture()
-        this.chairs = ArrayList<Furniture>()
-        this.beds = ArrayList<Furniture>()
-        for(furniture in this.furniture) {
+        this.furnitureModel = db.findAllFurniture()
+        this.chairs = ArrayList<FurnitureModel>()
+        this.beds = ArrayList<FurnitureModel>()
+        for(furniture in this.furnitureModel) {
             if(furniture.type == "bed")
                 this.beds.add(furniture)
             else if(furniture.type == "chair")

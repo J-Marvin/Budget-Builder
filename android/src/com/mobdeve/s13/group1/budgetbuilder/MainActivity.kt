@@ -1,22 +1,19 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.activity_main.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, SendFragmentData {
 
@@ -95,8 +92,8 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
     override fun exit() {
     }
 
-    override fun refreshAddExpenseAdapter(expense: Expense) {
-        this.expenseAdapter.dataSet.add(0, expense)
+    override fun refreshAddExpenseAdapter(expenseModel: ExpenseModel) {
+        this.expenseAdapter.dataSet.add(0, expenseModel)
         if(expenseListCaller.equals("HomeFragment", true))
             this.expenseAdapter.dataSet.removeLast()
 

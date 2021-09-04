@@ -1,8 +1,5 @@
 package com.mobdeve.s13.group1.budgetbuilder
-import android.app.Activity
-import android.app.Dialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,11 +10,10 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.Spinner
-import android.widget.Toast
-import androidx.appcompat.widget.ListPopupWindow
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.Navigation
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 import java.util.*
 
@@ -25,17 +21,17 @@ import java.util.*
 class AddExpenseFragment: DialogFragment() {
 
     private lateinit var mainActivity: MainActivity
-    lateinit var db: BudgetBuilderDbHelper
+    lateinit var db: ExpenseDAOImpl
     lateinit var sendFragmentData: SendFragmentData
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        db = BudgetBuilderDbHelper(context)
+        db = ExpenseDAOImpl(context)
         sendFragmentData = context as SendFragmentData
     }
 
     // Source: https://gist.github.com/kakajika/a236ba721a5c0ad3c1446e16a7423a63
-    fun Spinner.avoidDropdownFocus() {
+    private fun Spinner.avoidDropdownFocus() {
         try {
             val isAppCompat = this is androidx.appcompat.widget.AppCompatSpinner
             val spinnerClass = if (isAppCompat) androidx.appcompat.widget.AppCompatSpinner::class.java else Spinner::class.java
@@ -113,7 +109,7 @@ class AddExpenseFragment: DialogFragment() {
             else {
                 //add expense to db
                 var categoryType = categorySpinner.split(" ")
-                var expense = Expense(Calendar.getInstance().time, categoryType[0], expenseAmt.toFloat(), expenseDesc)
+                var expense = ExpenseModel(Calendar.getInstance().time, categoryType[0], expenseAmt.toFloat(), expenseDesc)
 
                 var sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
 

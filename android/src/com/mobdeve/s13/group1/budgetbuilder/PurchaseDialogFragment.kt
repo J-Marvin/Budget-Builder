@@ -1,35 +1,42 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureDAOImpl
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 import kotlinx.android.synthetic.main.fragment_purchase_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_shop.*
 
 class PurchaseDialogFragment : DialogFragment() {
 
     companion object {
-        fun newInstance(furniture: Furniture): PurchaseDialogFragment{
+        fun newInstance(furnitureModel: FurnitureModel): PurchaseDialogFragment{
             val args = Bundle()
-            args.putString(Keys.KEY_FURNITURE_NAME.toString(), furniture.name)
-            args.putInt(Keys.KEY_FURNITURE_PRICE.toString(), furniture.price)
-            args.putInt(Keys.KEY_FURNITURE_IMG.toString(), furniture.imageId)
-            args.putString(Keys.KEY_FURNITURE_TYPE.toString(), furniture.type)
-            args.putString(Keys.KEY_FURNITURE_ID.toString(), furniture.furnitureId)
+            args.putString(Keys.KEY_FURNITURE_NAME.toString(), furnitureModel.name)
+            args.putInt(Keys.KEY_FURNITURE_PRICE.toString(), furnitureModel.price)
+            args.putInt(Keys.KEY_FURNITURE_IMG.toString(), furnitureModel.imageId)
+            args.putString(Keys.KEY_FURNITURE_TYPE.toString(), furnitureModel.type)
+            args.putString(Keys.KEY_FURNITURE_ID.toString(), furnitureModel.furnitureId)
 
             val dialog = PurchaseDialogFragment()
             dialog.arguments = args
             return dialog
         }
+    }
+
+    private lateinit var db: FurnitureDAOImpl
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        db = FurnitureDAOImpl(context)
     }
 
     override fun dismiss() {
@@ -69,23 +76,23 @@ class PurchaseDialogFragment : DialogFragment() {
                 val type = arguments?.getString(Keys.KEY_FURNITURE_TYPE.toString())
 
                 var index: Int? = null
-                var furniture: Furniture? = null
+                var furnitureModel: FurnitureModel? = null
 
                 if (type == "chair") {
-                    index = parent.chairs.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> Furniture(furnitureId = id)})
-                    furniture = parent.chairs[index]
+                    index = parent.chairs.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.chairs[index]
                 } else if (type == "bed") {
-                    index = parent.beds.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> Furniture(furnitureId = id)})
-                    furniture = parent.beds[index]
+                    index = parent.beds.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.beds[index]
                 }
 
-                furniture?.owned = true
-                if (furniture?.type == "chair")
+                furnitureModel?.owned = true
+                if (furnitureModel?.type == "chair")
                     parent.rv_chairs.adapter?.notifyItemChanged(index!!)
-                else if(furniture?.type == "bed")
+                else if(furnitureModel?.type == "bed")
                     parent.rv_beds.adapter?.notifyItemChanged(index!!)
 
-                parent.db.updateFurniture(furniture!!)
+                db.updateFurniture(furnitureModel!!)
                 parent.updateBalance(parent.getBalance() - arguments?.getInt(Keys.KEY_FURNITURE_PRICE.toString())!!)
                 dismiss()
             } else {

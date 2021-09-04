@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,14 +10,16 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import kotlinx.android.synthetic.main.fragment_summary.view.*
 
 class SummaryFragment : Fragment() {
 
-    private lateinit var db: BudgetBuilderDbHelper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        db = BudgetBuilderDbHelper(activity?.applicationContext!!)
+    private lateinit var db: ExpenseDAOImpl
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        db = ExpenseDAOImpl(activity?.applicationContext!!)
     }
 
     override fun onCreateView(
@@ -51,7 +54,7 @@ class SummaryFragment : Fragment() {
     }
 
     private fun initRecyclerView(rootView: View){
-        val expenses = db.findAllExpensesBetween("2019-01-01", "2022-01-01")
+        val expenses = db.getExpensesByDate("2019-01-01", "2022-01-01", false)
         val data = DataHelper.getCategoryExpenses(expenses)
         rootView.rv_category_expenses.adapter =
             activity?.applicationContext?.let { CategoryExpenseAdapter(data, it) }

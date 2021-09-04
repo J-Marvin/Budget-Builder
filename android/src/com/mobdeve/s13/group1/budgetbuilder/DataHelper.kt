@@ -1,22 +1,26 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
 import android.database.Cursor
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
+import com.mobdeve.s13.group1.budgetbuilder.dao.RoomModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.floor
 
 class DataHelper {
     companion object {
-        fun getFurniture(): ArrayList<Furniture> {
+        fun getFurniture(): ArrayList<FurnitureModel> {
             val data = getChairs()
             data.addAll(getBeds())
 
             return data
         }
-        fun getChairs() : ArrayList<Furniture> {
-            val data = ArrayList<Furniture>()
+        fun getChairs() : ArrayList<FurnitureModel> {
+            val data = ArrayList<FurnitureModel>()
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.chair_sw,
                 10,
                 owned = false,
@@ -26,189 +30,228 @@ class DataHelper {
             )
             )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.cardboardboxclosed_sw,
                 10,
                 owned = true,
                 equipped = true,
                 name="Cardboard Chair",
                 type= "chair"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.benchcushion_sw,
                 10,
                 owned = false,
                 equipped = false,
                 name="Bench",
                 type= "chair"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.chairdesk_sw,
                 10,
                 owned = false,
                 equipped = false,
                 name="Roller",
                 type= "chair"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.chairrounded_sw,
                 10,
                 owned = false,
                 equipped = false,
                 name="All around",
                 type= "chair"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.loungechair_sw,
                 10,
                 owned = false,
                 equipped = false,
                 name="Lounger",
                 type = "chair"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.stoolbar_sw,
                 10,
                 owned = false,
                 equipped = false,
                 name="Stool",
                 type = "chair"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.stoolbarsquare_sw,
                 10,
                 owned = false,
                 equipped = false,
                 name="Rounded Stool",
                 type = "chair"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.toilet_sw,
                 20,
                 owned = false,
                 equipped = false,
                 name="The Thinker",
                 type = "chair"
-            ))
+            )
+            )
 
             return data
         }
 
-        fun getBeds() : ArrayList<Furniture> {
-            val data = ArrayList<Furniture>()
+        fun getBeds() : ArrayList<FurnitureModel> {
+            val data = ArrayList<FurnitureModel>()
 
             data.add(
-                Furniture(
+                FurnitureModel(
                 R.drawable.bedbunk_sw,
                 100,
                 owned = false,
                 equipped = false,
                 name = "Bunker",
                 type = "bed"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.beddouble_sw,
                 100,
                 owned = true,
                 equipped = true,
                 name="Double Bed",
                 type = "bed"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.bedsingle_sw,
                 100,
                 owned = false,
                 equipped = false,
                 name="The Loner",
                 type = "bed"
-            ))
+            )
+            )
 
-            data.add(Furniture(
+            data.add(
+                FurnitureModel(
                 R.drawable.bathtub_se,
                 100,
                 owned = false,
                 equipped =false,
                 name="Tub-o\'-bed",
                 type = "bed"
-            ))
+            )
+            )
 
             return data
         }
 
-        fun getExpenses(): ArrayList<Expense> {
-            val data = ArrayList<Expense>()
+        fun getExpenses(): ArrayList<ExpenseModel> {
+            val data = ArrayList<ExpenseModel>()
             var cal = Calendar.getInstance()
 
             cal.set(2019, 8, 20, 16, 27, 0)
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Entertainment",
                 150.toFloat(),
                 "Netflix subscription"
-            ))
+            )
+            )
 
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Food",
                 200.toFloat(),
                 "Ramen"
-            ))
+            )
+            )
 
             cal.set(2020, 1, 2, 8, 30, 0)
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Transportation",
                 1000.toFloat(),
                 "Fuel"
-            ))
+            )
+            )
 
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Utilities",
                 500.toFloat(),
                 "Electricity"
-            ))
+            )
+            )
 
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Personal",
                 3000.toFloat(),
                 "Skin care"
-            ))
+            )
+            )
 
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Medical",
                 500.toFloat(),
                 "Vitamin D"
-            ))
+            )
+            )
 
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Others",
                 1000.toFloat(),
                 "Birthday gift"
-            ))
+            )
+            )
 
-            data.add(Expense(
+            data.add(
+                ExpenseModel(
                 cal.time,
                 "Food",
                 1000.toFloat(),
                 "Coffee Beans"
-            ))
+            )
+            )
             return data
         }
 
-        fun getCategoryExpenses(expenses : ArrayList<Expense>): ArrayList<CategoryExpense>{
+        fun getCategoryExpenses(expens : ArrayList<ExpenseModel>): ArrayList<CategoryExpense>{
             val ENT_INDEX = 0
             val FOOD_INDEX = 1
             val TRANS_INDEX = 2
@@ -229,9 +272,9 @@ class DataHelper {
             data.add(CategoryExpense("Medical", R.color.category_medical, '$'))
             data.add(CategoryExpense("Others", R.color.category_others, '$'))
 
-            for (expense in expenses) {
+            for (expense in expens) {
                 var index = -1
-                total += expense.amount
+                total += expense.amount!!
                 when(expense.type) {
                     "Entertainment" -> index = ENT_INDEX
                     "Food" -> index = FOOD_INDEX
@@ -243,7 +286,7 @@ class DataHelper {
                 }
 
                 if (index != -1) {
-                    data[index].total += expense.amount
+                    data[index].total += expense.amount!!
                 }
             }
 
@@ -308,15 +351,15 @@ class DataHelper {
             return data
         }
 
-        fun getRooms(): ArrayList<Room> {
-            val data = ArrayList<Room>()
+        fun getRooms(): ArrayList<RoomModel> {
+            val data = ArrayList<RoomModel>()
 
-            data.add(Room(R.drawable.temp_room, "King"))
-            data.add(Room(R.drawable.temp_room, "Not the Best"))
-            data.add(Room(R.drawable.temp_room, "Peasant"))
-            data.add(Room(R.drawable.temp_room, "Meh"))
-            data.add(Room(R.drawable.temp_room, "Pog"))
-            data.add(Room(R.drawable.temp_room, "Cringe"))
+            data.add(RoomModel(R.drawable.temp_room, "King"))
+            data.add(RoomModel(R.drawable.temp_room, "Not the Best"))
+            data.add(RoomModel(R.drawable.temp_room, "Peasant"))
+            data.add(RoomModel(R.drawable.temp_room, "Meh"))
+            data.add(RoomModel(R.drawable.temp_room, "Pog"))
+            data.add(RoomModel(R.drawable.temp_room, "Cringe"))
 
             return data
         }

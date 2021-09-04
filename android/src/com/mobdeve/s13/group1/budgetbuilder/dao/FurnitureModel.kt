@@ -1,6 +1,6 @@
-package com.mobdeve.s13.group1.budgetbuilder
+package com.mobdeve.s13.group1.budgetbuilder.dao
 
-class Furniture (
+class FurnitureModel (
     val imageId: Int,
     val price: Int,
     var owned: Boolean,
@@ -24,7 +24,7 @@ class Furniture (
     }
 
     override fun equals(other: Any?): Boolean {
-        return if (other is Furniture)
+        return if (other is FurnitureModel)
             this.furnitureId == other.furnitureId
         else false
     }

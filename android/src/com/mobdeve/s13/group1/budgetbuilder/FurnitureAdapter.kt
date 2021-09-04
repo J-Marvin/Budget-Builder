@@ -1,18 +1,16 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 
 class FurnitureAdapter(
     private val fragmentManager: FragmentManager?,
-    private val dataSet: ArrayList<Furniture>,
+    private val dataSet: ArrayList<FurnitureModel>,
     context: Context) : RecyclerView.Adapter<FurnitureViewHolder>(){
 
     private val context = context
