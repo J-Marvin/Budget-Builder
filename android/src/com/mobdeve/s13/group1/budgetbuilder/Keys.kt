@@ -36,5 +36,7 @@ enum class Keys {
     KEY_START_DATE,
     KEY_END_DATE,
 
-    KEY_EARNED_COINS
+    KEY_EARNED_COINS,
+    KEY_MONTH,
+    KEY_YEAR
 }

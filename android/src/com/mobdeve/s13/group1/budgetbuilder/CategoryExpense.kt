@@ -5,10 +5,6 @@ class CategoryExpense(
     var color: Int,
     var currency: Char
 ) {
-
     var total: Float = 0F
     var percent: Int = 0
-
-
-
 }

@@ -26,6 +26,7 @@ class PieChartFragment : Fragment() {
     lateinit var expens: ArrayList<ExpenseModel>
     lateinit var categoryExpenses: ArrayList<CategoryExpense>
     private lateinit var db: ExpenseDAOImpl
+    private lateinit var pieExpenses: ArrayList<PieEntry>
 
     companion object{
         fun newInstance(month: Int, year: Int): SetBudgetFragment{
@@ -59,8 +60,29 @@ class PieChartFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_pie_chart, container, false)
-        var startDate: String = "2019-08-01"
-        var endDate: String = "2022-08-31"
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initPieChart(view)
+    }
+
+    fun initPieChart(view: View) {
+        val firstDay = Calendar.getInstance()
+
+        firstDay.apply {
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val lastDay = Calendar.getInstance()
+
+        lastDay.apply {
+            set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
+        }
+
+        var startDate: String = FormatHelper.dateFormatterNoTime.format(firstDay.time)
+        var endDate: String = FormatHelper.dateFormatterNoTime.format(lastDay.time)
 
         if (arguments != null) {
             startDate = requireArguments().getString(Keys.KEY_START_DATE.toString())!!
@@ -69,15 +91,11 @@ class PieChartFragment : Fragment() {
 
         categoryExpenses = this.getMonthExpenses(startDate, endDate)
 
-        var pieExpenses = ArrayList<PieEntry>()
-        var chartPie = rootView.chart_pie
+        pieExpenses = ArrayList<PieEntry>()
+        var chartPie = view.chart_pie
 
         categoryExpenses.forEach {
             pieExpenses.add(PieEntry(it.total, it.name))
-        }
-
-        pieExpenses.forEach{
-            Log.d("PIE EXPENSES", it.label + " " + it.value)
         }
 
         var pieDataSet = PieDataSet(pieExpenses, "Expenses")
@@ -114,8 +132,40 @@ class PieChartFragment : Fragment() {
 
         //set to true to enable rotation of chart
         chartPie.isRotationEnabled = false
+    }
 
-        return rootView
+    fun updatePieChart(month: Int, year: Int) {
+        val firstDay = Calendar.getInstance()
+
+        firstDay.apply {
+            set(Calendar.MONTH, month)
+            set(Calendar.YEAR, year)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val lastDay = Calendar.getInstance()
+
+        lastDay.apply {
+            set(Calendar.MONTH, month)
+            set(Calendar.YEAR, year)
+            set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
+        }
+
+        pieExpenses.clear()
+
+        val startDate: String = FormatHelper.dateFormatterNoTime.format(firstDay.time)
+        val endDate: String = FormatHelper.dateFormatterNoTime.format(lastDay.time)
+
+        categoryExpenses = this.getMonthExpenses(startDate, endDate)
+
+        categoryExpenses.forEach {
+            pieExpenses.add(PieEntry(it.total, it.name))
+        }
+
+        view?.chart_pie?.let{
+//            it.data = PieData(PieDataSet())
+            it.invalidate()
+        }
     }
 
     fun getMonthExpenses(start: String, end:String): ArrayList<CategoryExpense> {

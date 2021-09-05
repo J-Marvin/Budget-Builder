@@ -11,46 +11,55 @@
     android:paddingTop="10dp"
     android:paddingEnd="20dp"
     android:paddingBottom="10dp"
-    tools:context=".DeleteExpenseDialogFragment">
+    tools:context=".DatePickerDialogFragment">
 
+    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/tv_lbl_delete_expense"
-        android:layout_width="250dp"
+        android:id="@+id/tv_select_date"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/inter_extrabold"
-        android:text="@string/delete_expense"
-        android:textStyle="bold"
+        android:text="@string/select_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_delete_warning"
-        android:layout_width="250dp"
+    <NumberPicker
+        android:id="@+id/np_date_year"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/inter"
-        android:text="@string/delete_warning"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/tv_lbl_delete_expense"
-        app:layout_constraintStart_toStartOf="@id/tv_lbl_delete_expense"
-        app:layout_constraintTop_toBottomOf="@id/tv_lbl_delete_expense" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/np_date_month"
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_date" />
+
+    <NumberPicker
+        android:id="@+id/np_date_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toStartOf="@+id/np_date_year"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_date" />
 
     <Button
         android:id="@+id/btn_date_select"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="DELETE"
+        android:layout_marginTop="36dp"
+        android:text="@string/select"
         android:textColor="@color/white"
         app:backgroundTint="@color/dark_green"
         app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="@id/tv_delete_warning"
-        app:layout_constraintStart_toStartOf="@id/tv_delete_warning"
-        app:layout_constraintTop_toBottomOf="@id/tv_delete_warning" />
+        app:layout_constraintEnd_toEndOf="@+id/np_date_year"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/np_date_month"
+        app:layout_constraintTop_toBottomOf="@+id/np_date_month" />
 
     <Button
         android:id="@+id/btn_date_cancel"
@@ -58,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
-        android:text="Back"
+        android:text="@string/cancel"
         android:textColor="@color/white"
         app:backgroundTint="@color/maroon"
         app:cornerRadius="10dp"
@@ -66,4 +75,6 @@
         app:layout_constraintEnd_toEndOf="@id/btn_date_select"
         app:layout_constraintStart_toStartOf="@id/btn_date_select"
         app:layout_constraintTop_toBottomOf="@id/btn_date_select" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -105,11 +104,8 @@ class HomeFragment : Fragment(), BudgetHandler {
             val strToday = FormatHelper.dateFormatterNoTime.format(today.time)
             val tomorrow = Calendar.getInstance()
             tomorrow.add(Calendar.DAY_OF_MONTH, 1)
-            val strTommorrow = FormatHelper.dateFormatterNoTime.format(tomorrow.time)
-            expenses = expensesDb.getSumOfDate(strToday, strTommorrow)
-            Log.d("Today", strToday)
-            Log.d("OMFG", expensesDb.getExpensesByDate(strToday, strTommorrow, false).toString())
-            Log.d("expense", expenses.toString())
+            val strTomorrow = FormatHelper.dateFormatterNoTime.format(tomorrow.time)
+            expenses = expensesDb.getSumOfDate(strToday, strTomorrow)
         }
     }
 
@@ -256,6 +252,11 @@ class HomeFragment : Fragment(), BudgetHandler {
                 spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
                 spEditor.commit()
                 this@HomeFragment.budget = budget
+
+                if (this@HomeFragment.view !== null) {
+                    showBudget()
+                    showDifference()
+                }
             }
 
             override fun cancelBudget() {
@@ -266,6 +267,11 @@ class HomeFragment : Fragment(), BudgetHandler {
                 spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
                 spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
                 spEditor.commit()
+
+                if (this@HomeFragment.view !== null) {
+                    showBudget()
+                    showDifference()
+                }
             }
 
         }

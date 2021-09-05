@@ -11,10 +11,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.Navigation
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import kotlinx.android.synthetic.main.fragment_delete_expense_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
 
 class DeleteExpenseDialogFragment : DialogFragment() {
     lateinit var db: ExpenseDAOImpl
@@ -63,7 +61,7 @@ class DeleteExpenseDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.btn_delete_expense.setOnClickListener{
+        view.btn_date_select.setOnClickListener{
             val result = db.deleteExpense(requireArguments().getString(Keys.KEY_VIEW_EXPENSE_ID.name)!!)
 
             if(result) {
@@ -73,7 +71,7 @@ class DeleteExpenseDialogFragment : DialogFragment() {
             }
         }
 
-        view.btn_cancel_delete_expense.setOnClickListener {
+        view.btn_date_cancel.setOnClickListener {
             buttonPressed = "cancel"
             dismiss()
         }

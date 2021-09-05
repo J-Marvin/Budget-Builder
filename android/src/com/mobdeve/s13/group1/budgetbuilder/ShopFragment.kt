@@ -62,8 +62,8 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
 
     private fun initData() {
         this.furnitureModel = db.findAllFurniture()
-        this.chairs = ArrayList<FurnitureModel>()
-        this.beds = ArrayList<FurnitureModel>()
+        this.chairs = ArrayList()
+        this.beds = ArrayList()
         for(furniture in this.furnitureModel) {
             if(furniture.type == "bed")
                 this.beds.add(furniture)
