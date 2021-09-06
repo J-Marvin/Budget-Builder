@@ -34,5 +34,4 @@ class ExpenseModel {
         this.expenseId = expenseId
         this.budgetId = budgetId
     }
-
 }

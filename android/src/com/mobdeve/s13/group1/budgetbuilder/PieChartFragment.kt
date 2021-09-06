@@ -19,16 +19,20 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_pie_chart.view.*
 import kotlinx.android.synthetic.main.fragment_summary.view.*
 import java.util.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
 class PieChartFragment : Fragment() {
     lateinit var expens: ArrayList<ExpenseModel>
-    lateinit var categoryExpenses: ArrayList<CategoryExpense>
+    private lateinit var categoryExpenses: ArrayList<CategoryExpense>
     private lateinit var db: ExpenseDAOImpl
     private lateinit var pieExpenses: ArrayList<PieEntry>
     private lateinit var parentFragment: SummaryFragment
+    private lateinit var executorService: ExecutorService
+    private lateinit var expenseColors: ArrayList<Int>
 
     companion object{
         fun newInstance(month: Int, year: Int): SetBudgetFragment{
@@ -54,6 +58,8 @@ class PieChartFragment : Fragment() {
         pieExpenses = ArrayList<PieEntry>()
 
         parentFragment = getParentFragment() as SummaryFragment
+        executorService = Executors.newSingleThreadExecutor()
+        categoryExpenses = ArrayList()
     }
 
     override fun onCreateView(
@@ -69,8 +75,8 @@ class PieChartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initPieChart(view)
         val today = Calendar.getInstance()
-        var month = today.get(Calendar.MONTH)
-        var year = today.get(Calendar.YEAR)
+        var month = parentFragment.getMonth()
+        var year = parentFragment.getYear()
 
         arguments.let {
             if (it != null) {
@@ -78,14 +84,17 @@ class PieChartFragment : Fragment() {
                 year = it.getInt(Keys.KEY_MONTH.toString(), today.get(Calendar.YEAR))
             }
         }
-        updatePieChart(month, year)
+        var expenses = db.getSumPerCategoryBetweenDate(DateHelper.getStartDateString(month!!, year!!),
+            DateHelper.getEndDateString(month!!, year!!)
+        )
+        updatePieChart(expenses)
     }
 
     fun initPieChart(view: View) {
         var chartPie = view.chart_pie
 
 
-        var expenseColors = ArrayList<Int>()
+        expenseColors = ArrayList<Int>()
         ExpenseType.values().forEach {
             expenseColors.add(Color.parseColor(it.iconColor))
         }
@@ -119,46 +128,29 @@ class PieChartFragment : Fragment() {
         chartPie.isRotationEnabled = false
     }
 
-    fun updatePieChart(month: Int, year: Int) {
-        val firstDay = Calendar.getInstance()
-
-        firstDay.apply {
-            set(Calendar.MONTH, month)
-            set(Calendar.YEAR, year)
-            set(Calendar.DAY_OF_MONTH, 1)
+    fun updatePieChart(expenses: ArrayList<CategoryExpense>) {
+        executorService.run {
+            pieExpenses.clear()
+            categoryExpenses.clear()
+            categoryExpenses.addAll(expenses)
+            updateColors()
+            categoryExpenses.forEach {
+                if (it.total > 0)
+                    pieExpenses.add(PieEntry(it.total, it. type))
+            }
+            requireActivity().runOnUiThread {
+                if (pieExpenses.size == 0) {
+                    view?.chart_pie?.visibility = View.GONE
+                    parentFragment.setMessageVisibility(View.VISIBLE)
+                } else {
+                    view?.chart_pie?.visibility = View.VISIBLE
+                    parentFragment.setMessageVisibility(View.GONE)
+                }
+                view?.chart_pie?.notifyDataSetChanged()
+                view?.chart_pie?.invalidate()
+            }
         }
 
-        val lastDay = Calendar.getInstance()
-
-        lastDay.apply {
-            set(Calendar.MONTH, month)
-            set(Calendar.YEAR, year)
-            set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
-        }
-
-        pieExpenses.clear()
-
-        val startDate: String = FormatHelper.dateFormatterNoTime.format(firstDay.time)
-        val endDate: String = FormatHelper.dateFormatterNoTime.format(lastDay.time)
-
-        categoryExpenses = this.getMonthExpenses(startDate, endDate)
-
-        categoryExpenses.forEach {
-            if (it.total > 0)
-                pieExpenses.add(PieEntry(it.total, it.name))
-        }
-
-        if (pieExpenses.size == 0) {
-            view?.chart_pie?.visibility = View.GONE
-            parentFragment.setMessageVisibility(View.VISIBLE)
-        } else {
-            view?.chart_pie?.visibility = View.VISIBLE
-            parentFragment.setMessageVisibility(View.GONE)
-        }
-
-        view?.chart_pie?.let{
-            it.invalidate()
-        }
     }
 
     fun getMonthExpenses(start: String, end:String): ArrayList<CategoryExpense> {
@@ -183,5 +175,24 @@ class PieChartFragment : Fragment() {
         Log.d("DB-DUMP", DatabaseUtils.dumpCursorToString(cursor))
 
         return DataHelper.getCategoryExpensesSumFromCursor(cursor, "SUM", DbReferences.COLUMN_EXPENSE_TYPE)
+    }
+
+    private fun updateColors() {
+        expenseColors.clear()
+
+        for (expense in categoryExpenses) {
+            if (expense.total > 0) {
+                expenseColors.add( Color.parseColor(
+                    when (expense.type) {
+                    ExpenseType.ENTERTAINMENT.textType -> ExpenseType.ENTERTAINMENT.iconColor
+                    ExpenseType.FOOD.textType -> ExpenseType.FOOD.iconColor
+                    ExpenseType.MEDICAL.textType -> ExpenseType.MEDICAL.iconColor
+                    ExpenseType.PERSONAL.textType -> ExpenseType.PERSONAL.iconColor
+                    ExpenseType.TRANSPORTATION.textType -> ExpenseType.TRANSPORTATION.iconColor
+                    ExpenseType.UTILITIES.textType -> ExpenseType.UTILITIES.iconColor
+                    else -> ExpenseType.OTHERS.iconColor
+                }))
+            }
+        }
     }
 }

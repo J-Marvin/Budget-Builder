@@ -5,9 +5,12 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import com.mobdeve.s13.group1.budgetbuilder.FormatHelper
-import com.mobdeve.s13.group1.budgetbuilder.Keys
-import java.util.HashMap
+import android.widget.Toast
+import androidx.annotation.DrawableRes
+import com.mobdeve.s13.group1.budgetbuilder.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.floor
 
 class ExpenseDAOImpl(context: Context): ExpenseDAO {
 
@@ -307,6 +310,116 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
             } while (cursor.moveToNext())
 
             cursor.close()
+        }
+
+        return data
+    }
+
+    fun getSumPerDayOfMonth(month: Int, year: Int): ArrayList<MonthlyExpense> {
+        val startDate = Calendar.getInstance()
+        val endDate = Calendar.getInstance()
+        val db = db.readableDatabase
+        startDate.apply {
+            this.set(Calendar.MONTH, month)
+            this.set(Calendar.YEAR, year)
+            this.set(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        endDate.apply {
+            this.set(Calendar.MONTH, month)
+            this.set(Calendar.YEAR, year)
+            this.set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
+            this.add(Calendar.DATE, 1)
+        }
+
+        val maxSize = startDate.getActualMaximum(Calendar.DAY_OF_MONTH)
+        val data = ArrayList<MonthlyExpense>()
+        Log.d("Max Size", maxSize.toString())
+
+        for (i in 0 until maxSize) {
+            val date = Calendar.getInstance()
+            date.apply{
+                set(Calendar.MONTH, month)
+                set(Calendar.YEAR, year)
+                set(Calendar.DAY_OF_MONTH, i + 1)
+            }
+
+            data.add(MonthlyExpense(date, 0F))
+            Log.d("index", i.toString())
+        }
+
+        var cursor = db.rawQuery(DbReferences.FIND_DAILY_SUM_BY_MONTH,
+            arrayOf(FormatHelper.dateFormatterNoTime.format(startDate.time),
+            FormatHelper.dateFormatterNoTime.format(endDate.time)))
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val strDate = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_EXPENSE_DATE))
+                val expenseDate = Calendar.getInstance()
+                expenseDate.time = FormatHelper.dateFormatterNoTime.parse(strDate)
+                val expenseAmount = cursor.getFloat(cursor.getColumnIndex(DbReferences.COLUMN_AGG_SUM))
+
+                data[expenseDate.get(Calendar.DAY_OF_MONTH) - 1].amount = expenseAmount
+            } while (cursor.moveToNext())
+        }
+        return data
+    }
+
+    fun getSumOfCategoriesBetweenDate(start: String, end: String?): Float {
+        var total = 0f
+        val db = db.readableDatabase
+
+        val cursor = db.rawQuery(DbReferences.GET_SUM_BY_CATEGORY, arrayOf(start, end?:start))
+
+        if (cursor != null && cursor.moveToFirst())
+            total = cursor.getFloat(cursor.getColumnIndex(DbReferences.COLUMN_AGG_SUM))
+
+        return total
+    }
+
+    fun getSumPerCategoryBetweenDate(start: String, end: String?): ArrayList<CategoryExpense> {
+        val data = ArrayList<CategoryExpense>()
+        val db = db.readableDatabase
+        val cursor = db.rawQuery(DbReferences.FIND_EXPENSES_BY_CATEGORY_BETWEEN_DATE,
+            arrayOf(start, end?:start))
+
+        val total = getSumOfCategoriesBetweenDate(start, end)
+
+        val ENT_INDEX = 0
+        val FOOD_INDEX = 1
+        val TRANS_INDEX = 2
+        val UTIL_INDEX = 3
+        val PERS_INDEX = 4
+        val MED_INDEX = 5
+        val OTHERS_INDEX = 6
+
+        data.add(CategoryExpense("Entertainment", R.color.category_entertainment))
+        data.add(CategoryExpense("Food", R.color.category_food))
+        data.add(CategoryExpense("Transportation", R.color.category_transportation))
+        data.add(CategoryExpense("Utilities", R.color.category_utilities))
+        data.add(CategoryExpense("Personal",  R.color.category_personal))
+        data.add(CategoryExpense("Medical", R.color.category_medical))
+        data.add(CategoryExpense("Others", R.color.category_others))
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val category = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_EXPENSE_TYPE))
+
+                val index: Int = when(category) {
+                    ExpenseType.ENTERTAINMENT.textType -> ENT_INDEX
+                    ExpenseType.FOOD.textType -> FOOD_INDEX
+                    ExpenseType.MEDICAL.textType -> MED_INDEX
+                    ExpenseType.PERSONAL.textType -> PERS_INDEX
+                    ExpenseType.TRANSPORTATION.textType -> TRANS_INDEX
+                    ExpenseType.UTILITIES.textType -> UTIL_INDEX
+                    else -> OTHERS_INDEX
+                }
+
+                val expense = data[index]
+                expense.total = cursor.getFloat(cursor.getColumnIndex(DbReferences.COLUMN_AGG_SUM))
+                expense.percent =  floor((expense.total / total).toDouble() * 100).toInt()
+
+            } while (cursor.moveToNext())
         }
 
         return data

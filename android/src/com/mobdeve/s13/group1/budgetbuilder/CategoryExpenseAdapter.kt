@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class CategoryExpenseAdapter(private val dataSet: ArrayList<CategoryExpense>, context: Context): RecyclerView.Adapter<CategoryExpenseViewHolder>() {
+class CategoryExpenseAdapter(private val dataSet: ArrayList<CategoryExpense>, context: Context, var currency: String): RecyclerView.Adapter<CategoryExpenseViewHolder>() {
     private val context = context
 
     init{
@@ -23,10 +23,10 @@ class CategoryExpenseAdapter(private val dataSet: ArrayList<CategoryExpense>, co
     override fun onBindViewHolder(holder: CategoryExpenseViewHolder, position: Int) {
         val currExpense: CategoryExpense = dataSet[position]
 
-        holder.setCategory(currExpense.name)
+        holder.setCategory(currExpense.type)
         holder.setProgress(currExpense.percent)
         holder.setCategoryColor(currExpense.color, context)
-        holder.setExpense(currExpense.total, currExpense.currency)
+        holder.setExpense(currExpense.total, currency[0])
     }
 
     override fun getItemCount() = dataSet.size

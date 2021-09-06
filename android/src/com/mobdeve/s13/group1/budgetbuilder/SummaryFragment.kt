@@ -1,7 +1,10 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,13 +25,14 @@ class SummaryFragment : Fragment(), DatePickerListener {
     private var month: Int? = null
     private var year: Int? = null
     private lateinit var executorService: ExecutorService
-    private lateinit var data: ArrayList<CategoryExpense>
+    private lateinit var categoryExpenses: ArrayList<CategoryExpense>
     private var isPie: Boolean = true
+    private lateinit var sp: SharedPreferences
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         db = ExpenseDAOImpl(activity?.applicationContext!!)
-
+        sp = PreferenceManager.getDefaultSharedPreferences(context)
         executorService = Executors.newSingleThreadExecutor()
     }
 
@@ -78,14 +82,16 @@ class SummaryFragment : Fragment(), DatePickerListener {
 
         lastDay.apply {
             set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
+            add(Calendar.DAY_OF_MONTH, 1)
         }
 
-        val expenses = db.getExpensesByDate(FormatHelper.dateFormatterNoTime.format(firstDay.time),
-            FormatHelper.dateFormatterNoTime.format(lastDay.time), false)
-        data = DataHelper.getCategoryExpenses(expenses)
-        data.sortWith { o1, o2 -> o1?.total!!.compareTo(o2?.total!!) * -1}
+        categoryExpenses = db.getSumPerCategoryBetweenDate(
+            FormatHelper.dateFormatterNoTime.format(firstDay.time),
+            FormatHelper.dateFormatterNoTime.format(lastDay.time)
+        )
+        categoryExpenses.sortWith { o1, o2 -> o1?.total!!.compareTo(o2?.total!!) * -1}
         rootView.rv_category_expenses.adapter =
-            activity?.applicationContext?.let { CategoryExpenseAdapter(data, it) }
+            activity?.applicationContext?.let { CategoryExpenseAdapter(categoryExpenses, it, sp.getString(Keys.KEY_CURRENCY.toString(), "$")!!) }
         rootView.rv_category_expenses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
     }
 
@@ -119,49 +125,32 @@ class SummaryFragment : Fragment(), DatePickerListener {
         }
     }
 
-    private fun getCategoryExpenses(rootView: View) {
-
-    }
-
-    private fun updateRecyclerView(month: Int, year: Int) {
+    private fun updateRecyclerView(expenses: ArrayList<CategoryExpense>) {
         executorService.run {
-            val firstDay = Calendar.getInstance()
-
-            firstDay.apply {
-                set(Calendar.MONTH, month)
-                set(Calendar.YEAR, year)
-                set(Calendar.DAY_OF_MONTH, 1)
-            }
-
-            val lastDay = Calendar.getInstance()
-
-            lastDay.apply {
-                set(Calendar.MONTH, month)
-                set(Calendar.YEAR, year)
-                set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
-            }
-
-            val expenses = db.getExpensesByDate(FormatHelper.dateFormatterNoTime.format(firstDay.time),
-                FormatHelper.dateFormatterNoTime.format(lastDay.time), false)
-            data.clear()
-            data.addAll(DataHelper.getCategoryExpenses(expenses))
-            data.sortWith { o1, o2 -> o1?.total!!.compareTo(o2?.total!!) * -1 }
+            categoryExpenses.clear()
+            categoryExpenses.addAll(expenses)
 
             view?.rv_category_expenses?.adapter?.notifyDataSetChanged()
         }
-
     }
 
     override fun onSelectDate(month: Int, year: Int) {
         updateDate(month, year)
-        updateRecyclerView(month, year)
 
         var fragment = childFragmentManager.findFragmentById(R.id.fragView_summary)
 
-        if (isPie) {
-            (fragment as PieChartFragment).updatePieChart(month, year)
-        } else {
+        var expenses = db.getSumPerCategoryBetweenDate(
+            DateHelper.getStartDateString(month, year),
+           DateHelper.getEndDateString(month, year)
+        )
+        expenses.sortWith {o1, o2 -> o1?.total!!.compareTo(o2?.total!!) * -1}
 
+        if (isPie) {
+            (fragment as PieChartFragment).updatePieChart(expenses)
+            updateRecyclerView(expenses)
+        } else {
+            (fragment as LineChartFragment).updateChart(month, year)
+            setMessageVisibility(View.GONE)
         }
     }
 
@@ -171,5 +160,8 @@ class SummaryFragment : Fragment(), DatePickerListener {
     fun setMessageVisibility(visibility: Int) {
         view?.tv_summary_no_data?.visibility = visibility
     }
+
+    fun getMonth() = month
+    fun getYear() = year
 
 }

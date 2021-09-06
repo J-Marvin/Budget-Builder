@@ -99,6 +99,21 @@ class DbReferences {
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? "
 
+        const val FIND_DAILY_SUM_BY_MONTH = "SELECT strftime('%Y-%m-%d', $COLUMN_EXPENSE_DATE) AS $COLUMN_EXPENSE_DATE, " +
+                "SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
+                "FROM $EXPENSE_TABLE " +
+                "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ?" +
+                "GROUP BY strftime('%Y-%m-%d', $COLUMN_EXPENSE_DATE) "
+
+        const val FIND_EXPENSES_BY_CATEGORY_BETWEEN_DATE = "SELECT ${COLUMN_EXPENSE_TYPE}, SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
+                "FROM $EXPENSE_TABLE " +
+                "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? " +
+                "GROUP BY $COLUMN_EXPENSE_TYPE"
+
+        const val GET_SUM_BY_CATEGORY = "SELECT SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
+                "FROM $EXPENSE_TABLE " +
+                "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? "
+
         const val FIND_ALL_FURNITURE = "SELECT * FROM $FURNITURE_TABLE"
         const val FIND_FURNITURE_BY_ROOM = "SELECT * FROM $FURNITURE_TABLE WHERE $COLUMN_ROOM_ID = ?"
 

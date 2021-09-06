@@ -1,7 +1,9 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +16,32 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import kotlinx.android.synthetic.main.fragment_line_chart.view.*
+import java.util.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 class LineChartFragment : Fragment() {
 
+    lateinit var expenseDb: ExpenseDAOImpl
+    lateinit var entries: ArrayList<Entry>
+    var month = Calendar.getInstance().get(Calendar.MONTH)
+    var year = Calendar.getInstance().get(Calendar.YEAR)
+    lateinit var executorService: ExecutorService
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        expenseDb = ExpenseDAOImpl(context)
+        entries = ArrayList()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        month = (parentFragment as SummaryFragment).getMonth()!!
+        year = (parentFragment as SummaryFragment).getYear()!!
+        executorService = Executors.newSingleThreadExecutor()
     }
 
     override fun onCreateView(
@@ -35,13 +57,13 @@ class LineChartFragment : Fragment() {
     }
 
     fun initLineChart(lineChart: LineChart) {
-        var dataset = DataHelper.getExpenses()
-
         //hide grid lines
         lineChart.axisLeft.setDrawGridLines(false)
         val xAxis: XAxis = lineChart.xAxis
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(false)
+
+        lineChart.axisLeft.axisMinimum = -20F
 
         //remove right y-axis
         lineChart.axisRight.isEnabled = false
@@ -60,13 +82,18 @@ class LineChartFragment : Fragment() {
         xAxis.labelRotationAngle = +90f
 
         //now draw bar chart with dynamic data
-        val entries: ArrayList<Entry> = ArrayList()
+        var dataset = expenseDb.getSumPerDayOfMonth(month, year)
+        entries.clear()
+        for (expense in dataset) {
+            val day = expense.date.get(Calendar.DAY_OF_MONTH)
+            entries.add(Entry(day.toFloat(), expense.amount))
+        }
 
         //you can replace this data object with  your custom object
-        for (i in dataset.indices) {
-            val expense = dataset[i]
-            entries.add(Entry(i.toFloat(), expense.amount!!))
-        }
+//        for (expense in dataset) {
+//            val day = expense.date.get(Calendar.DAY_OF_MONTH)
+//            entries.add(Entry(day.toFloat(), expense.amount))
+//        }
 
         val lineDataSet = LineDataSet(entries, "")
 
@@ -89,9 +116,20 @@ class LineChartFragment : Fragment() {
 
         val data = LineData(lineDataSet)
         lineChart.data = data
-
         lineChart.invalidate()
+    }
 
+    fun updateChart(month: Int, year: Int) {
+        executorService.run {
+            var dataset = expenseDb.getSumPerDayOfMonth(month, year)
+            entries.clear()
+            for (expense in dataset) {
+                val day = expense.date.get(Calendar.DAY_OF_MONTH)
+                entries.add(Entry(day.toFloat(), expense.amount))
+            }
+
+            view?.chart_line?.invalidate()
+        }
     }
 
 //    inner class MyAxisFormatter : IndexAxisValueFormatter() {

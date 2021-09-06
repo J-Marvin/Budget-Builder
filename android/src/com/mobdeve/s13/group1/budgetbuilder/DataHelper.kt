@@ -264,13 +264,13 @@ class DataHelper {
             var total = 0F
 
 
-            data.add(CategoryExpense("Entertainment", R.color.category_entertainment, '$'))
-            data.add(CategoryExpense("Food", R.color.category_food, '$'))
-            data.add(CategoryExpense("Transportation", R.color.category_transportation, '$'))
-            data.add(CategoryExpense("Utilities", R.color.category_utilities, '$'))
-            data.add(CategoryExpense("Personal",  R.color.category_personal, '$'))
-            data.add(CategoryExpense("Medical", R.color.category_medical, '$'))
-            data.add(CategoryExpense("Others", R.color.category_others, '$'))
+            data.add(CategoryExpense("Entertainment", R.color.category_entertainment))
+            data.add(CategoryExpense("Food", R.color.category_food))
+            data.add(CategoryExpense("Transportation", R.color.category_transportation))
+            data.add(CategoryExpense("Utilities", R.color.category_utilities))
+            data.add(CategoryExpense("Personal",  R.color.category_personal))
+            data.add(CategoryExpense("Medical", R.color.category_medical))
+            data.add(CategoryExpense("Others", R.color.category_others))
 
             for (expense in expens) {
                 var index = -1
@@ -310,13 +310,13 @@ class DataHelper {
 
             var total = 0F
 
-            data.add(CategoryExpense("Entertainment", R.color.category_entertainment, '$'))
-            data.add(CategoryExpense("Food", R.color.category_food, '$'))
-            data.add(CategoryExpense("Transportation", R.color.category_transportation, '$'))
-            data.add(CategoryExpense("Utilities", R.color.category_utilities, '$'))
-            data.add(CategoryExpense("Personal",  R.color.category_personal, '$'))
-            data.add(CategoryExpense("Medical", R.color.category_medical, '$'))
-            data.add(CategoryExpense("Others", R.color.category_others, '$'))
+            data.add(CategoryExpense("Entertainment", R.color.category_entertainment))
+            data.add(CategoryExpense("Food", R.color.category_food))
+            data.add(CategoryExpense("Transportation", R.color.category_transportation))
+            data.add(CategoryExpense("Utilities", R.color.category_utilities))
+            data.add(CategoryExpense("Personal",  R.color.category_personal))
+            data.add(CategoryExpense("Medical", R.color.category_medical))
+            data.add(CategoryExpense("Others", R.color.category_others))
 
             if(cursor != null && cursor.moveToFirst()) {
                 val groupIndex = cursor.getColumnIndex(groupColumn)
