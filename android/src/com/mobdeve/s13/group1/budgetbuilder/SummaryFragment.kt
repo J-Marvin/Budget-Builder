@@ -168,4 +168,8 @@ class SummaryFragment : Fragment(), DatePickerListener {
     override fun onCancelDate() {
     }
 
+    fun setMessageVisibility(visibility: Int) {
+        view?.tv_summary_no_data?.visibility = visibility
+    }
+
 }

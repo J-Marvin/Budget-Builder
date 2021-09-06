@@ -17,6 +17,7 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.DbReferences
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_pie_chart.view.*
+import kotlinx.android.synthetic.main.fragment_summary.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -27,19 +28,17 @@ class PieChartFragment : Fragment() {
     lateinit var categoryExpenses: ArrayList<CategoryExpense>
     private lateinit var db: ExpenseDAOImpl
     private lateinit var pieExpenses: ArrayList<PieEntry>
+    private lateinit var parentFragment: SummaryFragment
 
     companion object{
         fun newInstance(month: Int, year: Int): SetBudgetFragment{
             val time = Calendar.getInstance()
             time.set(year, month, 1)
             val args = Bundle()
-            args.putString(Keys.KEY_START_DATE.toString(),
-                FormatHelper.dateFormatterNoTime.format(time.time))
-
-            time.set(Calendar.DAY_OF_MONTH, time.getActualMaximum(Calendar.DAY_OF_MONTH))
-
-            args.putString(Keys.KEY_END_DATE.toString(),
-                FormatHelper.dateFormatterNoTime.format(time.time))
+            args.apply {
+                putInt(Keys.KEY_MONTH.toString(), month)
+                putInt(Keys.KEY_YEAR.toString(), year)
+            }
             val dialog = SetBudgetFragment()
             dialog.arguments = args
             return dialog
@@ -52,6 +51,9 @@ class PieChartFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        pieExpenses = ArrayList<PieEntry>()
+
+        parentFragment = getParentFragment() as SummaryFragment
     }
 
     override fun onCreateView(
@@ -66,47 +68,29 @@ class PieChartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initPieChart(view)
+        val today = Calendar.getInstance()
+        var month = today.get(Calendar.MONTH)
+        var year = today.get(Calendar.YEAR)
+
+        arguments.let {
+            if (it != null) {
+                month = it.getInt(Keys.KEY_MONTH.toString(), today.get(Calendar.MONTH))
+                year = it.getInt(Keys.KEY_MONTH.toString(), today.get(Calendar.YEAR))
+            }
+        }
+        updatePieChart(month, year)
     }
 
     fun initPieChart(view: View) {
-        val firstDay = Calendar.getInstance()
-
-        firstDay.apply {
-            set(Calendar.DAY_OF_MONTH, 1)
-        }
-
-        val lastDay = Calendar.getInstance()
-
-        lastDay.apply {
-            set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
-        }
-
-        var startDate: String = FormatHelper.dateFormatterNoTime.format(firstDay.time)
-        var endDate: String = FormatHelper.dateFormatterNoTime.format(lastDay.time)
-
-        if (arguments != null) {
-            startDate = requireArguments().getString(Keys.KEY_START_DATE.toString())!!
-            endDate = requireArguments().getString(Keys.KEY_END_DATE.toString())!!
-        }
-
-        categoryExpenses = this.getMonthExpenses(startDate, endDate)
-
-        pieExpenses = ArrayList<PieEntry>()
         var chartPie = view.chart_pie
 
-        categoryExpenses.forEach {
-            if (it.total > 0)
-                pieExpenses.add(PieEntry(it.total, it.name))
-        }
-
-        var pieDataSet = PieDataSet(pieExpenses, "Expenses")
 
         var expenseColors = ArrayList<Int>()
-
         ExpenseType.values().forEach {
             expenseColors.add(Color.parseColor(it.iconColor))
         }
 
+        var pieDataSet = PieDataSet(pieExpenses, "Expenses")
         pieDataSet.colors = expenseColors
         pieDataSet.valueTextColor = Color.BLACK
         pieDataSet.valueTextSize = 16f
@@ -164,8 +148,15 @@ class PieChartFragment : Fragment() {
                 pieExpenses.add(PieEntry(it.total, it.name))
         }
 
+        if (pieExpenses.size == 0) {
+            view?.chart_pie?.visibility = View.GONE
+            parentFragment.setMessageVisibility(View.VISIBLE)
+        } else {
+            view?.chart_pie?.visibility = View.VISIBLE
+            parentFragment.setMessageVisibility(View.GONE)
+        }
+
         view?.chart_pie?.let{
-//            it.data = PieData(PieDataSet())
             it.invalidate()
         }
     }

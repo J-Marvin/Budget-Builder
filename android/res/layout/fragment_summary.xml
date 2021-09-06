@@ -142,6 +142,18 @@
             app:layout_constraintTop_toBottomOf="@id/btn_summary_date"
             tools:layout="@layout/fragment_pie_chart" />
 
+        <TextView
+            android:id="@+id/tv_summary_no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_extrabold"
+            android:text="@string/no_data"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gl_summary_header_right"
+            app:layout_constraintStart_toStartOf="@+id/gl_summary_header_left"
+            app:layout_constraintTop_toTopOf="@+id/fragView_summary" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
