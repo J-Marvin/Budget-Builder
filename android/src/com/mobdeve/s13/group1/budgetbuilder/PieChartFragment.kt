@@ -95,7 +95,8 @@ class PieChartFragment : Fragment() {
         var chartPie = view.chart_pie
 
         categoryExpenses.forEach {
-            pieExpenses.add(PieEntry(it.total, it.name))
+            if (it.total > 0)
+                pieExpenses.add(PieEntry(it.total, it.name))
         }
 
         var pieDataSet = PieDataSet(pieExpenses, "Expenses")
@@ -159,7 +160,8 @@ class PieChartFragment : Fragment() {
         categoryExpenses = this.getMonthExpenses(startDate, endDate)
 
         categoryExpenses.forEach {
-            pieExpenses.add(PieEntry(it.total, it.name))
+            if (it.total > 0)
+                pieExpenses.add(PieEntry(it.total, it.name))
         }
 
         view?.chart_pie?.let{
