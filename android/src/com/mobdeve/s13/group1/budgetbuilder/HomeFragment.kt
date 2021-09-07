@@ -62,9 +62,9 @@ class HomeFragment : Fragment(), BudgetHandler {
            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_expenseFragment)
         }
 
-//        rootView.iv_home_room.setOnClickListener{
-//            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_galleryFragment)
-//        }
+        rootView.view_goto_gallery.setOnClickListener{
+            Navigation.findNavController(rootView).navigate(R.id.action_homeFragment_to_galleryFragment)
+        }
 
         rootView.view_set_budget.setOnClickListener{
             val dialog = SetBudgetFragment.newInstance(budget)

@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/beige"
     android:backgroundTint="@color/beige"
-    tools:context=".ShopFragment"
->
+    tools:context=".ShopFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -62,21 +61,6 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.04" />
 
-            <ImageView
-                android:id="@+id/iv_temp_room"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:adjustViewBounds="true"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/gl_header_right"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/gl_header_left"
-                app:layout_constraintTop_toBottomOf="@+id/tv_customize"
-                app:srcCompat="@drawable/temp_room" />
-
             <!--            <androidx.fragment.app.FragmentContainerView-->
             <!--                android:id="@+id/fcv_shop_room"-->
             <!--                android:name="com.mobdeve.s13.group1.budgetbuilder.RoomFragment"-->
@@ -91,6 +75,17 @@
             <!--                app:layout_constraintStart_toStartOf="parent"-->
             <!--                app:layout_constraintTop_toTopOf="parent"-->
             <!--                app:layout_constraintVertical_bias="0.0" />-->
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fcv_shop_room"
+                android:name="com.mobdeve.s13.group1.budgetbuilder.RoomFragment"
+                android:layout_width="380dp"
+                android:layout_height="350dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/gl_header_right"
+                app:layout_constraintStart_toStartOf="@id/gl_header_left"
+                app:layout_constraintTop_toBottomOf="@id/tv_customize" />
 
             <TextView
                 android:id="@+id/tv_customize"

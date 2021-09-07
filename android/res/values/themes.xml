@@ -3,7 +3,7 @@
     <style name="Theme.BudgetBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/beige</item>
-        <item name="colorPrimaryVariant">#003700B3</item>
+        <item name="colorPrimaryVariant">@color/dark_beige</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/dark_brown</item>
