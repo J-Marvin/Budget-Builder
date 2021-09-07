@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/beige"
     android:backgroundTint="@color/beige"
-    tools:context=".ShopFragment"
->
+    tools:context=".ShopFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,9 +28,9 @@
             app:layout_constraintGuide_percent="0.04" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_header"
+            android:id="@+id/cl_shop_header"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/gradient_rectangle"
             android:clipChildren="true"
             android:clipToPadding="false"
@@ -62,35 +61,31 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.04" />
 
-            <ImageView
-                android:id="@+id/iv_temp_room"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:adjustViewBounds="true"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/gl_header_right"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/gl_header_left"
-                app:layout_constraintTop_toBottomOf="@+id/tv_customize"
-                app:srcCompat="@drawable/temp_room" />
+            <!--            <androidx.fragment.app.FragmentContainerView-->
+            <!--                android:id="@+id/fcv_shop_room"-->
+            <!--                android:name="com.mobdeve.s13.group1.budgetbuilder.RoomFragment"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_marginBottom="40dp"-->
+            <!--                android:clipChildren="false"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.0"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:layout_constraintVertical_bias="0.0" />-->
 
-<!--            <androidx.fragment.app.FragmentContainerView-->
-<!--                android:id="@+id/fcv_shop_room"-->
-<!--                android:name="com.mobdeve.s13.group1.budgetbuilder.RoomFragment"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_marginBottom="40dp"-->
-<!--                android:clipChildren="false"-->
-<!--                android:visibility="gone"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.0"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintVertical_bias="0.0" />-->
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fcv_shop_room"
+                android:name="com.mobdeve.s13.group1.budgetbuilder.RoomFragment"
+                android:layout_width="380dp"
+                android:layout_height="350dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/gl_header_right"
+                app:layout_constraintStart_toStartOf="@id/gl_header_left"
+                app:layout_constraintTop_toBottomOf="@id/tv_customize" />
 
             <TextView
                 android:id="@+id/tv_customize"
@@ -111,10 +106,10 @@
                 android:background="@drawable/rounded_inner"
                 android:contentDescription="@string/settings_btn"
                 android:src="@drawable/ic_baseline_settings_24"
-                app:tint="@color/dark_brown"
                 app:layout_constraintBottom_toBottomOf="@id/tv_customize"
                 app:layout_constraintEnd_toStartOf="@id/gl_header_right"
                 app:layout_constraintTop_toTopOf="@id/tv_customize"
+                app:tint="@color/dark_brown"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -129,7 +124,7 @@
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/gl_left"
-            app:layout_constraintTop_toBottomOf="@+id/cl_header" />
+            app:layout_constraintTop_toBottomOf="@+id/cl_shop_header" />
 
         <ImageView
             android:id="@+id/iv_shop_balance_pill"
