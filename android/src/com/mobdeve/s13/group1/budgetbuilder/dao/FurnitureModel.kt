@@ -1,5 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder.dao
 
+import android.graphics.drawable.Drawable
+
 class FurnitureModel (
     val imageId: Int,
     val price: Int,
@@ -11,10 +13,22 @@ class FurnitureModel (
 
     lateinit var roomId: String
     lateinit var furnitureId: String
+    lateinit var path: String
 
     constructor(furnitureId: String): this(0, 0, false, false, "", "") {
         this.furnitureId = furnitureId
     }
+
+    constructor(imageId: Int,
+                price: Int,
+                owned: Boolean,
+                equipped: Boolean,
+                name: String,
+                type: String,
+                path: String): this(imageId, price, owned, equipped, name, type) {
+        this.path = path
+    }
+
     fun equip() {
         this.equipped = true
     }

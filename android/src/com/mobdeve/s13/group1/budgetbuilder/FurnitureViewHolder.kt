@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.graphics.drawable.Drawable
 import android.opengl.Visibility
 import android.view.View
 import android.widget.ImageView
@@ -21,6 +22,10 @@ class FurnitureViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     fun setImg(img: Int) {
         ivFurniture.setImageResource(img)
+    }
+
+    fun setImg(drawable: Drawable) {
+        ivFurniture.setImageDrawable(drawable)
     }
 
     fun setPrice(price: Int) {

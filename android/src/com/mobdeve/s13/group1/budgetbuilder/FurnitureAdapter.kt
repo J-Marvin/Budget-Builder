@@ -1,12 +1,14 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
+import java.io.IOException
 
 class FurnitureAdapter(
     private val fragmentManager: FragmentManager?,
@@ -25,7 +27,13 @@ class FurnitureAdapter(
     override fun onBindViewHolder(holder: FurnitureViewHolder, position: Int) {
         var curFurniture = dataSet[position]
 
-        holder.setImg(curFurniture.imageId)
+        try {
+            val ims = context.assets.open(curFurniture.path)
+            holder.setImg(Drawable.createFromStream(ims, null))
+            ims.close()
+        } catch (ex: IOException) {
+            holder.setImg(curFurniture.imageId)
+        }
         holder.setPrice(curFurniture.price)
 
         if (curFurniture.equipped) {

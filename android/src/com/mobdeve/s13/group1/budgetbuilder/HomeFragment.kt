@@ -39,6 +39,8 @@ class HomeFragment : Fragment(), BudgetHandler {
 
         sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
         spEditor = sp.edit()
+        spEditor.clear()
+        spEditor.commit()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

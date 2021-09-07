@@ -26,7 +26,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name="Ol\' Fashion",
-                type= "chair"
+                type= "chair",
+                path="furniture/chairs/chair_SW.png"
             )
             )
 
@@ -37,7 +38,8 @@ class DataHelper {
                 owned = true,
                 equipped = true,
                 name="Cardboard Chair",
-                type= "chair"
+                type= "chair",
+                path="furniture/tables/cardboardBoxClosed_SW.png"
             )
             )
 
@@ -48,7 +50,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name="Bench",
-                type= "chair"
+                type= "chair",
+                    path="furniture/chairs/benchCushion_SW.png"
             )
             )
 
@@ -59,7 +62,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name="Roller",
-                type= "chair"
+                type= "chair",
+                    path = "furniture/chairs/chairDesk_SW.png"
             )
             )
 
@@ -70,7 +74,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name="All around",
-                type= "chair"
+                type= "chair",
+                    path = "furniture/chairs/chairRounded_SW.png"
             )
             )
 
@@ -81,7 +86,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name="Lounger",
-                type = "chair"
+                type = "chair",
+                    path = "furniture/chairs/loungeChair_SW.png"
             )
             )
 
@@ -91,8 +97,9 @@ class DataHelper {
                 10,
                 owned = false,
                 equipped = false,
-                name="Stool",
-                type = "chair"
+                name="Rounded Stool",
+                type = "chair",
+                    path="furniture/chairs/stoolBar_SW.png"
             )
             )
 
@@ -102,8 +109,9 @@ class DataHelper {
                 10,
                 owned = false,
                 equipped = false,
-                name="Rounded Stool",
-                type = "chair"
+                name="Stool",
+                type = "chair",
+                    path="furniture/chairs/stoolBarSquare_SW.png"
             )
             )
 
@@ -114,7 +122,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name="The Thinker",
-                type = "chair"
+                type = "chair",
+                    path="furniture/chairs/toilet_SW.png"
             )
             )
 
@@ -131,7 +140,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name = "Bunker",
-                type = "bed"
+                type = "bed",
+                    path="furniture/beds/bedBunk_SW.png"
             )
             )
 
@@ -142,7 +152,8 @@ class DataHelper {
                 owned = true,
                 equipped = true,
                 name="Double Bed",
-                type = "bed"
+                type = "bed",
+                    path = "furniture/beds/bedDouble_SW.png"
             )
             )
 
@@ -153,7 +164,8 @@ class DataHelper {
                 owned = false,
                 equipped = false,
                 name="The Loner",
-                type = "bed"
+                type = "bed",
+                    path="furniture/beds/bedSingle_SW.png"
             )
             )
 
@@ -164,7 +176,8 @@ class DataHelper {
                 owned = false,
                 equipped =false,
                 name="Tub-o\'-bed",
-                type = "bed"
+                type = "bed",
+                    path="furniture/beds/bathtub_SE.png"
             )
             )
 

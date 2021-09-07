@@ -19,6 +19,7 @@ class DbReferences {
         const val COLUMN_FURNITURE_EQUIPPED = "equipped"
         const val COLUMN_FURNITURE_OWNED = "owned"
         const val COLUMN_FURNITURE_IMG = "image"
+        const val COLUMN_FURNITURE_ASSET = "asset"
 
         const val BUDGET_TABLE = "budgets"
         const val COLUMN_BUDGET_ID = "budget_id"
@@ -58,6 +59,7 @@ class DbReferences {
                 "$COLUMN_FURNITURE_EQUIPPED NUMERIC NOT NULL," +
                 "$COLUMN_FURNITURE_OWNED NUMERIC NOT NULL," +
                 "$COLUMN_FURNITURE_IMG INTEGER NOT NULL," +
+                "$COLUMN_FURNITURE_ASSET TEXT," +
                 "FOREIGN KEY($COLUMN_ROOM_ID) REFERENCES $ROOM_TABLE($COLUMN_ROOM_ID)" +
                 ")"
 
@@ -77,10 +79,10 @@ class DbReferences {
                 "FOREIGN KEY($COLUMN_BUDGET_ID) REFERENCES $BUDGET_TABLE($COLUMN_BUDGET_ID)" +
                 ")"
 
-        const val DROP_ROOM_TABLE = "DROP IF EXISTS $ROOM_TABLE"
-        const val DROP_FURNITURE_TABLE = "DROP IF EXISTS $FURNITURE_TABLE"
-        const val DROP_BUDGET_TABLE = "DROP IF EXISTS $BUDGET_TABLE"
-        const val DROP_EXPENSE_TABLE = "DROP IF EXISTS $EXPENSE_TABLE"
+        const val DROP_ROOM_TABLE = "DROP TABLE IF EXISTS $ROOM_TABLE"
+        const val DROP_FURNITURE_TABLE = "DROP TABLE IF EXISTS $FURNITURE_TABLE"
+        const val DROP_BUDGET_TABLE = "DROP TABLE IF EXISTS $BUDGET_TABLE"
+        const val DROP_EXPENSE_TABLE = "DROP TABLE IF EXISTS $EXPENSE_TABLE"
 
         const val FIND_BUDGET_BY_DATE = "SELECT * FROM $BUDGET_TABLE WHERE $COLUMN_BUDGET_DATE = ?"
         const val FIND_BUDGET_BY_ID = "SELECT * FROM $BUDGET_TABLE WHERE $COLUMN_BUDGET_ID = ?"
