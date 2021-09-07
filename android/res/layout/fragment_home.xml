@@ -376,20 +376,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_home_room"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@id/gl_bot_room"
-        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/gl_left_parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_budget_expense_info"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/temp_room" />
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_home_room"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/gl_bot_room"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@id/gl_left_parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/cl_budget_expense_info"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:srcCompat="@drawable/temp_room" />-->
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_bot_room"
@@ -397,6 +397,27 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcv_home_room"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.RoomFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/gl_bot_room"
+        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"
+        app:layout_constraintStart_toStartOf="@id/gl_left_parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_budget_expense_info" />
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/cl_home_room"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/gl_bot_room"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/gl_right_parent"-->
+<!--        app:layout_constraintStart_toStartOf="@id/gl_left_parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/cl_budget_expense_info">-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <TextView
         android:id="@+id/tv_lbl_recentTnx"

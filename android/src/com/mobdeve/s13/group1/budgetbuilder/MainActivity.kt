@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
@@ -37,7 +38,8 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         this.sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         this.spEditor = this.sp.edit()
 
-       roomFragment = RoomFragment()
+//       roomFragment = RoomFragment()
+//        supportFragmentManager.beginTransaction().add(R.id.cl_home_room, roomFragment).commit()
     }
 
     override fun onResume() {

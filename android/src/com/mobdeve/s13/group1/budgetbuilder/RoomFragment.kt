@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 
-class RoomFragment(): AndroidFragmentApplication() {
+class RoomFragment: AndroidFragmentApplication() {
     private lateinit var roomApplication : RoomApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +21,7 @@ class RoomFragment(): AndroidFragmentApplication() {
     ): View? {
         val config = AndroidApplicationConfiguration()
         roomApplication = RoomApplication()
+
         return initializeForView(roomApplication)
     }
 
