@@ -7,5 +7,6 @@ interface FurnitureDAO {
     fun updateFurniture(furniture: FurnitureModel): Boolean
     fun findAllFurniture(): ArrayList<FurnitureModel>
     fun findAllFurnitureByRoom(id: String): ArrayList<FurnitureModel>
+    fun findEquippedFurnitureByRoom(id: String): ArrayList<FurnitureModel>
     fun deleteFurniture(id: String): Boolean
 }

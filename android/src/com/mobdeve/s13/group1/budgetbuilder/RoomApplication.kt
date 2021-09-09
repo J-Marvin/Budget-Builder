@@ -1,158 +1,130 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
 import android.util.Log
+import android.widget.Toast
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 
-class RoomApplication: ApplicationAdapter(){
+class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter(){
     val ROOM_SIZE = 6
+    val FLOOR_WIDTH = 150
+    val FLOOR_HEIGHT = 110
 
     lateinit var batch: SpriteBatch
-
-    lateinit var floor: Texture
-    lateinit var bed: Texture
-    lateinit var couch: Texture
-    lateinit var coffeeTable: Texture
-    lateinit var desk: Texture
-    lateinit var deskChair: Texture
-    lateinit var shelfCabinet: Texture
-    lateinit var endTable: Texture
+    lateinit var equipped: HashMap<String, Texture>
 
     override fun create() {
         batch = SpriteBatch()
-
-        //TODO: change defaults
-        floor = Texture("floor_default.png")
-        couch = Texture("couch_lounge.png")
-        bed = Texture("bed_double.png")
-        coffeeTable = Texture("coffeetable_glass.png")
-        desk = Texture("desk_plain.png")
-        deskChair = Texture("deskchair_box.png")
-        shelfCabinet = Texture("shelf_book.png")
-        endTable = Texture("endtable_half.png")
+        equipped = HashMap()
+        for(furniture in data) {
+            equipped[furniture.type] = Texture(furniture.roompath)
+        }
     }
 
     override fun render() {
 //        Gdx.gl.glClearColor(242f / 255F, 225f / 255F, 190f/255F, 0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        //TODO: change to equipped items
-        this.drawFloor("")
-        this.drawBed("")
-        this.drawCouch("")
-        this.drawCoffeeTable("")
-        this.drawDesk("")
-        this.drawDeskChair("")
-        this.drawShelf("")
-        this.drawEndTable("")
+        batch.begin()
+        drawFloor(equipped["floor"])
+        drawBed(equipped["bed"])
+        drawCouch(equipped["couch"])
+        drawCoffeeTable(equipped["coffeetable"])
+        drawDesk(equipped["desk"])
+        drawDeskChair(equipped["chair"])
+        drawShelf(equipped["shelf"])
+        drawEndTable(equipped["endtable"])
+
+        batch.end()
     }
 
     override fun dispose() {
         batch.dispose()
-        floor.dispose()
-        couch.dispose()
-        bed.dispose()
-        coffeeTable.dispose()
-        desk.dispose()
-        deskChair.dispose()
-        shelfCabinet.dispose()
-        endTable.dispose()
+        for(furniture in equipped) {
+            furniture.value.dispose()
+        }
     }
 
-    fun drawFloor(filename: String) {
-        batch.begin()
-        var x: Float
-        var y: Float
+    fun drawFloor(floor: Texture?) {
+        if(floor != null) {
+            var x: Float
+            var y: Float
 
-        for(j in 0 until ROOM_SIZE) {
-            for(i in (j-3) until (ROOM_SIZE+(j-4)) + 1){
-                x = (Gdx.graphics.width - i*floor.width) / 2f - (2-j)*floor.width
-                y = (Gdx.graphics.height - i*floor.height) / 2f + i*2f
-                batch.draw(floor, x, y)
+            for(j in 0 until ROOM_SIZE) {
+                for(i in (j-3) until (ROOM_SIZE+(j-4)) + 1){
+                    x = (Gdx.graphics.width - i*FLOOR_WIDTH) / 2f - (2-j)*FLOOR_WIDTH
+                    y = (Gdx.graphics.height - i*FLOOR_HEIGHT) / 2f + i*2f
+                    batch.draw(floor, x, y)
+                }
             }
         }
-
-        batch.end()
     }
 
-    fun drawCouch(filename: String) {
-        //TODO: change texture based on name
+    fun drawCouch(couch: Texture?) {
+        if(couch != null) {
+            val x = (Gdx.graphics.width - 4*FLOOR_WIDTH) / 2f + 2*FLOOR_WIDTH
+            val y = (Gdx.graphics.height - 5*FLOOR_HEIGHT) / 2f + 5*2f
 
-        batch.begin()
-        val x = (Gdx.graphics.width - 4*floor.width) / 2f + 2*floor.width
-        val y = (Gdx.graphics.height - 5*floor.height) / 2f + 5*2f
-
-        batch.draw(couch, x, y)
-
-        batch.end()
+            batch.draw(couch, x, y)
+        }
     }
 
-    fun drawCoffeeTable(filename: String) {
-        //TODO: change texture based on name
+    fun drawCoffeeTable(coffeeTable: Texture?) {
+        if(coffeeTable != null) {
+            val x = (Gdx.graphics.width - 5*FLOOR_WIDTH) / 2f + 2*FLOOR_WIDTH
+            val y = (Gdx.graphics.height - 6*FLOOR_HEIGHT) / 2f + 6*2f
 
-        batch.begin()
-        val x = (Gdx.graphics.width - 5*floor.width) / 2f + 2*floor.width
-        val y = (Gdx.graphics.height - 6*floor.height) / 2f + 6*2f
-
-        batch.draw(coffeeTable, x, y)
-
-        batch.end()
+            batch.draw(coffeeTable, x, y)
+        }
     }
 
-    fun drawBed(filename: String) {
-        //TODO: change texture based on name
+    fun drawBed(bed: Texture?) {
+        if(bed != null) {
+            val x = (Gdx.graphics.width - 2*FLOOR_WIDTH) / 2f + FLOOR_WIDTH
+            val y = (Gdx. graphics.height - FLOOR_HEIGHT) / 2f + 2f
 
-        batch.begin()
-        val x = (Gdx.graphics.width - 2*floor.width) / 2f + floor.width
-        val y = (Gdx. graphics.height - floor.height) / 2f + 2f
-
-        batch.draw(bed, x, y)
-        batch.end()
+            batch.draw(bed, x, y)
+        }
     }
 
-    fun drawDesk(filename: String) {
-        //TODO: change texture based on name
+    fun drawDesk(desk: Texture?) {
+        if(desk != null) {
+            val x = (Gdx.graphics.width + 3*FLOOR_WIDTH) / 2f - 4*FLOOR_WIDTH
+            val y = (Gdx. graphics.height - 2*FLOOR_HEIGHT) / 2f + 2*2f
 
-        batch.begin()
-        val x = (Gdx.graphics.width + 3*floor.width) / 2f - 4*floor.width
-        val y = (Gdx. graphics.height - 2*floor.height) / 2f + 2*2f
-
-        batch.draw(desk, x, y)
-        batch.end()
+            batch.draw(desk, x, y)
+        }
     }
 
-    fun drawDeskChair(filename:String) {
-        //TODO: change texture based on name
-        batch.begin()
-        val x = (Gdx.graphics.width + 3*floor.width) / 2f - 3*floor.width
-        val y = (Gdx. graphics.height - 2*floor.height) / 2f + 2*2f
+    fun drawDeskChair(deskChair: Texture?) {
+        if(deskChair != null) {
+            val x = (Gdx.graphics.width + 3*FLOOR_WIDTH) / 2f - 3*FLOOR_WIDTH
+            val y = (Gdx. graphics.height - 2*FLOOR_HEIGHT) / 2f + 2*2f
 
-        batch.draw(deskChair, x, y)
-        batch.end()
+            batch.draw(deskChair, x, y)
+        }
     }
 
-    fun drawShelf(filename: String) {
-        //TODO: change texture based on name
-        batch.begin()
-        val x = (Gdx.graphics.width + 2*floor.width) / 2f - 2*floor.width + 75f
-        val y = (Gdx. graphics.height + 2*floor.height) / 2f - 2*2f + 25f
+    fun drawShelf(shelfCabinet: Texture?) {
+        if(shelfCabinet != null) {
+            val x = (Gdx.graphics.width + 2*FLOOR_WIDTH) / 2f - 2*FLOOR_WIDTH + 75f
+            val y = (Gdx. graphics.height + 2*FLOOR_HEIGHT) / 2f - 2*2f + 25f
 
-        batch.draw(shelfCabinet, x, y)
-        batch.end()
+            batch.draw(shelfCabinet, x, y)
+        }
     }
 
-    fun drawEndTable(filename: String) {
-       //TODO: change texture based on name
+    fun drawEndTable(endTable: Texture?) {
+        if(endTable != null) {
+            val x = (Gdx.graphics.width - FLOOR_WIDTH) / 2f + 2*FLOOR_WIDTH
+            val y = (Gdx. graphics.height - FLOOR_HEIGHT) / 2f + 2f
 
-        batch.begin()
-        val x = (Gdx.graphics.width - floor.width) / 2f + 2*floor.width
-        val y = (Gdx. graphics.height - floor.height) / 2f + 2f
-
-        batch.draw(endTable, x, y)
-        batch.end()
+            batch.draw(endTable, x, y)
+        }
     }
 
 }

@@ -207,6 +207,26 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_chair" />
 
         <TextView
+            android:id="@+id/tv_desk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/furniture_desk"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/rv_chairs" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_desk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/tv_desk" />
+
+        <TextView
             android:id="@+id/tv_bed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -215,7 +235,7 @@
             android:text="@string/furniture_bed"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="@+id/gl_left"
-            app:layout_constraintTop_toBottomOf="@+id/rv_chairs" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_desk" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_beds"
@@ -226,13 +246,113 @@
             app:layout_constraintStart_toStartOf="@+id/gl_left"
             app:layout_constraintTop_toBottomOf="@+id/tv_bed" />
 
+        <TextView
+            android:id="@+id/tv_endtable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/furniture_endtable"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/rv_beds" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_endtable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/tv_endtable" />
+
+        <TextView
+            android:id="@+id/tv_couch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/furniture_couch"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/rv_endtable" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_couch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/tv_couch" />
+
+        <TextView
+            android:id="@+id/tv_coffeetable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/furniture_coffeetable"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/rv_couch" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_coffeetable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/tv_coffeetable" />
+
+        <TextView
+            android:id="@+id/tv_shelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/furniture_shelf"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/rv_coffeetable" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_shelf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/tv_shelf" />
+
+        <TextView
+            android:id="@+id/tv_floor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/furniture_floor"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/rv_shelf" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_floor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right"
+            app:layout_constraintStart_toStartOf="@+id/gl_left"
+            app:layout_constraintTop_toBottomOf="@+id/tv_floor" />
+
         <Space
             android:id="@+id/space_bottom_border"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="80dp"
             app:layout_constraintEnd_toStartOf="@+id/gl_right"
             app:layout_constraintStart_toStartOf="@+id/gl_left"
-            app:layout_constraintTop_toBottomOf="@+id/rv_beds" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_floor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -14,6 +14,7 @@ class FurnitureModel (
     lateinit var roomId: String
     lateinit var furnitureId: String
     lateinit var path: String
+    lateinit var roompath: String
 
     constructor(furnitureId: String): this(0, 0, false, false, "", "") {
         this.furnitureId = furnitureId
@@ -25,12 +26,18 @@ class FurnitureModel (
                 equipped: Boolean,
                 name: String,
                 type: String,
-                path: String): this(imageId, price, owned, equipped, name, type) {
+                path: String,
+                roompath: String): this(imageId, price, owned, equipped, name, type) {
         this.path = path
+        this.roompath = roompath
     }
 
     fun equip() {
         this.equipped = true
+    }
+
+    fun unequip(){
+        this.equipped = false
     }
 
     fun purchase() {

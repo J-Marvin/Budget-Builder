@@ -20,6 +20,7 @@ class DbReferences {
         const val COLUMN_FURNITURE_OWNED = "owned"
         const val COLUMN_FURNITURE_IMG = "image"
         const val COLUMN_FURNITURE_ASSET = "asset"
+        const val COLUMN_FURNITURE_ROOMASSET = "room_asset"
 
         const val BUDGET_TABLE = "budgets"
         const val COLUMN_BUDGET_ID = "budget_id"
@@ -60,6 +61,7 @@ class DbReferences {
                 "$COLUMN_FURNITURE_OWNED NUMERIC NOT NULL," +
                 "$COLUMN_FURNITURE_IMG INTEGER NOT NULL," +
                 "$COLUMN_FURNITURE_ASSET TEXT," +
+                "$COLUMN_FURNITURE_ROOMASSET TEXT," +
                 "FOREIGN KEY($COLUMN_ROOM_ID) REFERENCES $ROOM_TABLE($COLUMN_ROOM_ID)" +
                 ")"
 

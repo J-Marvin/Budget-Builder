@@ -20,7 +20,7 @@ class ExpenseAdapter(
         val holder = ExpenseViewHolder(view)
 
         holder.setOnClickListener(View.OnClickListener {
-            var currExpense = dataSet[holder.adapterPosition]
+            var currExpense = dataSet[holder.bindingAdapterPosition]
             var words = currExpense.type?.split(" ")
             var dateText = SimpleDateFormat("MMM dd, yyyy hh:mm a").format(currExpense.date)
 

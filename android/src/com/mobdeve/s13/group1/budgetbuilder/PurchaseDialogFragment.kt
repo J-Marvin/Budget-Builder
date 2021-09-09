@@ -84,6 +84,24 @@ class PurchaseDialogFragment : DialogFragment() {
                 } else if (type == "bed") {
                     index = parent.beds.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
                     furnitureModel = parent.beds[index]
+                } else if (type == "floor") {
+                    index = parent.floors.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.floors[index]
+                } else if (type == "endtable") {
+                    index = parent.endTables.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.endTables[index]
+                } else if (type == "shelf") {
+                    index = parent.shelves.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.shelves[index]
+                } else if (type == "desk") {
+                    index = parent.desks.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.desks[index]
+                } else if (type == "couch") {
+                    index = parent.couches.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.couches[index]
+                } else if (type == "coffeetable") {
+                    index = parent.coffeTables.indexOf(this.arguments?.getString(Keys.KEY_FURNITURE_ID.toString(), "")?.let{ id -> FurnitureModel(furnitureId = id) })
+                    furnitureModel = parent.coffeTables[index]
                 }
 
                 furnitureModel?.owned = true
@@ -91,6 +109,18 @@ class PurchaseDialogFragment : DialogFragment() {
                     parent.rv_chairs.adapter?.notifyItemChanged(index!!)
                 else if(furnitureModel?.type == "bed")
                     parent.rv_beds.adapter?.notifyItemChanged(index!!)
+                else if(furnitureModel?.type == "floor")
+                    parent.rv_floor.adapter?.notifyItemChanged(index!!)
+                else if(furnitureModel?.type == "endtable")
+                    parent.rv_endtable.adapter?.notifyItemChanged(index!!)
+                else if(furnitureModel?.type == "shelf")
+                    parent.rv_shelf.adapter?.notifyItemChanged(index!!)
+                else if(furnitureModel?.type == "desk")
+                    parent.rv_desk.adapter?.notifyItemChanged(index!!)
+                else if(furnitureModel?.type == "couch")
+                    parent.rv_couch.adapter?.notifyItemChanged(index!!)
+                else if(furnitureModel?.type == "coffeetable")
+                    parent.rv_coffeetable.adapter?.notifyItemChanged(index!!)
 
                 db.updateFurniture(furnitureModel!!)
                 parent.updateBalance(parent.getBalance() - arguments?.getInt(Keys.KEY_FURNITURE_PRICE.toString())!!)

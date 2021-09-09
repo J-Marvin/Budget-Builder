@@ -25,6 +25,7 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
             cv.put(DbReferences.COLUMN_FURNITURE_OWNED, if (furniture.owned) 1 else 0)
             cv.put(DbReferences.COLUMN_FURNITURE_IMG, furniture.imageId)
             cv.put(DbReferences.COLUMN_FURNITURE_ASSET, furniture.path)
+            cv.put(DbReferences.COLUMN_FURNITURE_ROOMASSET, furniture.roompath)
 
             return db?.insert(DbReferences.FURNITURE_TABLE, null, cv)
         }
@@ -51,6 +52,7 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         cv.put(DbReferences.COLUMN_FURNITURE_OWNED, if (furniture.owned) 1 else 0)
         cv.put(DbReferences.COLUMN_FURNITURE_IMG, furniture.imageId)
         cv.put(DbReferences.COLUMN_FURNITURE_ASSET, furniture.path)
+        cv.put(DbReferences.COLUMN_FURNITURE_ROOMASSET, furniture.roompath)
 
         return db.insert(DbReferences.FURNITURE_TABLE, null, cv)
     }
@@ -61,7 +63,7 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
      * */
     override fun updateFurniture(furniture: FurnitureModel): Boolean {
         val db = db.writableDatabase
-        val cv = ContentValues();
+        val cv = ContentValues()
 
         cv.put(DbReferences.COLUMN_FURNITURE_TYPE, furniture.type)
         cv.put(DbReferences.COLUMN_FURNITURE_NAME, furniture.name)
@@ -97,7 +99,8 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
                     equipped = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_EQUIPPED)) == 1,
                     cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_NAME)),
                     cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_TYPE)),
-                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET))
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ROOMASSET))
                 )
 
                 furniture.roomId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
@@ -136,13 +139,52 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
                     equipped = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_EQUIPPED)) == 1,
                     cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_NAME)),
                     cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_TYPE)),
-                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET))
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ROOMASSET))
                 )
 
                 furniture.roomId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
                 furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ID)).toString()
 
                 data.add(furniture)
+            } while (cursor.moveToNext())
+
+            cursor.close()
+        }
+
+        return data
+    }
+
+    override fun findEquippedFurnitureByRoom(roomId: String): ArrayList<FurnitureModel> {
+        val db = db.readableDatabase
+
+        var cursor: Cursor? = null
+
+        if (db!= null) {
+            //TODO: Change to query based on roomID
+            cursor = db.rawQuery(DbReferences.FIND_ALL_FURNITURE, null)
+        }
+
+        val data = ArrayList<FurnitureModel>()
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val equipped = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_EQUIPPED)) == 1
+                if(equipped) {
+                    val furniture = FurnitureModel(
+                        cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_IMG)),
+                        cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_PRICE)),
+                        owned = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_OWNED)) == 1,
+                        equipped,
+                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_NAME)),
+                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_TYPE)),
+                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET)),
+                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ROOMASSET))
+                    )
+                    furniture.roomId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
+                    furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ID)).toString()
+                    data.add(furniture)
+                }
             } while (cursor.moveToNext())
 
             cursor.close()

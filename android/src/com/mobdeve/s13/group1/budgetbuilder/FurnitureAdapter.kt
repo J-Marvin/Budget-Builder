@@ -5,8 +5,12 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.RecyclerView
+import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 import java.io.IOException
 
@@ -17,6 +21,8 @@ class FurnitureAdapter(
 
     private val context = context
     private var activatedIndex = -1
+    private val furnitureDAOImpl = FurnitureDAOImpl(context)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FurnitureViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.furniture_shop_item, parent, false)
         val holder = FurnitureViewHolder(view)
@@ -52,14 +58,37 @@ class FurnitureAdapter(
             if (activatedIndex == -1 && curFurniture.owned) {
                 curFurniture.equip()
                 holder.equip()
+                activatedIndex = position
+                notifyItemChanged(activatedIndex)
+
+                furnitureDAOImpl.updateFurniture(curFurniture)
+                //reload room
+                fragmentManager?.commit{
+                    replace<RoomFragment>(R.id.fcv_shop_room)
+                }
+
             } else if (activatedIndex != position){ // If pressing on owned item
 
                 if(curFurniture.owned) {
                     curFurniture.equip()
                     holder.equip()
-                    dataSet[activatedIndex].equipped = false
+                    dataSet[activatedIndex].unequip()
+
+                    //update db unequipped furniture
+                    furnitureDAOImpl.updateFurniture(dataSet[activatedIndex])
+
                     notifyItemChanged(activatedIndex)
                     activatedIndex = position
+
+                    //update db equipped furniture
+                    furnitureDAOImpl.updateFurniture(curFurniture)
+
+                    //reload room
+                    fragmentManager?.commit{
+                        replace<RoomFragment>(R.id.fcv_shop_room)
+                    }
+
+                    Toast.makeText(context, curFurniture.roomId, Toast.LENGTH_SHORT).show()
                 } else {
                     var dialog = PurchaseDialogFragment.newInstance(curFurniture)
                     dialog.show(fragmentManager!!, "purchaseItem_tag")

@@ -2,8 +2,14 @@
     <string name="app_name">Budget Builder</string>
     <string name="customize">Customize Your Room</string>
     <string name="furniture">Furniture</string>
-    <string name="furniture_chair">Chair</string>
+    <string name="furniture_chair">Desk Chair</string>
     <string name="furniture_bed">Bed</string>
+    <string name="furniture_endtable">End Table</string>
+    <string name="furniture_couch">Couch</string>
+    <string name="furniture_coffeetable">Coffee Table</string>
+    <string name="furniture_desk">Desk</string>
+    <string name="furniture_shelf">Shelf and Cabinet</string>
+    <string name="furniture_floor">Floor</string>
     <string name="Desk">Desk</string>
     <string name="gallery">Gallery</string>
     <string name="prev_rooms">Previous Rooms</string>
