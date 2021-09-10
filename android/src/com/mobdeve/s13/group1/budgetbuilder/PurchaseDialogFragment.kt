@@ -3,6 +3,7 @@ package com.mobdeve.s13.group1.budgetbuilder
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 import kotlinx.android.synthetic.main.fragment_purchase_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_shop.*
+import java.io.IOException
 
 class PurchaseDialogFragment : DialogFragment() {
 
@@ -25,6 +27,7 @@ class PurchaseDialogFragment : DialogFragment() {
             args.putInt(Keys.KEY_FURNITURE_IMG.toString(), furnitureModel.imageId)
             args.putString(Keys.KEY_FURNITURE_TYPE.toString(), furnitureModel.type)
             args.putString(Keys.KEY_FURNITURE_ID.toString(), furnitureModel.furnitureId)
+            args.putString(Keys.KEY_FURNITURE_PATH.toString(), furnitureModel.path)
 
             val dialog = PurchaseDialogFragment()
             dialog.arguments = args
@@ -65,9 +68,16 @@ class PurchaseDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.iv_purchase_furniture.setImageResource(requireArguments().getInt(Keys.KEY_FURNITURE_IMG.toString(), 0))
+        try {
+            val ims = requireContext().assets.open(requireArguments().getString(Keys.KEY_FURNITURE_PATH.toString(), null))
+            view.iv_purchase_furniture.setImageDrawable(Drawable.createFromStream(ims, null))
+            ims.close()
+        } catch (ex: IOException) {
+//            view.iv_purchase_furniture.setImageResource(requireArguments().getInt(Keys.KEY_FURNITURE_IMG.toString(), 0))
+        }
         view.tv_purchase_name.text = requireArguments().getString(Keys.KEY_FURNITURE_NAME.toString())
         view.tv_purchase_price.text = requireArguments().getInt(Keys.KEY_FURNITURE_PRICE.toString()).toString()
+
 
         view.btn_purchase_confirm.setOnClickListener {
             val parent: ShopFragment = parentFragment as ShopFragment
