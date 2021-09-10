@@ -168,7 +168,7 @@ class DataHelper {
 
             data.add(
                 FurnitureModel(
-                    R.drawable.floorfull_sw,
+                    R.drawable.floor_default,
                     0,
                     owned = true,
                     equipped =true,
@@ -181,7 +181,7 @@ class DataHelper {
 
             data.add(
                 FurnitureModel(
-                    R.drawable.floorfull_sw,
+                    R.drawable.floor_blue,
                     50,
                     owned = false,
                     equipped = false,
@@ -194,7 +194,7 @@ class DataHelper {
 
             data.add(
                 FurnitureModel(
-                    R.drawable.floorfull_sw,
+                    R.drawable.floor_gray,
                     50,
                     owned = false,
                     equipped = false,
@@ -207,7 +207,7 @@ class DataHelper {
 
             data.add(
                 FurnitureModel(
-                    R.drawable.floorfull_sw,
+                    R.drawable.floor_red,
                     50,
                     owned = false,
                     equipped = false,
