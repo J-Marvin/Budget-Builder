@@ -19,7 +19,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class SummaryFragment : Fragment(), DatePickerListener {
+class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
 
     private lateinit var db: ExpenseDAOImpl
     private var month: Int? = null
@@ -71,6 +71,10 @@ class SummaryFragment : Fragment(), DatePickerListener {
         return rootView
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).setExpenseListener(this)
+    }
     private fun initRecyclerView(rootView: View){
         val firstDay = Calendar.getInstance()
 
@@ -163,5 +167,11 @@ class SummaryFragment : Fragment(), DatePickerListener {
 
     fun getMonth() = month
     fun getYear() = year
+    override fun onAddExpense(amount: Float, type: String) {
+        onSelectDate(month!!, year!!)
+    }
+
+    override fun onCancelExpense() {
+    }
 
 }

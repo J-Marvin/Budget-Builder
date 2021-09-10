@@ -12,15 +12,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class HomeFragment : Fragment(), BudgetHandler {
+class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
     lateinit var budgetDb: BudgetDAOImpl
@@ -48,8 +51,8 @@ class HomeFragment : Fragment(), BudgetHandler {
         executorService = Executors.newSingleThreadExecutor()
 
         loadSettings()
-        initDaily()
-        loadExpenses()
+//        initDaily()
+//        loadExpenses()
     }
 
     override fun onCreateView(
@@ -88,7 +91,11 @@ class HomeFragment : Fragment(), BudgetHandler {
     override fun onResume() {
         super.onResume()
         loadSettings()
+        if (!isSameDate(today, prevDate)) {
+            initDaily()
+        }
         loadExpenses()
+        (requireActivity() as MainActivity).setExpenseListener(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,6 +114,9 @@ class HomeFragment : Fragment(), BudgetHandler {
             tomorrow.add(Calendar.DAY_OF_MONTH, 1)
             val strTomorrow = FormatHelper.dateFormatterNoTime.format(tomorrow.time)
             expenses = expensesDb.getSumOfDate(strToday, strTomorrow)
+            Log.d("Expenses", "$expenses")
+            showExpenses()
+            showDifference()
         }
     }
 
@@ -134,6 +144,10 @@ class HomeFragment : Fragment(), BudgetHandler {
         if (tempDate != null && tempDate.isNotEmpty()) {
             prevDate = Calendar.getInstance()
             prevDate?.time = FormatHelper.dateFormatterNoTime.parse(tempDate)!!
+        }
+
+        if (sp.contains(Keys.KEY_BUDGET.toString())) {
+            budget = sp.getFloat(Keys.KEY_BUDGET.toString(), 5000f)
         }
     }
 
@@ -231,6 +245,7 @@ class HomeFragment : Fragment(), BudgetHandler {
 
         if (budgetToday !== null) {
             budget = budgetToday.budget!!
+            showBudget()
         } else if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
             val strToday = dateFormatter.format(today.time)
             budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f)
@@ -239,6 +254,7 @@ class HomeFragment : Fragment(), BudgetHandler {
             spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
             spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
             spEditor.commit()
+            showBudget()
         } else if (!isSameDate(today, prevDate)) {
                 // show set budget
                 showInitSetBudget()
@@ -292,5 +308,15 @@ class HomeFragment : Fragment(), BudgetHandler {
 
         budgetDialog.show(requireActivity().supportFragmentManager, "setBudget_tag")
     }
+
+    override fun onAddExpense(amount: Float, type: String) {
+        expenses += amount
+        showExpenses()
+        showDifference()
+    }
+
+    override fun onCancelExpense() {
+    }
+
 
 }

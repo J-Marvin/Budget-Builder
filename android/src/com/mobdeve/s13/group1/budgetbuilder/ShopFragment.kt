@@ -109,27 +109,7 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
 
     override fun onResume() {
         super.onResume()
-        hideSystemUI()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        hideSystemUI()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        hideSystemUI()
-    }
-
-
-    private fun hideSystemUI(){
-
-        activity?.window?.decorView?.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+        (requireActivity() as MainActivity).setExpenseListener(null)
     }
 
     fun getBalance(): Int{

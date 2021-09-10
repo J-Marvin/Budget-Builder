@@ -125,6 +125,11 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).setExpenseListener(null)
+    }
+
     override fun onPause() {
         super.onPause()
     }

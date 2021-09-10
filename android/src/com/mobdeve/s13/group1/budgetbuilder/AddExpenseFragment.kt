@@ -4,13 +4,16 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
@@ -26,6 +29,7 @@ class AddExpenseFragment: DialogFragment() {
     lateinit var db: ExpenseDAOImpl
     lateinit var sendFragmentData: SendFragmentData
     lateinit var executorService: ExecutorService
+    var listener: ExpenseHandler? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -94,6 +98,9 @@ class AddExpenseFragment: DialogFragment() {
         super.onResume()
         hideSystemUI()
         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        view?.etNum_add_expense_amount?.setText("")
+        view?.etStr_add_expense_description?.setText("")
+        view?.spinner_add_expense_category?.setSelection(0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -112,8 +119,8 @@ class AddExpenseFragment: DialogFragment() {
             }
             else {
                 //add expense to db
+                val categoryType = categorySpinner.split(" ")
                 executorService.run {
-                    val categoryType = categorySpinner.split(" ")
                     val expense = ExpenseModel(Calendar.getInstance().time, categoryType[0], expenseAmt.toFloat(), expenseDesc)
 
                     val sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
@@ -129,12 +136,21 @@ class AddExpenseFragment: DialogFragment() {
                         sendFragmentData.refreshAddExpenseAdapter(expense)
                     }
                 }
+
+                listener?.onAddExpense(expenseAmt.toFloat(), categoryType[0])
                 dismiss()
             }
         }
 
         view.btn_cancel_edit_expense.setOnClickListener{
+            listener?.onCancelExpense()
             dismiss()
+
+            val fragment = activity?.supportFragmentManager?.findFragmentById(R.id.homeFragment)
+            Log.d("Fragment", fragment.toString())
+            if (fragment is HomeFragment) {
+                Toast.makeText(activity?.applicationContext, "HOME FRAGMENT FOUND", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }

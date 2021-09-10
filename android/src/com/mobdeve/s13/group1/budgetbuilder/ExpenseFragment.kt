@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_expense.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
@@ -15,10 +16,6 @@ class ExpenseFragment : Fragment(), DatePickerListener {
 
     private var month: Int? = null
     private var year: Int? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +33,11 @@ class ExpenseFragment : Fragment(), DatePickerListener {
         initDatePicker(rootView)
 
         return rootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).setExpenseListener(null)
     }
 
     private fun initDate(rootView: View) {

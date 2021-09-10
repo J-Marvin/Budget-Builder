@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
     private lateinit var db: BudgetBuilderDbHelper
     private lateinit var sp: SharedPreferences
     private lateinit var spEditor: SharedPreferences.Editor
-    lateinit var roomFragment: RoomFragment
     lateinit var expenseAdapter: ExpenseAdapter
     lateinit var expenseListCaller: String
+    lateinit var addExpenseDialog: AddExpenseFragment
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -74,10 +74,15 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
 
         bottom_navigation_view.background = null
         bottom_navigation_view.menu.getItem(2).isEnabled = false
+        addExpenseDialog = AddExpenseFragment()
 
         fab_add_expense.setOnClickListener{
-            navController.navigate(R.id.action_global_addExpenseFragment)
+            addExpenseDialog.show(supportFragmentManager, "addExpense_TAG")
         }
+    }
+
+    fun setExpenseListener(listener: ExpenseHandler?) {
+        addExpenseDialog.listener = listener
     }
 
     fun hideBottomNavBar() {
