@@ -54,10 +54,10 @@ class BudgetBuilderDbHelper(context: Context?) : SQLiteOpenHelper(context, DbRef
     fun initDb(db: SQLiteDatabase?){
         var furnitures = DataHelper.getFurniture()
         var expenses = DataHelper.getExpenses()
-        var today = Date()
+        var today = Calendar.getInstance()
 
-        var roomId = addRoom(db, today.month, today.year)
-        var budgetId = BudgetDAOImpl.addBudget(db,20000F, today.toString())
+        var roomId = addRoom(db, today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+        var budgetId = BudgetDAOImpl.addBudget(db,5000F, FormatHelper.dateFormatterNoTime.format(today.time))
 
         if (roomId != -1L) {
             for(furniture in furnitures){

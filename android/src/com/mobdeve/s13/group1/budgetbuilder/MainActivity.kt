@@ -50,21 +50,6 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         initPreferences()
     }
 
-    override fun onPause() {
-        super.onPause()
-        // TODO: REMOVE THIS IF DONE TESTING
-        this.spEditor.clear()
-        this.spEditor.putString(Keys.KEY_PREV_DATE.toString(), "2020-01-01")
-        this.spEditor.commit()
-    }
-    override fun onStop() {
-        super.onStop()
-        // TODO: REMOVE THIS IF DONE TESTING
-        this.spEditor.clear()
-        this.spEditor.putString(Keys.KEY_PREV_DATE.toString(), "2020-01-01")
-        this.spEditor.commit()
-    }
-
     fun setSystemUI() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         window.decorView.systemUiVisibility = (

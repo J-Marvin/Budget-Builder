@@ -51,19 +51,12 @@ class ExpenseListFragment : Fragment() {
 
         //if not home fragment, then display all expense items
         if(homeFrag == null) {
-            val firstDay = Calendar.getInstance()
+            val today = Calendar.getInstance()
 
-            firstDay.apply {
-                set(Calendar.DAY_OF_MONTH, 1)
-            }
+            val start = DateHelper.getStartDateString(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+            val end = DateHelper.getEndDateString(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
 
-            val lastDay = Calendar.getInstance()
-
-            lastDay.apply {
-                set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
-            }
-            this.expens = db.getExpensesByDate(FormatHelper.dateFormatterNoTime.format(firstDay.time),
-                FormatHelper.dateFormatterNoTime.format(lastDay.time), false)
+            this.expens = db.getExpensesByDate(start, end, false)
             fragmentCaller = "ExpenseFragment"
         }
         //if home fragment, display only 3 latest expense items
@@ -81,25 +74,13 @@ class ExpenseListFragment : Fragment() {
     fun refreshRecyclerView(month: Int, year: Int) {
         view?.let {
             executorService.run {
-                val firstDay = Calendar.getInstance()
+                val today = Calendar.getInstance()
 
-                firstDay.apply {
-                    set(Calendar.MONTH, month)
-                    set(Calendar.YEAR, year)
-                    set(Calendar.DAY_OF_MONTH, 1)
-                }
+                val start = DateHelper.getStartDateString(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+                val end = DateHelper.getEndDateString(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
 
-                val lastDay = Calendar.getInstance()
-
-                lastDay.apply {
-                    set(Calendar.MONTH, month)
-                    set(Calendar.YEAR, year)
-                    set(Calendar.DAY_OF_MONTH, this.getActualMaximum(Calendar.DAY_OF_MONTH))
-                }
                 expens.clear()
-                expens.addAll(
-                    db.getExpensesByDate(FormatHelper.dateFormatterNoTime.format(firstDay.time),
-                    FormatHelper.dateFormatterNoTime.format(lastDay.time), false))
+                expens.addAll(db.getExpensesByDate(start, end, false))
                 expenseAdapter.notifyDataSetChanged()
             }
         }

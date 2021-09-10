@@ -16,6 +16,8 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 import java.util.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 
 class AddExpenseFragment: DialogFragment() {
@@ -23,11 +25,13 @@ class AddExpenseFragment: DialogFragment() {
     private lateinit var mainActivity: MainActivity
     lateinit var db: ExpenseDAOImpl
     lateinit var sendFragmentData: SendFragmentData
+    lateinit var executorService: ExecutorService
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         db = ExpenseDAOImpl(context)
         sendFragmentData = context as SendFragmentData
+        executorService = Executors.newSingleThreadExecutor()
     }
 
     // Source: https://gist.github.com/kakajika/a236ba721a5c0ad3c1446e16a7423a63
@@ -108,22 +112,23 @@ class AddExpenseFragment: DialogFragment() {
             }
             else {
                 //add expense to db
-                var categoryType = categorySpinner.split(" ")
-                var expense = ExpenseModel(Calendar.getInstance().time, categoryType[0], expenseAmt.toFloat(), expenseDesc)
+                executorService.run {
+                    val categoryType = categorySpinner.split(" ")
+                    val expense = ExpenseModel(Calendar.getInstance().time, categoryType[0], expenseAmt.toFloat(), expenseDesc)
 
-                var sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
+                    val sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
 
-                expense.budgetId = sp.getString(Keys.KEY_BUDGET_ID.toString(), null)
+                    expense.budgetId = sp.getString(Keys.KEY_BUDGET_ID.toString(), null)
 
-                var result = db.addExpense(expense)
+                    val result = db.addExpense(expense)
 
-                if(result != -1L) {
-                    //update expenseId of newly inserted object because expenseId will be null if find expense is not called for the adapter
-                    //i.e. if view is not changed, recycler view will not call findExpense
-                    expense.expenseId = result.toString()
-                    sendFragmentData.refreshAddExpenseAdapter(expense)
+                    if(result != -1L) {
+                        //update expenseId of newly inserted object because expenseId will be null if find expense is not called for the adapter
+                        //i.e. if view is not changed, recycler view will not call findExpense
+                        expense.expenseId = result.toString()
+                        sendFragmentData.refreshAddExpenseAdapter(expense)
+                    }
                 }
-
                 dismiss()
             }
         }

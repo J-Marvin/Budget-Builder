@@ -110,6 +110,7 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     if (et.text.toString().isEmpty()) {
                         spEditor.apply{
                             this.remove(Keys.KEY_DEFAULT_BUDGET.toString())
+                            this.apply()
                         }
                     } else if(et.text.toString().toFloatOrNull() == null) {
                         et.error = "Please enter valid number"
@@ -122,6 +123,14 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     }
                 }
             }
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

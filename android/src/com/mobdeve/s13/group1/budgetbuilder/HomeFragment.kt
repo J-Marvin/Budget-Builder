@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,8 +40,6 @@ class HomeFragment : Fragment(), BudgetHandler {
 
         sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
         spEditor = sp.edit()
-        spEditor.clear()
-        spEditor.commit()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -180,7 +179,15 @@ class HomeFragment : Fragment(), BudgetHandler {
 
     private fun initDaily() {
         val dateFormatter = FormatHelper.dateFormatterNoTime
+        val prevDate = sp.getString(Keys.KEY_PREV_DATE.toString(), null)
+
+        prevDate?.apply {
+            this@HomeFragment.prevDate = Calendar.getInstance()
+            this@HomeFragment.prevDate!!.time = FormatHelper.dateFormatterNoTime.parse(prevDate)!!
+        }
+
         initBudget()
+        initCoins()
         updateDate(dateFormatter.format(today.time))
     }
 
@@ -193,15 +200,19 @@ class HomeFragment : Fragment(), BudgetHandler {
     private fun initCoins() {
         if (!isSameDate(today, prevDate) && prevDate != null) {
             executorService.execute {
-                val strPrevDate = FormatHelper.DATE_FORMAT.format(prevDate)
-                val sum = expensesDb.getSumOfDate(strPrevDate, null)
+                val strPrevDate = FormatHelper.dateFormatterNoTime.format(prevDate?.time)
+                val strToday = FormatHelper.dateFormatterNoTime.format(Calendar.getInstance().time)
+                val sum = expensesDb.getSumOfDate(strPrevDate, strToday)
                 val budget = budgetDb.getBudgetByDate(strPrevDate)
+
                 var percent = 0F
 
                 if (budget != null)
                     percent = sum / budget.budget!!
 
-                val total = kotlin.math.floor( 10F + (1 - percent) * 10).toInt()
+                val total = kotlin.math.floor( 25F + kotlin.math.max((1 - percent) * 25, 0F)).toInt()
+                Log.d("BUDGET_HELPER", "$sum, ${budget?.budget}, $percent, $total, $strPrevDate")
+                Log.d("BUDGET_DATE", sp.getString(Keys.KEY_PREV_DATE.toString(), null)!!)
 
 
                 requireActivity().runOnUiThread {
@@ -216,23 +227,21 @@ class HomeFragment : Fragment(), BudgetHandler {
 
     private fun initBudget() {
         val dateFormatter = FormatHelper.dateFormatterNoTime
+        var budgetToday = budgetDb.getBudgetByDate(FormatHelper.dateFormatterNoTime.format(today.time))
 
-        if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
+        if (budgetToday !== null) {
+            budget = budgetToday.budget!!
+        } else if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
             val strToday = dateFormatter.format(today.time)
-            val budgetId = budgetDb.addBudget(budget, strToday)
             budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f)
+            val budgetId = budgetDb.addBudget(budget, strToday)
+            Log.d("Default Budget", "$budget")
             spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
             spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
             spEditor.commit()
-            initCoins()
         } else if (!isSameDate(today, prevDate)) {
                 // show set budget
                 showInitSetBudget()
-        } else if (isSameDate(today, prevDate)){
-            val budgetId = sp.getString(Keys.KEY_BUDGET_ID.toString(), "")
-            if (budgetId?.isNotBlank() == true) {
-                budget = budgetDb.getBudgetById(budgetId)?.budget!!
-            }
         }
 
     }
@@ -279,7 +288,6 @@ class HomeFragment : Fragment(), BudgetHandler {
         }
 
         budgetDialog.onDismissListener = DialogInterface.OnDismissListener {
-            initCoins()
         }
 
         budgetDialog.show(requireActivity().supportFragmentManager, "setBudget_tag")

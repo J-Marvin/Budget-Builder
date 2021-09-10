@@ -29,8 +29,7 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
     lateinit var furnitureModel: ArrayList<FurnitureModel>
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
-    lateinit var room: RoomFragment
-
+    var balance: Int? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,8 +51,6 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
         }
 
         val activity = activity as MainActivity
-//        room = activity.roomFragment
-//        activity?.supportFragmentManager?.beginTransaction()?.add(R.id.fcv_shop_room, room)?.commit()
         return rootView
     }
 
@@ -140,10 +137,12 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
     }
 
     private fun initBalance() {
-        if(!sp.contains(Keys.KEY_DEFAULT_BALANCE.toString())){
-            spEditor.putInt(Keys.KEY_DEFAULT_BALANCE.toString(), 100)
-            spEditor.apply()
-            updateBalance(100)
+        if (sp.contains(Keys.KEY_BALANCE.toString())) {
+            balance = sp.getInt(Keys.KEY_BALANCE.toString(), 20)
+        } else {
+            balance = 20
+            spEditor.putInt(Keys.KEY_BALANCE.toString(), 20)
+            spEditor.commit()
         }
     }
 
@@ -154,7 +153,6 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
     }
 
     override fun exit() {
-        TODO("Not yet implemented")
     }
 
 }
