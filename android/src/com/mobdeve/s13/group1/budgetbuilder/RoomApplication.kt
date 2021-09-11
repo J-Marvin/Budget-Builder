@@ -1,12 +1,14 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-import android.util.Log
-import android.widget.Toast
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.PixmapIO
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.utils.BufferUtils
+import com.badlogic.gdx.utils.ScreenUtils
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 
 class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter(){
@@ -17,6 +19,18 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
     lateinit var batch: SpriteBatch
     lateinit var equipped: HashMap<String, Texture>
 
+    fun saveScreenshot(path: String){
+        var pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, true)
+
+        for (i in 4..pixels.size step 4) {
+            pixels[i - 1] = 255.toByte()
+        }
+
+        var pixmap = Pixmap(Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, Pixmap.Format.RGBA8888)
+        BufferUtils.copy(pixels, 0, pixmap.pixels, pixels.size)
+        PixmapIO.writePNG(Gdx.files.external(path), pixmap)
+        pixmap.dispose()
+    }
     override fun create() {
         batch = SpriteBatch()
         equipped = HashMap()
