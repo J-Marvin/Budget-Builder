@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.SurfaceView
 import android.view.View
@@ -43,6 +44,8 @@ class RoomFragment: AndroidFragmentApplication() {
         } else {
             sp.getString(Keys.KEY_ROOM_ID.toString(), "")!!
         }
+        Log.d("ROOM ID", roomId)
+
         roomApplication = RoomApplication(db.findEquippedFurnitureByRoom(roomId))
 
         //set transparent bg

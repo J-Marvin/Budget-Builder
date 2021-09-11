@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.mobdeve.s13.group1.budgetbuilder.dao.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -92,18 +93,21 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         super.onResume()
         loadSettings()
         // check if same month
+
+//        Log.d("PREV DATE", FormatHelper.dateFormatterNoTime.format(prevDate?.time))
         if (prevDate === null) {
+            Log.d("PREV DATE", "Prev Date is NULL")
             initSettings()
         }
         else if (!isSameMonth(today, prevDate)) {
+            Log.d("PREV DATE", "Prev Date is NOT SAME MONTH")
             initMonth()
         } else if (!isSameDate(today, prevDate)) {
+            Log.d("PREV DATE", "Prev Date is NOT SAME DAY")
             initDaily()
         }
         showBudget()
         loadExpenses()
-
-        expensesDb.getAveragePerformanceOfMonth(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
 
         (requireActivity() as MainActivity).setExpenseListener(this)
     }
@@ -143,8 +147,9 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         var room = roomDb.initRoomFurniture(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
         roomId = room.toString()
 
+        budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000F)
         var budgetId = budgetDb.addBudget(BudgetModel(
-            5000f, FormatHelper.dateFormatterNoTime.format(today.time)))
+            budget, FormatHelper.dateFormatterNoTime.format(today.time)))
 
 
         var performance = if (prevDate != null) {
@@ -158,10 +163,10 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         earnDialog.show(requireActivity().supportFragmentManager, "earnCoinsMonth_TAG")
         balance += earnings
 
-        spEditor.clear()
         spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
         spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
         spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+        spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
         spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today.time))
         spEditor.commit()
     }
@@ -185,12 +190,14 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         roomId = room.toString()
 
         var budgetId = budgetDb.addBudget(BudgetModel(
-            5000f, FormatHelper.dateFormatterNoTime.format(today)))
+            5000f, FormatHelper.dateFormatterNoTime.format(today.time)))
 
-        spEditor.clear()
+        budget = 5000f
+        spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
         spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
         spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
         spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+        spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today.time))
         spEditor.commit()
     }
 
