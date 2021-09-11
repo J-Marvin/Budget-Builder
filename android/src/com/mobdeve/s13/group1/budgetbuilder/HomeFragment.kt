@@ -14,8 +14,7 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetDAOImpl
-import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
+import com.mobdeve.s13.group1.budgetbuilder.dao.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
@@ -30,6 +29,8 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     lateinit var expensesDb: ExpenseDAOImpl
     lateinit var executorService: ExecutorService
     lateinit var today: Calendar
+    lateinit var roomDb: RoomDAOImpl
+    var roomId: String? = null
     var expenses: Float = 0F
     var prevDate: Calendar? = null
     var balance: Int = 0
@@ -40,6 +41,7 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         super.onAttach(context)
         budgetDb = BudgetDAOImpl(context)
         expensesDb = ExpenseDAOImpl(context)
+        roomDb = RoomDAOImpl(context)
 
         sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
         spEditor = sp.edit()
@@ -51,8 +53,6 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         executorService = Executors.newSingleThreadExecutor()
 
         loadSettings()
-//        initDaily()
-//        loadExpenses()
     }
 
     override fun onCreateView(
@@ -91,10 +91,20 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     override fun onResume() {
         super.onResume()
         loadSettings()
-        if (!isSameDate(today, prevDate)) {
+        // check if same month
+        if (prevDate === null) {
+
+        }
+        else if (!isSameMonth(today, prevDate)) {
+
+        } else if (!isSameDate(today, prevDate)) {
             initDaily()
         }
+        showBudget()
         loadExpenses()
+
+        expensesDb.getAveragePerformanceOfMonth(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+
         (requireActivity() as MainActivity).setExpenseListener(this)
     }
 
@@ -102,9 +112,53 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         super.onViewCreated(view, savedInstanceState)
         initDate()
         showBalance()
-        showBudget()
-        showDifference()
-        showExpenses()
+//        showBudget()
+//        showDifference()
+//        showExpenses()
+    }
+
+    private fun initMonth() {
+        // init settings
+        val month = prevDate?.get(Calendar.MONTH)
+        val year = prevDate?.get(Calendar.YEAR)
+        val path = "rooms/$month-$year.png"
+        val prevRoomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")
+        val prevRoom = RoomModel(month!!, year!!, prevRoomId!!)
+        prevRoom.path = path
+
+        val fragment = requireActivity()
+            .supportFragmentManager
+            .findFragmentById(R.id.fcv_home_room)
+                as RoomFragment
+
+        fragment.saveScreenshot(path)
+
+        var dialog = NewMonthDialogFragment()
+        dialog.listener = object: RoomNameHandler{
+            override fun onSetRoomName(name: String) {
+                prevRoom.name = name
+                roomDb.updateRoom(prevRoom)
+
+
+            }
+
+        }
+        dialog.show(requireActivity().supportFragmentManager, "setRoomName_TAG")
+
+        var room = roomDb.initRoomFurniture(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+        roomId = room.toString()
+
+        var budgetId = budgetDb.addBudget(BudgetModel(
+            5000f, FormatHelper.dateFormatterNoTime.format(today)))
+
+        balance = 30
+
+        spEditor.clear()
+        spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
+        spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
+        spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+        spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today))
+        spEditor.commit()
     }
 
     private fun loadExpenses() {
@@ -120,6 +174,22 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         }
     }
 
+    fun initSettings() {
+
+        var room = roomDb.initRoomFurniture(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+        roomId = room.toString()
+
+        var budgetId = budgetDb.addBudget(BudgetModel(
+            5000f, FormatHelper.dateFormatterNoTime.format(today)))
+
+        balance = 30
+
+        spEditor.clear()
+        spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
+        spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
+        spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+        spEditor.commit()
+    }
 
     private fun initDate() {
         val month = today.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)
@@ -148,6 +218,10 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
 
         if (sp.contains(Keys.KEY_BUDGET.toString())) {
             budget = sp.getFloat(Keys.KEY_BUDGET.toString(), 5000f)
+        }
+
+        if (sp.contains(Keys.KEY_ROOM_ID.toString())) {
+            roomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")
         }
     }
 
@@ -267,6 +341,12 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         else d1.get(Calendar.MONTH) == d2.get(Calendar.MONTH) &&
             d1.get(Calendar.YEAR) == d2.get(Calendar.YEAR) &&
             d1.get(Calendar.DAY_OF_MONTH) == d2.get(Calendar.DAY_OF_MONTH)
+    }
+
+    private fun isSameMonth(d1: Calendar, d2: Calendar?): Boolean {
+        return if (d2 == null) false
+        else d1.get(Calendar.MONTH) == d2.get(Calendar.MONTH) &&
+                d1.get(Calendar.YEAR) == d2.get(Calendar.YEAR)
     }
 
     private fun showInitSetBudget() {

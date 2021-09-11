@@ -62,17 +62,26 @@ class RoomDAOImpl(context: Context): RoomDAO {
         return result != -1
     }
 
+    /** This method gets a room from the database
+     *  @param id - the row_id of the room
+     *  @return returns the RoomModel object containing the Room information if it exists
+     * */
     override fun getRoom(id: String): RoomModel? {
         val db = db.readableDatabase
         val cursor = db.rawQuery(DbReferences.FIND_ROOM_BY_ID, arrayOf(id))
         var room: RoomModel? = null
 
         if (cursor != null && cursor.moveToFirst()) {
+            val path = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_PATH))
+            val name = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_NAME))
             room = RoomModel(
                 cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_MONTH)),
                 cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_YEAR)),
                 cursor.getLong(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
             )
+            room.path = path
+            room.name = name
+
         }
 
         return room
@@ -101,12 +110,16 @@ class RoomDAOImpl(context: Context): RoomDAO {
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                rooms.add(
-                    RoomModel(
+                val room = RoomModel(
                     cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_MONTH)),
                     cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_YEAR)),
                     cursor.getLong(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
-                ))
+                    )
+                val path = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_PATH))
+                val name = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_NAME))
+                room.path = path
+                room.name = name
+                rooms.add(room)
             } while (cursor.moveToNext())
         }
 
