@@ -93,10 +93,10 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         loadSettings()
         // check if same month
         if (prevDate === null) {
-
+            initSettings()
         }
         else if (!isSameMonth(today, prevDate)) {
-
+            initMonth()
         } else if (!isSameDate(today, prevDate)) {
             initDaily()
         }
@@ -118,7 +118,7 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     }
 
     private fun initMonth() {
-        // init settings
+        // save image
         val month = prevDate?.get(Calendar.MONTH)
         val year = prevDate?.get(Calendar.YEAR)
         val path = "rooms/$month-$year.png"
@@ -126,22 +126,17 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         val prevRoom = RoomModel(month!!, year!!, prevRoomId!!)
         prevRoom.path = path
 
-        val fragment = requireActivity()
-            .supportFragmentManager
-            .findFragmentById(R.id.fcv_home_room)
-                as RoomFragment
+        val fragment = childFragmentManager.findFragmentById(R.id.fcv_home_room)
 
-        fragment.saveScreenshot(path)
+        // insert saving of image here
 
         var dialog = NewMonthDialogFragment()
         dialog.listener = object: RoomNameHandler{
             override fun onSetRoomName(name: String) {
                 prevRoom.name = name
+                Log.d("PATH", path)
                 roomDb.updateRoom(prevRoom)
-
-
             }
-
         }
         dialog.show(requireActivity().supportFragmentManager, "setRoomName_TAG")
 
@@ -149,15 +144,25 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         roomId = room.toString()
 
         var budgetId = budgetDb.addBudget(BudgetModel(
-            5000f, FormatHelper.dateFormatterNoTime.format(today)))
+            5000f, FormatHelper.dateFormatterNoTime.format(today.time)))
 
-        balance = 30
+
+        var performance = if (prevDate != null) {
+            expensesDb.getAveragePerformanceOfMonth(prevDate!!.get(Calendar.MONTH), prevDate!!.get(Calendar.YEAR))
+        } else {
+            1F
+        }
+
+        var earnings = kotlin.math.floor(50F + kotlin.math.max(0F, (1 - performance) * 50F)).toInt()
+        var earnDialog = CoinDialogFragment.newInstance(earnings)
+        earnDialog.show(requireActivity().supportFragmentManager, "earnCoinsMonth_TAG")
+        balance += earnings
 
         spEditor.clear()
         spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
         spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
         spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
-        spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today))
+        spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today.time))
         spEditor.commit()
     }
 
@@ -181,8 +186,6 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
 
         var budgetId = budgetDb.addBudget(BudgetModel(
             5000f, FormatHelper.dateFormatterNoTime.format(today)))
-
-        balance = 30
 
         spEditor.clear()
         spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
