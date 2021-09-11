@@ -3,11 +3,13 @@ package com.mobdeve.s13.group1.budgetbuilder.dao
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import com.mobdeve.s13.group1.budgetbuilder.*
+import com.mobdeve.s13.group1.budgetbuilder.dao.DbReferences.Companion.FIND_AVERAGE_PERFORMANCE_BY_MONTH
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.floor
@@ -313,6 +315,21 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         }
 
         return data
+    }
+
+    fun getAveragePerformanceOfMonth(month: Int, year:Int): Float {
+        var avg = 0F
+        val db = db.writableDatabase
+        val start = DateHelper.getStartDateString(month ,year)
+        val end = DateHelper.getEndDateString(month, year)
+        var cursor = db.rawQuery(FIND_AVERAGE_PERFORMANCE_BY_MONTH, arrayOf(start, end))
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+        }
+
+        Log.d("CURSOR", DatabaseUtils.dumpCursorToString(cursor))
+        return avg
     }
 
     fun getSumPerDayOfMonth(month: Int, year: Int): ArrayList<MonthlyExpense> {
