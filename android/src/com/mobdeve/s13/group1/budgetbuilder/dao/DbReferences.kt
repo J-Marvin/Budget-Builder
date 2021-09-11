@@ -10,6 +10,8 @@ class DbReferences {
         const val COLUMN_ROOM_ID = "room_id"
         const val COLUMN_ROOM_MONTH = "month"
         const val COLUMN_ROOM_YEAR = "year"
+        const val COLUMN_ROOM_PATH = "room_path"
+        const val COLUMN_ROOM_NAME = "room_name"
 
         const val FURNITURE_TABLE = "furniture"
         const val COLUMN_FURNITURE_ID = "furniture_id"
@@ -34,6 +36,8 @@ class DbReferences {
         const val COLUMN_EXPENSE_DESC = "expense_desc"
         const val COLUMN_EXPENSE_DATE = "date"
 
+        const val COLUMN_AGG_PERFORMANCE = "performance"
+
         const val AGG_AVG = "avg"
         const val AGG_COUNT = "count"
         const val AGG_GROUP_CONCAT = "group_concat"
@@ -43,13 +47,16 @@ class DbReferences {
         const val AGG_TOTAL = "total"
 
         const val COLUMN_AGG_SUM = "sum"
+        const val COLUMN_AGG_AVG = "avg"
 
         val aggList = arrayOf("avg", "count", "max", "min", "sum", "total")
 
         const val CREATE_ROOM_TABLE = "CREATE TABLE $ROOM_TABLE (" +
                 "$COLUMN_ROOM_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_ROOM_MONTH INTEGER NOT NULL," +
-                "$COLUMN_ROOM_YEAR INTEGER NOT NULL)"
+                "$COLUMN_ROOM_YEAR INTEGER NOT NULL," +
+                "$COLUMN_ROOM_PATH TEXT, " +
+                "$COLUMN_ROOM_NAME TEXT)"
 
         const val CREATE_FURNITURE_TABLE = "CREATE TABLE $FURNITURE_TABLE (" +
                 "$COLUMN_FURNITURE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
@@ -108,6 +115,14 @@ class DbReferences {
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ?" +
                 "GROUP BY strftime('%Y-%m-%d', $COLUMN_EXPENSE_DATE) "
+
+        const val FIND_AVERAGE_PERFORMANCE_BY_MONTH = "SELECT AVG($COLUMN_AGG_PERFORMANCE) AS $COLUMN_AGG_AVG " +
+                "FROM (" +
+                "SELECT $COLUMN_AGG_SUM / $COLUMN_BUDGET_AMOUNT AS $COLUMN_AGG_PERFORMANCE " +
+                    "FROM ( $FIND_DAILY_SUM_BY_MONTH ) q " +
+                    "JOIN $BUDGET_TABLE WHERE strftime('%Y-%m-%d', q.$COLUMN_EXPENSE_DATE) = strftime('%Y-%m-%d',$COLUMN_BUDGET_DATE)" +
+                ") performance"
+
 
         const val FIND_EXPENSES_BY_CATEGORY_BETWEEN_DATE = "SELECT ${COLUMN_EXPENSE_TYPE}, SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
                 "FROM $EXPENSE_TABLE " +

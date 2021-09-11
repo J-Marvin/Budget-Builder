@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -44,6 +45,11 @@ class RoomFragment: AndroidFragmentApplication() {
         glView.setZOrderOnTop(true)
 
         return roomView
+    }
+
+    fun saveScreenshot(path: String) {
+        Toast.makeText(requireActivity().applicationContext, "REACHED SCREENSHOT", Toast.LENGTH_SHORT).show()
+        roomApplication.saveScreenshot(path)
     }
 
 
