@@ -123,7 +123,6 @@ class DbReferences {
                     "JOIN $BUDGET_TABLE WHERE strftime('%Y-%m-%d', q.$COLUMN_EXPENSE_DATE) = strftime('%Y-%m-%d',$COLUMN_BUDGET_DATE)" +
                 ") performance"
 
-
         const val FIND_EXPENSES_BY_CATEGORY_BETWEEN_DATE = "SELECT ${COLUMN_EXPENSE_TYPE}, SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? " +
@@ -139,5 +138,6 @@ class DbReferences {
         const val FIND_ALL_ROOMS = "SELECT * FROM $ROOM_TABLE"
         const val FIND_ROOM_BY_DATE = "SELECT * FROM $ROOM_TABLE WHERE $COLUMN_ROOM_MONTH = ? AND $COLUMN_ROOM_YEAR = ?"
         const val FIND_ROOM_BY_ID = "SELECT * FROM $ROOM_TABLE WHERE $COLUMN_ROOM_ID = ?"
+        const val FIND_PREVIOUS_ROOMS = "SELECT * FROM $ROOM_TABLE WHERE $COLUMN_ROOM_NAME IS NOT NULL AND $COLUMN_ROOM_PATH IS NOT NULL"
     }
 }

@@ -56,6 +56,8 @@ class RoomDAOImpl(context: Context): RoomDAO {
 
         cv.put(DbReferences.COLUMN_ROOM_MONTH, room.month)
         cv.put(DbReferences.COLUMN_ROOM_YEAR, room.year)
+        cv.put(DbReferences.COLUMN_ROOM_PATH, room.path)
+        cv.put(DbReferences.COLUMN_ROOM_NAME, room.name)
 
         val result = db.update(DbReferences.ROOM_TABLE, cv, "${DbReferences.COLUMN_ROOM_ID}=?", arrayOf(room.id))
 
@@ -115,6 +117,30 @@ class RoomDAOImpl(context: Context): RoomDAO {
                     cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_YEAR)),
                     cursor.getLong(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
                     )
+                val path = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_PATH))
+                val name = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_NAME))
+                room.path = path
+                room.name = name
+                rooms.add(room)
+            } while (cursor.moveToNext())
+        }
+
+        return rooms
+    }
+
+    fun getPreviousRooms(): ArrayList<RoomModel> {
+
+        val db = db.readableDatabase
+        val cursor = db.rawQuery(DbReferences.FIND_PREVIOUS_ROOMS, null)
+        val rooms = ArrayList<RoomModel>()
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val room = RoomModel(
+                    cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_MONTH)),
+                    cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_YEAR)),
+                    cursor.getLong(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
+                )
                 val path = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_PATH))
                 val name = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_NAME))
                 room.path = path

@@ -132,6 +132,13 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
 
         val fragment = childFragmentManager.findFragmentById(R.id.fcv_home_room)
 
+        if (fragment != null) {
+            Log.d("fragment status", "fragment is a go")
+
+            (fragment as RoomFragment).saveScreenshot(path)
+        } else {
+            Log.d("fragment status", "null")
+        }
         // insert saving of image here
 
         var dialog = NewMonthDialogFragment()

@@ -41,8 +41,7 @@ class GalleryFragment : Fragment() {
     }
 
     private fun initRecyclerView(rootView:View) {
-        var data = roomDb.getAllRooms()
-        data.removeLast()
+        var data = roomDb.getPreviousRooms()
 
         rootView.rv_prev_rooms.adapter = GalleryAdapter(requireActivity().applicationContext, data)
         rootView.rv_prev_rooms.layoutManager = GridLayoutManager(this.context, 3)

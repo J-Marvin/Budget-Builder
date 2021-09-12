@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.utils.GdxRuntimeException
 import com.badlogic.gdx.utils.Null
 import com.mobdeve.s13.group1.budgetbuilder.dao.RoomModel
 import java.io.IOException
@@ -24,15 +26,20 @@ class GalleryAdapter(context: Context, private val dataSet: ArrayList<RoomModel>
 
 //        holder.setImg(currRoom.img!!)
         try {
-            val ims = context.assets.open(currRoom.path!!)
+            val file = Gdx.files.local(currRoom.path!!)
+            val ims = file.read()
             holder.setImg(Drawable.createFromStream(ims, null))
             ims.close()
-        } catch (ex: IOException) {
-            holder.setImg(currRoom.img!!)
+        } catch (ex: GdxRuntimeException) {
+//            holder.setImg(currRoom.img!!)
         } catch (ex: NullPointerException) {
             Toast.makeText(context, "no path", Toast.LENGTH_SHORT).show()
         }
-        holder.setName(currRoom.name!!)
+        if (currRoom.name != null) {
+            holder.setName(currRoom.name!!)
+        } else {
+            holder.setName("")
+        }
     }
 
     override fun getItemCount() = dataSet.size

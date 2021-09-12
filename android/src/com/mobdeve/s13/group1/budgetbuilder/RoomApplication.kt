@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.BufferUtils
 import com.badlogic.gdx.utils.ScreenUtils
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 
+
 class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter(){
     val ROOM_SIZE = 6
     val FLOOR_WIDTH = 150
@@ -20,17 +21,28 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
     lateinit var equipped: HashMap<String, Texture>
 
     fun saveScreenshot(path: String){
-        var pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, true)
 
-        for (i in 4..pixels.size step 4) {
+        val pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, true)
+
+        for(i in 4 .. pixels.size step 4) {
             pixels[i - 1] = 255.toByte()
         }
 
-        var pixmap = Pixmap(Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight, Pixmap.Format.RGBA8888)
+        val pixmap = Pixmap(
+            Gdx.graphics.backBufferWidth,
+            Gdx.graphics.backBufferHeight,
+            Pixmap.Format.RGBA8888
+        )
         BufferUtils.copy(pixels, 0, pixmap.pixels, pixels.size)
-        PixmapIO.writePNG(Gdx.files.external(path), pixmap)
+//        var pixmap = getScreenshot(0, 0, Gdx.graphics.backBufferWidth, Gdx.graphics.backBufferHeight)
+        PixmapIO.writePNG(Gdx.files.local(path), pixmap)
         pixmap.dispose()
     }
+
+    fun getScreenshot(x: Int, y: Int, w: Int, h: Int): Pixmap {
+        return Pixmap.createFromFrameBuffer(x, y, w, h)
+    }
+
     override fun create() {
         batch = SpriteBatch()
         equipped = HashMap()
