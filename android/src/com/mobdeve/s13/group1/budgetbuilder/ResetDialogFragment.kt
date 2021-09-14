@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_reset_dialog.view.*
 class ResetDialogFragment : DialogFragment() {
     private lateinit var mainActiviy: MainActivity
     lateinit var db: BudgetBuilderDbHelper
+    lateinit var resetListener: ResetListener
 
     override fun onAttach(context: Context){
         super.onAttach(context)
@@ -54,12 +55,11 @@ class ResetDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.btn_reset_dialog.setOnClickListener{
-            //TODO: Reset SharedPreferences
-
             val result = db.resetDb()
             if(result) {
-                Toast.makeText(view.context, "Reset Successful", Toast.LENGTH_SHORT).show()
                 dismiss()
+                resetListener.onReset()
+                Toast.makeText(view.context, "Reset Successful", Toast.LENGTH_SHORT).show()
             }
             else {
                 Toast.makeText(view.context, "Reset Failed", Toast.LENGTH_SHORT).show()

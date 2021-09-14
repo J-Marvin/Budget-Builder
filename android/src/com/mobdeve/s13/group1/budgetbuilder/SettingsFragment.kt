@@ -1,6 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
 import android.app.Activity
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -16,13 +17,19 @@ import android.widget.*
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetDAOImpl
+import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetModel
+import com.mobdeve.s13.group1.budgetbuilder.dao.RoomDAOImpl
 import kotlinx.android.synthetic.main.fragment_set_budget.view.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
+import java.util.*
 
 
 class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var sp: SharedPreferences
     private lateinit var spEditor: SharedPreferences.Editor
+    private lateinit var roomDb: RoomDAOImpl
+    private lateinit var budgetDb: BudgetDAOImpl
 
     // Source: https://gist.github.com/kakajika/a236ba721a5c0ad3c1446e16a7423a63
     fun Spinner.avoidDropdownFocus() {
@@ -49,10 +56,13 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        this.sp = PreferenceManager.getDefaultSharedPreferences(this.requireActivity().applicationContext)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        this.roomDb = RoomDAOImpl(context)
+        this.sp = PreferenceManager.getDefaultSharedPreferences(context)
         this.spEditor = this.sp.edit()
+        this.budgetDb = BudgetDAOImpl(context)
     }
 
     override fun onCreateView(
@@ -69,7 +79,16 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         rootView.btn_settings_reset.setOnClickListener {
-            Navigation.findNavController(rootView).navigate(R.id.action_settingsFragment_to_resetDialogFragment)
+//            Navigation.findNavController(rootView).navigate(R.id.action_settingsFragment_to_resetDialogFragment)
+
+            var fragment = ResetDialogFragment()
+            fragment.resetListener = object: ResetListener{
+                override fun onReset() {
+                    resetSettings()
+                }
+            }
+
+            fragment.show(requireActivity().supportFragmentManager, "reset_TAG")
         }
 
 
@@ -77,6 +96,32 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         initBudget(rootView)
 
         return rootView
+    }
+
+    private fun resetSettings() {
+
+        val today = Calendar.getInstance()
+        val roomId: String
+        val budget: Float
+        val balance: Int
+
+        var room = roomDb.initRoomFurniture(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+        roomId = room.toString()
+
+        var budgetId = budgetDb.addBudget(
+            BudgetModel(
+            5000f, FormatHelper.dateFormatterNoTime.format(today.time))
+        )
+
+        budget = 5000f
+        balance = 20
+        spEditor.clear()
+        spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
+        spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
+        spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
+        spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+        spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today.time))
+        spEditor.commit()
     }
 
     private fun initSpinner(rootView: View) {
