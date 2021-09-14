@@ -3,6 +3,7 @@ package com.mobdeve.s13.group1.budgetbuilder
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
@@ -14,6 +15,11 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.PixmapIO
+import com.badlogic.gdx.utils.BufferUtils
+import com.badlogic.gdx.utils.ScreenUtils
 import com.mobdeve.s13.group1.budgetbuilder.dao.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -92,9 +98,8 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     override fun onResume() {
         super.onResume()
         loadSettings()
-        // check if same month
 
-//        Log.d("PREV DATE", FormatHelper.dateFormatterNoTime.format(prevDate?.time))
+        // check if same month
         if (prevDate === null) {
             Log.d("PREV DATE", "Prev Date is NULL")
             initSettings()
@@ -130,15 +135,6 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         val prevRoom = RoomModel(month!!, year!!, prevRoomId!!)
         prevRoom.path = path
 
-        val fragment = childFragmentManager.findFragmentById(R.id.fcv_home_room)
-
-        if (fragment != null) {
-            Log.d("fragment status", "fragment is a go")
-
-            (fragment as RoomFragment).saveScreenshot(path)
-        } else {
-            Log.d("fragment status", "null")
-        }
         // insert saving of image here
 
         var dialog = NewMonthDialogFragment()
@@ -147,6 +143,17 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
                 prevRoom.name = name
                 Log.d("PATH", path)
                 roomDb.updateRoom(prevRoom)
+
+
+                val fragment = childFragmentManager.findFragmentById(R.id.fcv_home_room)
+
+                if (fragment != null) {
+                    (fragment as RoomFragment).saveScreenshot(path)
+                    fragment.onResume()
+                } else {
+                    Log.d("fragment status", "null")
+                }
+
             }
         }
         dialog.show(requireActivity().supportFragmentManager, "setRoomName_TAG")
