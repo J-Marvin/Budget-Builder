@@ -155,36 +155,74 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         return data
     }
 
+    /** This method returns all the equipped furniture of a given room
+     *  @param roomId - the row_id of the room
+     *  @return returns an ArrayList<Furniture> of all the equipped furniture of a given room
+     * */
     override fun findEquippedFurnitureByRoom(roomId: String): ArrayList<FurnitureModel> {
         val db = db.readableDatabase
 
         var cursor: Cursor? = null
 
         if (db!= null) {
-            //TODO: Change to query based on roomID
-            cursor = db.rawQuery(DbReferences.FIND_ALL_FURNITURE, null)
+            cursor = db.rawQuery(DbReferences.FIND_EQUIPPED_FURNITURE_BY_ROOM, arrayOf(roomId))
         }
 
         val data = ArrayList<FurnitureModel>()
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                val equipped = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_EQUIPPED)) == 1
-                if(equipped) {
-                    val furniture = FurnitureModel(
-                        cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_IMG)),
-                        cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_PRICE)),
-                        owned = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_OWNED)) == 1,
-                        equipped,
-                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_NAME)),
-                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_TYPE)),
-                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET)),
-                        cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ROOMASSET))
-                    )
-                    furniture.roomId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
-                    furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ID)).toString()
-                    data.add(furniture)
-                }
+                val furniture = FurnitureModel(
+                    cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_IMG)),
+                    cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_PRICE)),
+                    owned = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_OWNED)) == 1,
+                    equipped = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_EQUIPPED))  == 1,
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_TYPE)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ROOMASSET))
+                )
+                furniture.roomId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
+                furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ID)).toString()
+                data.add(furniture)
+            } while (cursor.moveToNext())
+
+            cursor.close()
+        }
+
+        return data
+    }
+
+    /** This method returns all the equipped furniture of a given room
+     *  @param roomId - the row_id of the room
+     *  @return returns an ArrayList<Furniture> of all the equipped furniture of a given room
+     * */
+    override fun findOwnedFurnitureByRoom(roomId: String): ArrayList<FurnitureModel> {
+        val db = db.readableDatabase
+
+        var cursor: Cursor? = null
+
+        if (db!= null) {
+            cursor = db.rawQuery(DbReferences.FIND_OWNED_FURNITURE_BY_ROOM, arrayOf(roomId))
+        }
+
+        val data = ArrayList<FurnitureModel>()
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val furniture = FurnitureModel(
+                    cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_IMG)),
+                    cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_PRICE)),
+                    owned = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_OWNED)) == 1,
+                    equipped = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_EQUIPPED))  == 1,
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_TYPE)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ASSET)),
+                    cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ROOMASSET))
+                )
+                furniture.roomId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
+                furniture.furnitureId = cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_FURNITURE_ID)).toString()
+                data.add(furniture)
             } while (cursor.moveToNext())
 
             cursor.close()

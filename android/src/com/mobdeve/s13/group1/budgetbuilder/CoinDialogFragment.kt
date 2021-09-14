@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,8 +23,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class CoinDialogFragment : DialogFragment() {
-    // TODO: Rename and change types of parameters
     private  var coins: Int? = null
+    var onDismissListener: DialogInterface.OnDismissListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,8 @@ class CoinDialogFragment : DialogFragment() {
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         DialogHelper.hideSystemUI(dialog?.window!!)
         super.dismiss()
+
+        onDismissListener?.onDismiss(dialog)
     }
 
     override fun onResume() {

@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homeFragment_to_setBudgetFragment"
             app:destination="@id/setBudgetFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_saveRoomFragment2"
+            app:destination="@id/saveRoomFragment2" />
     </fragment>
     <fragment
         android:id="@+id/expenseFragment"
@@ -84,6 +87,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_resetDialogFragment"
             app:destination="@id/resetDialogFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
     <dialog
@@ -91,4 +97,9 @@
         android:name="com.mobdeve.s13.group1.budgetbuilder.ResetDialogFragment"
         android:label="fragment_reset_dialog"
         tools:layout="@layout/fragment_reset_dialog" />
+    <fragment
+        android:id="@+id/saveRoomFragment2"
+        android:name="com.mobdeve.s13.group1.budgetbuilder.SaveRoomFragment"
+        android:label="fragment_save_room"
+        tools:layout="@layout/fragment_save_room" />
 </navigation>

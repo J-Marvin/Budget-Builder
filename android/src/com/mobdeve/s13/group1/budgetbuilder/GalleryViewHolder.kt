@@ -26,4 +26,8 @@ class GalleryViewHolder(view: View): RecyclerView.ViewHolder(view) {
     fun setName(name: String) {
         tvName.text = name
     }
+
+    fun setOnClickListener(listener: View.OnClickListener) {
+        ivRoom.setOnClickListener(listener)
+    }
 }

@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
@@ -29,19 +31,24 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
     lateinit var furnitureModel: ArrayList<FurnitureModel>
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
+    lateinit var roomId: String
     var balance: Int? = null
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         db = FurnitureDAOImpl(context)
+        sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
+        spEditor = sp.edit()
+
+        roomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_shop, container, false)
         initRecyclerViews(rootView)
-        sp = PreferenceManager.getDefaultSharedPreferences(activity?.applicationContext)
-        spEditor = sp.edit()
+
         initBalance()
 
         rootView.tv_shop_balance.text = getBalance().toString()
@@ -49,41 +56,47 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
         rootView.btn_shop_settings.setOnClickListener {
             Navigation.findNavController(rootView).navigate(R.id.action_global_settingsFragment)
         }
-
-        val activity = activity as MainActivity
         return rootView
     }
 
     private fun initRecyclerViews(rootView: View){
+        val equipListener = object: EquipListener{
+            override fun onEquip() {
+                childFragmentManager.commit{
+                    replace<RoomFragment>(R.id.fcv_shop_room)
+                }
+            }
+        }
         initData()
 
-        rootView.rv_chairs.adapter = FurnitureAdapter(childFragmentManager, this.chairs, activity?.applicationContext!!)
+        rootView.rv_chairs.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.chairs, activity?.applicationContext!!)
         rootView.rv_chairs.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_beds.adapter = FurnitureAdapter(childFragmentManager, this.beds, activity?.applicationContext!!)
+        rootView.rv_beds.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.beds, activity?.applicationContext!!)
         rootView.rv_beds.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_floor.adapter = FurnitureAdapter(childFragmentManager, this.floors, activity?.applicationContext!!)
+        rootView.rv_floor.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.floors, activity?.applicationContext!!)
         rootView.rv_floor.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_shelf.adapter = FurnitureAdapter(childFragmentManager, this.shelves, activity?.applicationContext!!)
+        rootView.rv_shelf.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.shelves, activity?.applicationContext!!)
         rootView.rv_shelf.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_endtable.adapter = FurnitureAdapter(childFragmentManager, this.endTables, activity?.applicationContext!!)
+        rootView.rv_endtable.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.endTables, activity?.applicationContext!!)
         rootView.rv_endtable.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_desk.adapter = FurnitureAdapter(childFragmentManager, this.desks, activity?.applicationContext!!)
+        rootView.rv_desk.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.desks, activity?.applicationContext!!)
         rootView.rv_desk.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_couch.adapter = FurnitureAdapter(childFragmentManager, this.couches, activity?.applicationContext!!)
+        rootView.rv_couch.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.couches, activity?.applicationContext!!)
         rootView.rv_couch.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
 
-        rootView.rv_coffeetable.adapter = FurnitureAdapter(childFragmentManager, this.coffeTables, activity?.applicationContext!!)
+        rootView.rv_coffeetable.adapter = FurnitureAdapter(equipListener, childFragmentManager, this.coffeTables, activity?.applicationContext!!)
         rootView.rv_coffeetable.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun initData() {
-        this.furnitureModel = db.findAllFurniture()
+
+        this.furnitureModel = db.findAllFurnitureByRoom(roomId)
         this.chairs = ArrayList()
         this.beds = ArrayList()
         this.floors = ArrayList()

@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
@@ -17,6 +15,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class FurnitureAdapter(
+    private val equipListener: EquipListener,
     private val fragmentManager: FragmentManager?,
     private val dataSet: ArrayList<FurnitureModel>,
     context: Context) : RecyclerView.Adapter<FurnitureViewHolder>(){
@@ -67,10 +66,7 @@ class FurnitureAdapter(
 
                     furnitureDAOImpl.updateFurniture(curFurniture)
                     //reload room
-                    fragmentManager?.commit{
-                        replace<RoomFragment>(R.id.fcv_shop_room)
-                    }
-
+                    equipListener.onEquip()
                 } else if (activatedIndex != position){ // If pressing on owned item
 
                     if(curFurniture.owned) {
@@ -86,11 +82,8 @@ class FurnitureAdapter(
 
                         //update db equipped furniture
                         furnitureDAOImpl.updateFurniture(curFurniture)
-
                         //reload room
-                        fragmentManager?.commit{
-                            replace<RoomFragment>(R.id.fcv_shop_room)
-                        }
+                        equipListener.onEquip()
 
                         Toast.makeText(context, curFurniture.roomId, Toast.LENGTH_SHORT).show()
                     } else {
@@ -107,12 +100,4 @@ class FurnitureAdapter(
 
     override fun getItemCount() = dataSet.size
 
-    private fun findActivated(): Int {
-
-        for(i in 0 until dataSet.size)
-            if(dataSet[i].equipped)
-                return i
-
-        return -1
-    }
 }

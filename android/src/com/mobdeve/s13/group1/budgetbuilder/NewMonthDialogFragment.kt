@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import android.content.DialogInterface
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Rect
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_new_month_dialog.view.*
 
 class NewMonthDialogFragment: DialogFragment() {
 
-    lateinit var listener: RoomNameHandler
+    var onDismissListener: DialogInterface.OnDismissListener? = null
     var name = ""
 
     override fun onResume() {
@@ -42,22 +43,15 @@ class NewMonthDialogFragment: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.btn_save_room_name.setOnClickListener {
-            val text = view.et_room_name.text.toString()
-
-            if (text.isEmpty()) {
-                view.et_room_name.error = "Please enter room name"
-            } else {
-                name = text
-                dismiss()
-            }
+        view.btn_new_month_okay.setOnClickListener {
+            dismiss()
         }
     }
 
     override fun dismiss() {
         super.dismiss()
         dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-        listener.onSetRoomName(name)
+        onDismissListener?.onDismiss(dialog)
     }
 
 }

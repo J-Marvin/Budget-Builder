@@ -1,9 +1,17 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
 
 class DateHelper {
     companion object{
+        fun getDisplayMonthYear(month: Int, year: Int): String {
+            val date = Calendar.getInstance()
+            date.set(Calendar.MONTH, month)
+            val month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)
+            return "$month, $year"
+        }
+
         fun getStartDate(month: Int, year:Int): Calendar {
             val date = Calendar.getInstance()
             date.apply{

@@ -48,6 +48,8 @@
     <string name="curr_date">%1s %2d, %3d</string>
     <string name="budget">%1s%2.02f</string>
     <string name="month_year">%1s %2d</string>
+    <string name="name_of_room">Name of Room</string>
+    <string name="no_rooms">No rooms available!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -7,6 +7,7 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.RoomModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.floor
+import kotlin.random.Random
 
 class DataHelper {
     companion object {
@@ -638,5 +639,21 @@ class DataHelper {
 
             return data
         }
+
+        fun getRandomName(): String {
+            val rand = Random.Default
+            val index = rand.nextInt(0, names.size - 1)
+            return names[index]
+        }
+        val names = arrayOf(
+            "Excelsior",
+            "Avada Kedavra",
+            "Palaven",
+            "Citadel",
+            "Collector",
+            "Asari",
+            "Tempest",
+            "Jura"
+        )
     }
 }
