@@ -69,7 +69,6 @@ class RoomFragment: AndroidFragmentApplication() {
 
         roomApplication.exporting = true
         roomApplication.path = path
-        roomApplication.render()
     }
 
     companion object{
