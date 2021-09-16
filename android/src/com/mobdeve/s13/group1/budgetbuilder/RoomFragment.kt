@@ -11,6 +11,7 @@ import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -79,6 +80,7 @@ class RoomFragment: AndroidFragmentApplication() {
 
         roomApplication.exporting = true
         roomApplication.path = path
+        Gdx.graphics.requestRendering()
     }
 
     companion object{

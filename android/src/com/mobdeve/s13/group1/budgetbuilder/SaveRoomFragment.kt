@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.fragment_save_room.*
 import kotlinx.android.synthetic.main.fragment_save_room.view.*
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class SaveRoomFragment: Fragment() {
 
@@ -152,12 +154,16 @@ class SaveRoomFragment: Fragment() {
                     replace<RoomFragment>(R.id.fcv_save_room)
                 }
 
-                val fragment = childFragmentManager.findFragmentById(R.id.fcv_save_room)
-                if (fragment != null) {
-                    (fragment as RoomFragment).saveScreenshot(path)
-                } else {
-                    Log.d("fragment status", "null")
-                }
+                val exec = Executors.newSingleThreadScheduledExecutor()
+                exec.schedule({
+                    val fragment = childFragmentManager.findFragmentById(R.id.fcv_save_room)
+                    if (fragment != null) {
+                        (fragment as RoomFragment).saveScreenshot(path)
+                    } else {
+                        Log.d("fragment status", "null")
+                    }
+                }, 500, TimeUnit.MILLISECONDS)
+
             }
         }
         initData()
