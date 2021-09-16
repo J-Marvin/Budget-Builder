@@ -10,6 +10,7 @@ enum class Keys {
     KEY_BALANCE,
     KEY_EXPENSES,
     KEY_ROOM_ID,
+    KEY_OLD_ROOM_ID,
 
     KEY_COLUMN_NAME,
     KEY_AGG_TYPE,

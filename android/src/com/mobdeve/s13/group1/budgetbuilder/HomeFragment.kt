@@ -130,6 +130,7 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
 
         val prevRoomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")
         spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today.time))
+        spEditor.putString(Keys.KEY_OLD_ROOM_ID.toString(), prevRoomId)
 
         var room = roomDb.initRoomFurniture(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
         roomId = room.toString()
@@ -210,6 +211,7 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
             }
 
         }
+
     }
 
     private fun showSaveRoom(month: Int, year: Int, roomId: String) {

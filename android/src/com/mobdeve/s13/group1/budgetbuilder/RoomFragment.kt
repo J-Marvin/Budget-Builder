@@ -38,12 +38,22 @@ class RoomFragment: AndroidFragmentApplication() {
     ): View? {
         val config = AndroidApplicationConfiguration()
 
-        //TODO: roomID to actual roomID
-        roomId = if (arguments != null) {
-            arguments?.getString(Keys.KEY_ROOM_ID.toString())!!
-        } else {
-            sp.getString(Keys.KEY_ROOM_ID.toString(), "")!!
+        //check if parent is save room fragment
+        var saveFragment = this.parentFragmentManager.findFragmentById(R.id.fcv_save_room)
+
+        if(saveFragment != null) {
+            roomId = sp.getString(Keys.KEY_OLD_ROOM_ID.toString(), "")!!
         }
+        else {
+            roomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")!!
+        }
+
+//        roomId = if (arguments != null) {
+//            arguments?.getString(Keys.KEY_ROOM_ID.toString())!!
+//        } else {
+//            sp.getString(Keys.KEY_ROOM_ID.toString(), "")!!
+//        }
+
         Log.d("ROOM ID", roomId)
 
         roomApplication = RoomApplication(db.findEquippedFurnitureByRoom(roomId))

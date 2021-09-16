@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="Amount"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@id/etStr_add_expense_description"
