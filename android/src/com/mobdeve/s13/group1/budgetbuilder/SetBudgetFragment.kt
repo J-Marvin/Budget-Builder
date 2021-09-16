@@ -77,7 +77,6 @@ class SetBudgetFragment: DialogFragment() {
             } else if(view.etNum_set_budget_amt.text.toString().toFloat() < 0) {
                 view.etNum_set_budget_amt.error = "Budget cannot be negative"
             } else {
-                Toast.makeText(this.requireContext(), "Set", Toast.LENGTH_SHORT).show()
                 val budget = view.etNum_set_budget_amt.text.toString()
                 listener.okBudget(budget.toFloat())
                 dismiss()

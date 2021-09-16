@@ -84,8 +84,6 @@ class FurnitureAdapter(
                         furnitureDAOImpl.updateFurniture(curFurniture)
                         //reload room
                         equipListener.onEquip()
-
-                        Toast.makeText(context, curFurniture.roomId, Toast.LENGTH_SHORT).show()
                     } else {
                         var dialog = PurchaseDialogFragment.newInstance(curFurniture)
                         dialog.show(fragmentManager!!, "purchaseItem_tag")

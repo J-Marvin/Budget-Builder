@@ -59,10 +59,6 @@ class ResetDialogFragment : DialogFragment() {
             if(result) {
                 dismiss()
                 resetListener.onReset()
-                Toast.makeText(view.context, "Reset Successful", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                Toast.makeText(view.context, "Reset Failed", Toast.LENGTH_SHORT).show()
             }
         }
 

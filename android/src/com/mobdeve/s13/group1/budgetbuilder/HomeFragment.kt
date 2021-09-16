@@ -344,7 +344,6 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     }
 
     private fun updateDate(date: String) {
-        Toast.makeText(activity?.applicationContext, "DATE HERE", Toast.LENGTH_SHORT).show()
         spEditor.putString(Keys.KEY_PREV_DATE.toString(), date)
         spEditor.commit()
     }

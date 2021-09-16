@@ -38,7 +38,6 @@ class GalleryAdapter(private val onSelectListener: OnSelectListener, context: Co
         } catch (ex: GdxRuntimeException) {
 //            holder.setImg(currRoom.img!!)
         } catch (ex: NullPointerException) {
-            Toast.makeText(context, "no path", Toast.LENGTH_SHORT).show()
         }
         if (currRoom.name != null) {
             holder.setName(currRoom.name!!)

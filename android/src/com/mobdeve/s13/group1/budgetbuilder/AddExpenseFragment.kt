@@ -145,12 +145,6 @@ class AddExpenseFragment: DialogFragment() {
         view.btn_cancel_edit_expense.setOnClickListener{
             listener?.onCancelExpense()
             dismiss()
-
-            val fragment = activity?.supportFragmentManager?.findFragmentById(R.id.homeFragment)
-            Log.d("Fragment", fragment.toString())
-            if (fragment is HomeFragment) {
-                Toast.makeText(activity?.applicationContext, "HOME FRAGMENT FOUND", Toast.LENGTH_SHORT).show()
-            }
         }
 
     }

@@ -144,7 +144,6 @@ class EditExpenseDialogFragment : DialogFragment() {
 
                 if(result) {
                     updateExpenseHandler.updateExpenseView(expense)
-                    Toast.makeText(view.context, "Edited", Toast.LENGTH_SHORT).show()
                     dismiss()
                 }
 

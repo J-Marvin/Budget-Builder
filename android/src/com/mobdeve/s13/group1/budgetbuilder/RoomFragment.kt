@@ -75,9 +75,6 @@ class RoomFragment: AndroidFragmentApplication() {
     }
 
     fun saveScreenshot(path: String) {
-//        Toast.makeText(requireActivity().applicationContext, "REACHED SCREENSHOT", Toast.LENGTH_SHORT).show()
-//        roomApplication.saveScreenshot(path)
-
         roomApplication.exporting = true
         roomApplication.path = path
         Gdx.graphics.requestRendering()

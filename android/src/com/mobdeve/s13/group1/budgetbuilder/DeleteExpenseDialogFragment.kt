@@ -65,7 +65,6 @@ class DeleteExpenseDialogFragment : DialogFragment() {
             val result = db.deleteExpense(requireArguments().getString(Keys.KEY_VIEW_EXPENSE_ID.name)!!)
 
             if(result) {
-                Toast.makeText(view.context, "Deleted", Toast.LENGTH_SHORT).show()
                 buttonPressed = "delete"
                 dismiss()
             }

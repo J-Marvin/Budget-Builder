@@ -135,8 +135,6 @@ class PurchaseDialogFragment : DialogFragment() {
                 db.updateFurniture(furnitureModel!!)
                 parent.updateBalance(parent.getBalance() - arguments?.getInt(Keys.KEY_FURNITURE_PRICE.toString())!!)
                 dismiss()
-            } else {
-                Toast.makeText(this.requireContext(), "Not enough coins!", Toast.LENGTH_SHORT).show()
             }
         }
 
