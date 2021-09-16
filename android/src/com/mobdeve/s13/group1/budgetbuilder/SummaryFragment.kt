@@ -154,6 +154,7 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
             updateRecyclerView(expenses)
         } else {
             (fragment as LineChartFragment).updateChart(month, year)
+            updateRecyclerView(expenses)
             setMessageVisibility(View.GONE)
         }
     }

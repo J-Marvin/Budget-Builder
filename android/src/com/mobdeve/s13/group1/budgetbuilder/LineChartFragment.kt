@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
+import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_line_chart.view.*
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -30,6 +31,7 @@ class LineChartFragment : Fragment() {
     var month = Calendar.getInstance().get(Calendar.MONTH)
     var year = Calendar.getInstance().get(Calendar.YEAR)
     lateinit var executorService: ExecutorService
+    lateinit var lineChart: LineChart
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,12 +53,13 @@ class LineChartFragment : Fragment() {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_line_chart, container, false)
 
-        initLineChart(rootView.chart_line)
+        lineChart = rootView.chart_line
+        initLineChart()
 
         return rootView
     }
 
-    fun initLineChart(lineChart: LineChart) {
+    fun initLineChart() {
         //hide grid lines
         lineChart.axisLeft.setDrawGridLines(false)
         val xAxis: XAxis = lineChart.xAxis
@@ -128,7 +131,9 @@ class LineChartFragment : Fragment() {
                 entries.add(Entry(day.toFloat(), expense.amount))
             }
 
-            view?.chart_line?.invalidate()
+            lineChart.notifyDataSetChanged()
+            lineChart.invalidate()
+
         }
     }
 

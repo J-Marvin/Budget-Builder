@@ -414,21 +414,21 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         data.add(CategoryExpense("Food", R.color.category_food))
         data.add(CategoryExpense("Transportation", R.color.category_transportation))
         data.add(CategoryExpense("Utilities", R.color.category_utilities))
-        data.add(CategoryExpense("Personal",  R.color.category_personal))
-        data.add(CategoryExpense("Medical", R.color.category_medical))
+        data.add(CategoryExpense("Personal Care",  R.color.category_personal))
+        data.add(CategoryExpense("Medical Care", R.color.category_medical))
         data.add(CategoryExpense("Others", R.color.category_others))
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 val category = cursor.getString(cursor.getColumnIndex(DbReferences.COLUMN_EXPENSE_TYPE))
 
-                val index: Int = when(category) {
-                    ExpenseType.ENTERTAINMENT.textType -> ENT_INDEX
-                    ExpenseType.FOOD.textType -> FOOD_INDEX
-                    ExpenseType.MEDICAL.textType -> MED_INDEX
-                    ExpenseType.PERSONAL.textType -> PERS_INDEX
-                    ExpenseType.TRANSPORTATION.textType -> TRANS_INDEX
-                    ExpenseType.UTILITIES.textType -> UTIL_INDEX
+                val index: Int = when(category.uppercase()) {
+                    ExpenseType.ENTERTAINMENT.name -> ENT_INDEX
+                    ExpenseType.FOOD.name -> FOOD_INDEX
+                    ExpenseType.MEDICAL.name -> MED_INDEX
+                    ExpenseType.PERSONAL.name -> PERS_INDEX
+                    ExpenseType.TRANSPORTATION.name -> TRANS_INDEX
+                    ExpenseType.UTILITIES.name -> UTIL_INDEX
                     else -> OTHERS_INDEX
                 }
 
