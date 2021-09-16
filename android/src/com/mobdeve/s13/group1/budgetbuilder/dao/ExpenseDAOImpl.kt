@@ -325,7 +325,7 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         var cursor = db.rawQuery(FIND_AVERAGE_PERFORMANCE_BY_MONTH, arrayOf(start, end))
 
         if (cursor != null && cursor.moveToFirst()) {
-
+            avg = cursor.getFloat(cursor.getColumnIndex(DbReferences.COLUMN_AGG_AVG))
         }
 
         Log.d("CURSOR", DatabaseUtils.dumpCursorToString(cursor))

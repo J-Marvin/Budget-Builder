@@ -75,6 +75,13 @@ class SaveRoomFragment: Fragment() {
 
         view.et_save_room_name.setText(DataHelper.getRandomName())
         view.btn_save_back.setOnClickListener {
+            room.name = view?.et_save_room_name?.text.toString()
+            roomDb.updateRoom(room)
+            Navigation.findNavController(view).popBackStack()
+        }
+        view.btn_save_room.setOnClickListener {
+            room.name = view?.et_save_room_name?.text.toString()
+            roomDb.updateRoom(room)
             Navigation.findNavController(view).popBackStack()
         }
         initData()

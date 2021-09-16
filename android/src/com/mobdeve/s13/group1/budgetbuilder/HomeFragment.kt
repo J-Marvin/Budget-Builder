@@ -141,7 +141,8 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         } else {
             1F
         }
-        val earnings = kotlin.math.floor(50F + kotlin.math.max(0F, (1 - performance) * 50F)).toInt()
+        val earnings = kotlin.math.floor(50F + kotlin.math.max(0F, (1F - performance) * 50F)).toInt()
+        Log.d("Earnings", "$performance, $earnings")
         val earnDialog = CoinDialogFragment.newInstance(earnings)
         earnDialog.show(requireActivity().supportFragmentManager, "earnCoinsMonth_TAG")
         balance += earnings
