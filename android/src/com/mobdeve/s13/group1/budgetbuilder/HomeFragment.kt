@@ -129,12 +129,11 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     private fun initMonth() {
 
         val prevRoomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")
-        spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
         spEditor.putString(Keys.KEY_PREV_DATE.toString(), FormatHelper.dateFormatterNoTime.format(today.time))
-
 
         var room = roomDb.initRoomFurniture(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
         roomId = room.toString()
+        spEditor.putString(Keys.KEY_ROOM_ID.toString(), roomId)
 
         // Earn coins
         val performance = if (prevDate != null) {
@@ -149,50 +148,77 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         spEditor.putInt(Keys.KEY_BALANCE.toString(), balance)
         earnDialog.onDismissListener = DialogInterface.OnDismissListener {
             // Show Set budget after closing earn dialog
-            val budgetDialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F), false)
-            budgetDialog.listener = object: BudgetHandler {
-                override fun okBudget(budget: Float) {
-                    val today = FormatHelper.DATE_NO_TIME_FORMAT.format(Calendar.getInstance().time)
-                    val budgetId = budgetDb.addBudget(budget, today)
-                    spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
-                    spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
-                    this@HomeFragment.budget = budget
-
-                    if (this@HomeFragment.view !== null) {
-                        showBudget()
-                        showDifference()
-                    }
-                }
-
-                override fun cancelBudget() {
-                    val today = FormatHelper.DATE_NO_TIME_FORMAT.format(Calendar.getInstance().time)
-                    this@HomeFragment.budget = 5000f
-
-                    val budgetId = budgetDb.addBudget(budget, today)
-                    spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
-                    spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
-
-                    if (this@HomeFragment.view !== null) {
-                        showBudget()
-                        showDifference()
-                    }
-                }
-            }
-
-            budgetDialog.onDismissListener = DialogInterface.OnDismissListener {
-                // Show New Month Dialog after closing
+            if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
+                val strToday = FormatHelper.dateFormatterNoTime.format(today.time)
+                budget = sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f)
+                val budgetId = budgetDb.addBudget(budget, strToday)
+                Log.d("Default Budget", "$budget")
+                spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+                spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
                 spEditor.commit()
-                val bundle: Bundle = Bundle()
-                bundle.apply {
-                    putInt(Keys.KEY_MONTH.toString(), prevDate!!.get(Calendar.MONTH))
-                    putInt(Keys.KEY_YEAR.toString(), prevDate!!.get(Calendar.YEAR))
-                    putString(Keys.KEY_ROOM_ID.toString(), prevRoomId!!)
+                showBudget()
+
+                showSaveRoom(
+                    prevDate!!.get(Calendar.MONTH),
+                    prevDate!!.get(Calendar.YEAR),
+                    prevRoomId!!
+                )
+            } else {
+                val budgetDialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F), false)
+                budgetDialog.listener = object: BudgetHandler {
+
+                    override fun okBudget(budget: Float) {
+                        val today = FormatHelper.DATE_NO_TIME_FORMAT.format(Calendar.getInstance().time)
+                        val budgetId = budgetDb.addBudget(budget, today)
+                        spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+                        spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
+                        this@HomeFragment.budget = budget
+
+                        if (this@HomeFragment.view !== null) {
+                            showBudget()
+                            showDifference()
+                        }
+                    }
+
+                    override fun cancelBudget() {
+                        val today = FormatHelper.DATE_NO_TIME_FORMAT.format(Calendar.getInstance().time)
+                        this@HomeFragment.budget = 5000f
+
+                        val budgetId = budgetDb.addBudget(budget, today)
+                        spEditor.putFloat(Keys.KEY_BUDGET.toString(), budget)
+                        spEditor.putString(Keys.KEY_BUDGET_ID.toString(), budgetId.toString())
+
+                        if (this@HomeFragment.view !== null) {
+                            showBudget()
+                            showDifference()
+                        }
+                    }
                 }
-                Navigation.findNavController(this@HomeFragment.requireView()).navigate(R.id.action_homeFragment_to_saveRoomFragment2, bundle)
+
+                budgetDialog.onDismissListener = DialogInterface.OnDismissListener {
+                    // Show New Month Dialog after closing
+                    spEditor.commit()
+                    showSaveRoom(
+                        prevDate!!.get(Calendar.MONTH),
+                        prevDate!!.get(Calendar.YEAR),
+                        prevRoomId!!
+                    )
+                }
+
+                budgetDialog.show(requireActivity().supportFragmentManager, "setBudget_tag")
             }
 
-            budgetDialog.show(requireActivity().supportFragmentManager, "setBudget_tag")
         }
+    }
+
+    private fun showSaveRoom(month: Int, year: Int, roomId: String) {
+        val bundle: Bundle = Bundle()
+        bundle.apply {
+            putInt(Keys.KEY_MONTH.toString(), month)
+            putInt(Keys.KEY_YEAR.toString(), year)
+            putString(Keys.KEY_ROOM_ID.toString(), roomId)
+        }
+        Navigation.findNavController(this@HomeFragment.requireView()).navigate(R.id.action_homeFragment_to_saveRoomFragment2, bundle)
     }
 
     private fun loadExpenses() {

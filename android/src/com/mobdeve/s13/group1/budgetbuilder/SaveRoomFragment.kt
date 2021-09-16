@@ -31,6 +31,7 @@ class SaveRoomFragment: Fragment() {
     private lateinit var roomDb: RoomDAOImpl
     private lateinit var furnitureDb: FurnitureDAOImpl
     private lateinit var budgetDb: BudgetDAOImpl
+    private lateinit var room: RoomModel
 
     lateinit var chairs: ArrayList<FurnitureModel>
     lateinit var beds: ArrayList<FurnitureModel>
@@ -84,27 +85,31 @@ class SaveRoomFragment: Fragment() {
         super.onResume()
 
         val prevRoomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")
-        val prevRoom = RoomModel(month!!, year!!, prevRoomId!!)
-        prevRoom.path = path
+        room = RoomModel(month!!, year!!, prevRoomId!!)
+        room.path = path
 
-        prevRoom.name = view?.et_save_room_name?.text.toString()
+        room.name = view?.et_save_room_name?.text.toString()
         Log.d("PATH", path)
-        Log.d("Name", prevRoom.name!!)
-        roomDb.updateRoom(prevRoom)
+        Log.d("Name", room.name!!)
+        roomDb.updateRoom(room)
 
         var dialog = NewMonthDialogFragment()
-        dialog.onDismissListener = object: DialogInterface.OnDismissListener{
-            override fun onDismiss(dialog: DialogInterface?) {
-                val fragment = childFragmentManager.findFragmentById(R.id.fcv_save_room)
+        dialog.onDismissListener = DialogInterface.OnDismissListener {
+            val fragment = childFragmentManager.findFragmentById(R.id.fcv_save_room)
 
-                if (fragment != null) {
-                    (fragment as RoomFragment).saveScreenshot(path)
-                } else {
-                    Log.d("fragment status", "null")
-                }
+            if (fragment != null) {
+                (fragment as RoomFragment).saveScreenshot(path)
+            } else {
+                Log.d("fragment status", "null")
             }
         }
         dialog.show(requireActivity().supportFragmentManager, "setRoomName_TAG")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        room.name = view?.et_save_room_name?.text.toString()
+        roomDb.updateRoom(room)
     }
 
     fun initData() {
