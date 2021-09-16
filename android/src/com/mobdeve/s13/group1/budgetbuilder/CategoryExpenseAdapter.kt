@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
+/** This class is the adapter for the recycler views in the summary fragment*/
 class CategoryExpenseAdapter(private val dataSet: ArrayList<CategoryExpense>, context: Context, var currency: String): RecyclerView.Adapter<CategoryExpenseViewHolder>() {
     private val context = context
 
     init{
+        // sort the dataset in descending order
         dataSet.sortByDescending {
             it.total
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryExpenseViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.category_expense_item, parent, false)

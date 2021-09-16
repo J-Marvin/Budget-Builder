@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import java.text.SimpleDateFormat
 
+/** This class is an adapter for the expense list recycler view*/
 class ExpenseAdapter(
     private val fragmentManager: FragmentManager?,
     var dataSet: ArrayList<ExpenseModel>) : RecyclerView.Adapter<ExpenseViewHolder>(){
@@ -19,6 +20,7 @@ class ExpenseAdapter(
         var view = LayoutInflater.from(parent.context).inflate(R.layout.expense_item, parent, false)
         val holder = ExpenseViewHolder(view)
 
+        // set on click listener to show the expense
         holder.setOnClickListener(View.OnClickListener {
             var currExpense = dataSet[holder.bindingAdapterPosition]
             var words = currExpense.type?.split(" ")

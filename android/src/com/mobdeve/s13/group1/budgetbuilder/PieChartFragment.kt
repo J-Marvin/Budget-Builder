@@ -153,30 +153,6 @@ class PieChartFragment : Fragment() {
 
     }
 
-    fun getMonthExpenses(start: String, end:String): ArrayList<CategoryExpense> {
-        val aggs = ArrayList<HashMap<String, String>>()
-        val sumHash = HashMap<String, String>()
-        sumHash[Keys.KEY_AGG_TYPE.toString()] = DbReferences.AGG_SUM
-        sumHash[Keys.KEY_COLUMN_NAME.toString()] = DbReferences.COLUMN_EXPENSE_AMOUNT
-        sumHash[Keys.KEY_COLUMN_ALIAS.toString()] = "SUM"
-        aggs.add(sumHash)
-
-        val cursor = db.getAggExpensesBetween(
-            start,
-            end,
-            arrayListOf(DbReferences.COLUMN_EXPENSE_TYPE),
-            aggs,
-            arrayListOf<String>(DbReferences.COLUMN_EXPENSE_TYPE),
-            null,
-            null,
-            null
-        )
-
-        Log.d("DB-DUMP", DatabaseUtils.dumpCursorToString(cursor))
-
-        return DataHelper.getCategoryExpensesSumFromCursor(cursor, "SUM", DbReferences.COLUMN_EXPENSE_TYPE)
-    }
-
     private fun updateColors() {
         expenseColors.clear()
 

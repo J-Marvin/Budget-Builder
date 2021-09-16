@@ -14,6 +14,7 @@ import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+/** This class is an adapter for the recycler view with furniture*/
 class FurnitureAdapter(
     private val equipListener: EquipListener,
     private val fragmentManager: FragmentManager?,
@@ -35,6 +36,7 @@ class FurnitureAdapter(
     override fun onBindViewHolder(holder: FurnitureViewHolder, position: Int) {
         var curFurniture = dataSet[position]
 
+        // Load image
         try {
             val ims = context.assets.open(curFurniture.path)
             holder.setImg(Drawable.createFromStream(ims, null))
@@ -44,6 +46,7 @@ class FurnitureAdapter(
         }
         holder.setPrice(curFurniture.price)
 
+        // initialize if equipped or owned
         if (curFurniture.equipped) {
             holder.hidePrice()
             holder.equip()

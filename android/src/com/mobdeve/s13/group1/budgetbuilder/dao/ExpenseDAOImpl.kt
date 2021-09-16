@@ -14,6 +14,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.floor
 
+/** This is an implementation of the Expense Data Access Object */
 class ExpenseDAOImpl(context: Context): ExpenseDAO {
 
     companion object{
@@ -40,14 +41,11 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
 
     private val db: BudgetBuilderDbHelper
 
+    // Initializes the database
     init {
         db = BudgetBuilderDbHelper.getInstance(context)
     }
 
-    /** This method adds an expense
-     *  @param expense - the expense to be added
-     *  @return returns the row_id of the expense
-     * */
     override fun addExpense(expense: ExpenseModel): Long {
         val db = db.writableDatabase
         val cv = ContentValues()
@@ -64,13 +62,6 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         return db.insert(DbReferences.EXPENSE_TABLE, null, cv)
     }
 
-    /**
-     * This method finds all the expenses between two dates (inclusive)
-     * @param start - the start date (yyyy-MM-dd)
-     * @param end - the end date (yyyy-MM-dd)
-     * @param ascending - represents whether the data should be in ascending order
-     * @return returns an arraylist of expenses
-     * */
     override fun getExpensesByDate(start: String, end: String?, ascending: Boolean?): ArrayList<ExpenseModel> {
         val db = db.readableDatabase
         val endDate = end ?: start
@@ -147,6 +138,12 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         return data
     }
 
+    /**
+     * This method gets the sum of the expenses given 2 dates
+     * @param start - the start date (yyyy-MM-dd)
+     * @param end - the end date (yyyy-MM-dd)
+     * @return returns the total of expenses between 2 dates
+     * */
     fun getSumOfDate(start: String, end: String?): Float {
         var sum = 0F
         val db = db.readableDatabase
@@ -161,10 +158,6 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         return sum
     }
 
-    /** This method updates the row of an expense
-     *  @param expense - the expense containing the updated data (also contains the row_id)
-     *  @return returns true if the record has been updated. Otherwise, returns false
-     * */
     override fun updateExpense(expense: ExpenseModel): Boolean {
         val db = db.writableDatabase
         val cv = ContentValues()
@@ -178,11 +171,6 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         return result != -1
     }
 
-
-    /** This method deletes an Expense
-     *  @param rowId - the row_id of the expense to be deleted
-     *  @return returns true if the record has been deleted. Otherwise, returns false
-     * */
     override fun deleteExpense(rowId: String):Boolean {
         val db = db.writableDatabase
         val result = db.delete(DbReferences.EXPENSE_TABLE, "${DbReferences.COLUMN_EXPENSE_ID}=?", arrayOf(rowId))
@@ -317,21 +305,31 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
         return data
     }
 
+    /** This method gets the average percent of the daily budget spent in a month
+     *  @param month - the month
+     *  @param year - the year
+     *  @return returns the average percent of the daily budgets spent in a month
+     * */
     fun getAveragePerformanceOfMonth(month: Int, year:Int): Float {
         var avg = 0F
         val db = db.writableDatabase
         val start = DateHelper.getStartDateString(month ,year)
         val end = DateHelper.getEndDateString(month, year)
-        var cursor = db.rawQuery(FIND_AVERAGE_PERFORMANCE_BY_MONTH, arrayOf(start, end))
+        val cursor = db.rawQuery(FIND_AVERAGE_PERFORMANCE_BY_MONTH, arrayOf(start, end))
 
         if (cursor != null && cursor.moveToFirst()) {
             avg = cursor.getFloat(cursor.getColumnIndex(DbReferences.COLUMN_AGG_AVG))
+            cursor.close()
         }
 
-        Log.d("CURSOR", DatabaseUtils.dumpCursorToString(cursor))
         return avg
     }
 
+    /** This method returns sum of all expenses grouped by day in a month
+     *  @param month - the month
+     *  @param year - the year
+     *  @return returns an arraylist containing all the expenses per day in their respective indices
+     * */
     fun getSumPerDayOfMonth(month: Int, year: Int): ArrayList<MonthlyExpense> {
         val startDate = Calendar.getInstance()
         val endDate = Calendar.getInstance()
@@ -365,7 +363,7 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
             Log.d("index", i.toString())
         }
 
-        var cursor = db.rawQuery(DbReferences.FIND_DAILY_SUM_BY_MONTH,
+        val cursor = db.rawQuery(DbReferences.FIND_DAILY_SUM_BY_MONTH,
             arrayOf(FormatHelper.dateFormatterNoTime.format(startDate.time),
             FormatHelper.dateFormatterNoTime.format(endDate.time)))
 
@@ -378,22 +376,36 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
 
                 data[expenseDate.get(Calendar.DAY_OF_MONTH) - 1].amount = expenseAmount
             } while (cursor.moveToNext())
+
+            cursor.close()
         }
         return data
     }
 
+    /** This method gets the sum of all expenses by date
+     * @param start - the start date (yyyy-MM-dd)
+     * @param end - the end date (yyyy-MM-dd)
+     * @return returns the sum of all expenses by date
+     * */
     fun getSumOfCategoriesBetweenDate(start: String, end: String?): Float {
         var total = 0f
         val db = db.readableDatabase
 
         val cursor = db.rawQuery(DbReferences.GET_SUM_BY_CATEGORY, arrayOf(start, end?:start))
 
-        if (cursor != null && cursor.moveToFirst())
+        if (cursor != null && cursor.moveToFirst()) {
             total = cursor.getFloat(cursor.getColumnIndex(DbReferences.COLUMN_AGG_SUM))
+            cursor.close()
+        }
 
         return total
     }
 
+    /** This method gets the sum of all expenses between two dates grouped by their categories
+     * @param start - the start date (yyyy-MM-dd)
+     * @param end - the end date (yyyy-MM-dd)
+     * @return returns an arraylist containing the categories and their respective sums
+     * */
     fun getSumPerCategoryBetweenDate(start: String, end: String?): ArrayList<CategoryExpense> {
         val data = ArrayList<CategoryExpense>()
         val db = db.readableDatabase
@@ -437,6 +449,8 @@ class ExpenseDAOImpl(context: Context): ExpenseDAO {
                 expense.percent =  floor((expense.total / total).toDouble() * 100).toInt()
 
             } while (cursor.moveToNext())
+
+            cursor.close()
         }
 
         return data

@@ -12,16 +12,7 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_coin_dialog.view.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CoinDialogFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+/** This class represents the earn coins DialogFragment*/
 class CoinDialogFragment : DialogFragment() {
     private  var coins: Int? = null
     var onDismissListener: DialogInterface.OnDismissListener? = null
@@ -71,6 +62,10 @@ class CoinDialogFragment : DialogFragment() {
 
     companion object {
         @JvmStatic
+        /** Creates a new instance of the fragment given some arguments
+         *  @param coins - the amount of coins earned
+         *  @return returns an instance of the DialogFragment
+         *  */
         fun newInstance(coins: Int) =
             CoinDialogFragment().apply {
                 arguments = Bundle().apply {

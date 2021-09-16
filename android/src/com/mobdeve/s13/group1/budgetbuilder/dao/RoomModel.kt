@@ -1,5 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder.dao
 
+/** This class represents a room given its image, name, month, year, id and path to image
+ * */
 class RoomModel {
     var img: Int? = null
     var name: String? = null

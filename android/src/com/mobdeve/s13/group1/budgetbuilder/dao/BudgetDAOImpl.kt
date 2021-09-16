@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 
+/** This is an implementation of the Budget Data Access Object */
 class BudgetDAOImpl(context: Context?): BudgetDAO {
     companion object{
         /** This method adds a budget to a given database
@@ -24,20 +25,16 @@ class BudgetDAOImpl(context: Context?): BudgetDAO {
 
     private val db: BudgetBuilderDbHelper
 
+    // Initialize the database
     init {
         db = BudgetBuilderDbHelper.getInstance(context)
     }
 
-    /** This method adds a budget to the database
-     *  @param amount - the amount of the budget
-     *  @param date - the date of the budget (yyyy-MM-dd)
-     *  @return returns the row_id of the inserted budget in the database if successful. Otherwise, returns -1
-     * */
-    override fun addBudget(amount: Float, date: String): Long {
+    override fun addBudget(budget: Float, date: String): Long {
         val db = db.writableDatabase
         val cv = ContentValues()
 
-        cv.put(DbReferences.COLUMN_BUDGET_AMOUNT, amount)
+        cv.put(DbReferences.COLUMN_BUDGET_AMOUNT, budget)
         cv.put(DbReferences.COLUMN_BUDGET_DATE, date)
 
         val result = db.insert(DbReferences.BUDGET_TABLE, null, cv)
@@ -55,10 +52,7 @@ class BudgetDAOImpl(context: Context?): BudgetDAO {
         } else -1
     }
 
-    /** This method returns the BudgetModel given a specific date
-     *  @param date - the date of the budget (yyyy-MM-dd)
-     *  @return returns the BudgetModel object containing the info of the budget if it exists. Otherwise, returns null
-     * */
+
     override fun getBudgetByDate(date: String): BudgetModel? {
         val db = db.readableDatabase
         val cursor = db.rawQuery(DbReferences.FIND_BUDGET_BY_DATE, arrayOf(date))
@@ -73,10 +67,7 @@ class BudgetDAOImpl(context: Context?): BudgetDAO {
         cursor.close()
         return budget
     }
-    /** This method returns the BudgetModel given a specific id
-     *  @param id - the row_id of the budget
-     *  @return returns the BudgetModel object containing the info of the budget if it exists. Otherwise, returns null
-     * */
+
     override fun getBudgetById(id: String): BudgetModel? {
         val db = db.readableDatabase
         val cursor = db.rawQuery(DbReferences.FIND_BUDGET_BY_ID, arrayOf(id))
@@ -92,13 +83,10 @@ class BudgetDAOImpl(context: Context?): BudgetDAO {
         return budget
     }
 
-    /** This method returns an arraylist of BudgetModel objects containing the information of all the budgets in the database
-     *  @return returns an arraylist of BudgetModel objects containing the information of all the budgets in the database
-     * */
     override fun getAllBudgets(): ArrayList<BudgetModel> {
         val db = db.readableDatabase
         val cursor = db.rawQuery(DbReferences.FIND_ALL_BUDGET, null)
-        var budgets = ArrayList<BudgetModel>()
+        val budgets = ArrayList<BudgetModel>()
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -114,30 +102,20 @@ class BudgetDAOImpl(context: Context?): BudgetDAO {
         return budgets
     }
 
-
-    /** This method updates the row of a budget
-     *  @param rowId - the id of the budget
-     *  @param amount - the updated amount of the budget
-     *  @return returns true if the record has been updated. Otherwise, returns false
-     * */
-    override fun updateBudget(rowId: String, amount: Float): Boolean{
+    override fun updateBudget(id: String, budget: Float): Boolean{
         val db = db.writableDatabase
         val cv = ContentValues()
 
-        cv.put(DbReferences.COLUMN_BUDGET_AMOUNT, amount)
+        cv.put(DbReferences.COLUMN_BUDGET_AMOUNT, budget)
 
-        val result = db.update(DbReferences.BUDGET_TABLE, cv, "${DbReferences.COLUMN_BUDGET_ID}=?", arrayOf(rowId))
+        val result = db.update(DbReferences.BUDGET_TABLE, cv, "${DbReferences.COLUMN_BUDGET_ID}=?", arrayOf(id))
 
         return result != -1
     }
 
-    /** This method deletes a Budget
-     *  @param rowId - the row_id of the budget to be deleted
-     *  @return returns true if the record has been deleted. Otherwise, returns false
-     * */
-    fun deleteBudget(rowId: String): Boolean {
+    override fun deleteBudget(id: String): Boolean {
         val db = db.writableDatabase
-        val result = db.delete(DbReferences.BUDGET_TABLE, "${DbReferences.COLUMN_BUDGET_ID}=?", arrayOf(rowId))
+        val result = db.delete(DbReferences.BUDGET_TABLE, "${DbReferences.COLUMN_BUDGET_ID}=?", arrayOf(id))
 
         return result != -1
     }

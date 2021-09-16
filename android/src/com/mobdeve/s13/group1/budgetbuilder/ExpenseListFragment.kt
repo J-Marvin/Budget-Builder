@@ -16,6 +16,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
+/** This fragment represents the list of expenses Fragment*/
 class ExpenseListFragment : Fragment() {
     lateinit var expens: ArrayList<ExpenseModel>
     lateinit var db: ExpenseDAOImpl
@@ -71,13 +72,17 @@ class ExpenseListFragment : Fragment() {
         rootView.rv_expenses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
     }
 
+    /** This method refreshes the recycler view
+     *  @param month - the month (index 0)
+     *  @param year - the year
+     * */
     fun refreshRecyclerView(month: Int, year: Int) {
         view?.let {
             executorService.run {
                 val today = Calendar.getInstance()
 
-                val start = DateHelper.getStartDateString(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
-                val end = DateHelper.getEndDateString(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
+                val start = DateHelper.getStartDateString(month, year)
+                val end = DateHelper.getEndDateString(month, year)
 
                 expens.clear()
                 expens.addAll(db.getExpensesByDate(start, end, false))

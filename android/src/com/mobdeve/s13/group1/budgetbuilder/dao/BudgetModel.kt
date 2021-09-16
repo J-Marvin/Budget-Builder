@@ -1,5 +1,7 @@
 package com.mobdeve.s13.group1.budgetbuilder.dao
 
+/** This class represents a Budget with its amount, date and id
+ * */
 class BudgetModel {
     var budget: Float? = null
     var date: String? = null

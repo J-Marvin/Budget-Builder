@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 
 class DbReferences {
     companion object{
+        // Database Information
         const val DATABASE_NAME = "BudgetBuilder.db"
         const val DATABASE_VERSION = 1
         const val ROOM_TABLE = "rooms"
@@ -51,6 +52,8 @@ class DbReferences {
 
         val aggList = arrayOf("avg", "count", "max", "min", "sum", "total")
 
+        // SQLITE Statements
+        // Create Room Table Statement
         const val CREATE_ROOM_TABLE = "CREATE TABLE $ROOM_TABLE (" +
                 "$COLUMN_ROOM_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_ROOM_MONTH INTEGER NOT NULL," +
@@ -58,6 +61,7 @@ class DbReferences {
                 "$COLUMN_ROOM_PATH TEXT, " +
                 "$COLUMN_ROOM_NAME TEXT)"
 
+        // Create Furniture Table Statement
         const val CREATE_FURNITURE_TABLE = "CREATE TABLE $FURNITURE_TABLE (" +
                 "$COLUMN_FURNITURE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_ROOM_ID INTEGER NOT NULL," +
@@ -72,12 +76,14 @@ class DbReferences {
                 "FOREIGN KEY($COLUMN_ROOM_ID) REFERENCES $ROOM_TABLE($COLUMN_ROOM_ID)" +
                 ")"
 
+        // Create Budget Table Statement
         const val CREATE_BUDGET_TABLE = "CREATE TABLE $BUDGET_TABLE (" +
                 "$COLUMN_BUDGET_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_BUDGET_AMOUNT REAL NOT NULL," +
                 "$COLUMN_BUDGET_DATE TEXT NOT NULL" +
                 ")"
 
+        // Create Expense Table Statement
         const val CREATE_EXPENSE_TABLE = "CREATE TABLE $EXPENSE_TABLE (" +
                 "$COLUMN_EXPENSE_ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_EXPENSE_TYPE TEXT NOT NULL," +
@@ -88,34 +94,43 @@ class DbReferences {
                 "FOREIGN KEY($COLUMN_BUDGET_ID) REFERENCES $BUDGET_TABLE($COLUMN_BUDGET_ID)" +
                 ")"
 
+        // Drop statements
         const val DROP_ROOM_TABLE = "DROP TABLE IF EXISTS $ROOM_TABLE"
         const val DROP_FURNITURE_TABLE = "DROP TABLE IF EXISTS $FURNITURE_TABLE"
         const val DROP_BUDGET_TABLE = "DROP TABLE IF EXISTS $BUDGET_TABLE"
         const val DROP_EXPENSE_TABLE = "DROP TABLE IF EXISTS $EXPENSE_TABLE"
 
+        // Statement to find a budget given a date
         const val FIND_BUDGET_BY_DATE = "SELECT * FROM $BUDGET_TABLE WHERE $COLUMN_BUDGET_DATE = ?"
+        // Statement to find a budget given an id
         const val FIND_BUDGET_BY_ID = "SELECT * FROM $BUDGET_TABLE WHERE $COLUMN_BUDGET_ID = ?"
+        // Statement to find all budgets
         const val FIND_ALL_BUDGET = "SELECT * FROM $BUDGET_TABLE"
+        // Statement to find a budget between two dates in descending order
         const val FIND_EXPENSES_BY_DATE_DESC = "SELECT * " +
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? " +
                 "ORDER BY $COLUMN_EXPENSE_DATE DESC"
 
+        // Find expenses between two dates in ascending order
         const val FIND_EXPENSES_BY_DATE_ASC = "SELECT * " +
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? " +
                 "ORDER BY $COLUMN_EXPENSE_DATE"
 
+        // Find the sum of expenses between two dates
         const val FIND_SUM_OF_EXPENSES_BY_DATE = "SELECT SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? "
 
+        // Find the daily sum of expenses per day between two dates
         const val FIND_DAILY_SUM_BY_MONTH = "SELECT strftime('%Y-%m-%d', $COLUMN_EXPENSE_DATE) AS $COLUMN_EXPENSE_DATE, " +
                 "SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ?" +
                 "GROUP BY strftime('%Y-%m-%d', $COLUMN_EXPENSE_DATE) "
 
+        // Find the average percent of budget spend between two dates
         const val FIND_AVERAGE_PERFORMANCE_BY_MONTH = "SELECT AVG($COLUMN_AGG_PERFORMANCE) AS $COLUMN_AGG_AVG " +
                 "FROM (" +
                 "SELECT $COLUMN_AGG_SUM / $COLUMN_BUDGET_AMOUNT AS $COLUMN_AGG_PERFORMANCE " +
@@ -123,27 +138,37 @@ class DbReferences {
                     "JOIN $BUDGET_TABLE WHERE strftime('%Y-%m-%d', q.$COLUMN_EXPENSE_DATE) = strftime('%Y-%m-%d',$COLUMN_BUDGET_DATE)" +
                 ") performance"
 
+        // Find all expenses given a category between two dates
         const val FIND_EXPENSES_BY_CATEGORY_BETWEEN_DATE = "SELECT ${COLUMN_EXPENSE_TYPE}, SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? " +
                 "GROUP BY $COLUMN_EXPENSE_TYPE"
 
+        // Find sum of expenses of a given category between two dates
         const val GET_SUM_BY_CATEGORY = "SELECT SUM($COLUMN_EXPENSE_AMOUNT) AS $COLUMN_AGG_SUM " +
                 "FROM $EXPENSE_TABLE " +
                 "WHERE $COLUMN_EXPENSE_DATE BETWEEN ? AND ? "
 
+        // Find all furnitures
         const val FIND_ALL_FURNITURE = "SELECT * FROM $FURNITURE_TABLE"
+        // Find all furniture of a room
         const val FIND_FURNITURE_BY_ROOM = "SELECT * FROM $FURNITURE_TABLE WHERE $COLUMN_ROOM_ID = ?"
+        // Find all equipped furniture of a room
         const val FIND_EQUIPPED_FURNITURE_BY_ROOM = "SELECT * FROM $FURNITURE_TABLE " +
                 "WHERE $COLUMN_ROOM_ID = ? " +
                 "AND $COLUMN_FURNITURE_EQUIPPED = 1"
+        // Find all owned furniture of a room
         const val FIND_OWNED_FURNITURE_BY_ROOM = "SELECT * FROM $FURNITURE_TABLE " +
                 "WHERE $COLUMN_ROOM_ID = ? " +
                 "AND $COLUMN_FURNITURE_OWNED = 1"
 
+        // Find all rooms
         const val FIND_ALL_ROOMS = "SELECT * FROM $ROOM_TABLE"
+        // Find a room given a date
         const val FIND_ROOM_BY_DATE = "SELECT * FROM $ROOM_TABLE WHERE $COLUMN_ROOM_MONTH = ? AND $COLUMN_ROOM_YEAR = ?"
+        // Find a room given an id
         const val FIND_ROOM_BY_ID = "SELECT * FROM $ROOM_TABLE WHERE $COLUMN_ROOM_ID = ?"
+        // Find previous rooms
         const val FIND_PREVIOUS_ROOMS = "SELECT * FROM $ROOM_TABLE WHERE $COLUMN_ROOM_NAME IS NOT NULL AND $COLUMN_ROOM_PATH IS NOT NULL"
     }
 }

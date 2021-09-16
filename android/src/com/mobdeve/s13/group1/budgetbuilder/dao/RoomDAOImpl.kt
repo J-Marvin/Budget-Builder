@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.mobdeve.s13.group1.budgetbuilder.DataHelper
 
+/** This is an implementation of the Room Data Access Object */
 class RoomDAOImpl(context: Context): RoomDAO {
 
     companion object {
@@ -31,11 +32,6 @@ class RoomDAOImpl(context: Context): RoomDAO {
         db = BudgetBuilderDbHelper.getInstance(context)
     }
 
-    /** This method inserts a room in the database
-     *  @param month - the month for the room(1-based index)
-     *  @param year - the year for the room
-     *  @return returns the row_id of the room
-     * */
     override fun addRoom(month: Int, year: Int): Long {
         val db = db.writableDatabase
         val cv = ContentValues()
@@ -46,10 +42,6 @@ class RoomDAOImpl(context: Context): RoomDAO {
         return db.insert(DbReferences.ROOM_TABLE, null, cv)
     }
 
-    /** This method updates the row of a room
-     *  @param room - the RoomModel object containing the information of the room
-     *  @return returns true if the record has been updated. Otherwise, returns false
-     * */
     override fun updateRoom(room: RoomModel): Boolean {
         val db = db.writableDatabase
         val cv = ContentValues()
@@ -64,10 +56,6 @@ class RoomDAOImpl(context: Context): RoomDAO {
         return result != -1
     }
 
-    /** This method gets a room from the database
-     *  @param id - the row_id of the room
-     *  @return returns the RoomModel object containing the Room information if it exists
-     * */
     override fun getRoom(id: String): RoomModel? {
         val db = db.readableDatabase
         val cursor = db.rawQuery(DbReferences.FIND_ROOM_BY_ID, arrayOf(id))
@@ -89,7 +77,7 @@ class RoomDAOImpl(context: Context): RoomDAO {
         return room
     }
 
-    fun getRoomByDate(month: Int, year: Int): RoomModel? {
+    override fun getRoomByDate(month: Int, year: Int): RoomModel? {
         val db = db.readableDatabase
         val cursor = db.rawQuery(DbReferences.FIND_ROOM_BY_DATE, arrayOf(month.toString(), year.toString()))
         var room: RoomModel? = null
@@ -100,12 +88,14 @@ class RoomDAOImpl(context: Context): RoomDAO {
                 cursor.getInt(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_YEAR)),
                 cursor.getLong(cursor.getColumnIndex(DbReferences.COLUMN_ROOM_ID)).toString()
             )
+
+            cursor.close()
         }
 
         return room
     }
 
-    fun getAllRooms(): ArrayList<RoomModel> {
+    override fun getAllRooms(): ArrayList<RoomModel> {
         val db = db.readableDatabase
         val cursor = db.rawQuery(DbReferences.FIND_ALL_ROOMS, null)
         val rooms = ArrayList<RoomModel>()
@@ -123,6 +113,8 @@ class RoomDAOImpl(context: Context): RoomDAO {
                 room.name = name
                 rooms.add(room)
             } while (cursor.moveToNext())
+
+            cursor.close()
         }
 
         return rooms
@@ -147,15 +139,13 @@ class RoomDAOImpl(context: Context): RoomDAO {
                 room.name = name
                 rooms.add(room)
             } while (cursor.moveToNext())
+
+            cursor.close()
         }
 
         return rooms
     }
 
-    /** This method deletes a Room
-     *  @param rowId - the row_id of the room to be deleted
-     *  @return returns true if the record has been deleted. Otherwise, returns false
-     * */
     override fun deleteRoom (rowId: String): Boolean {
         val db = db.writableDatabase
         val result = db.delete(DbReferences.ROOM_TABLE, "${DbReferences.COLUMN_ROOM_ID}=?", arrayOf(rowId))
@@ -163,12 +153,7 @@ class RoomDAOImpl(context: Context): RoomDAO {
         return result != -1
     }
 
-    /** This method inserts a room in the database and initializes all the furniture
-     *  @param month - the month for the room(1-based index)
-     *  @param year - the year for the room
-     *  @return returns the row_id of the room
-     * */
-    fun initRoomFurniture(month: Int, year: Int): Long {
+    override fun initRoomFurniture(month: Int, year: Int): Long {
         val db = db.writableDatabase
         val roomId = this.addRoom(month, year)
         val furniture = DataHelper.getFurniture()

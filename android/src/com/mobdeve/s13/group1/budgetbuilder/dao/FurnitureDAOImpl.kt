@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import java.util.ArrayList
 
+/** This is an implementation of the Furniture Data Access Object */
 class FurnitureDAOImpl(context: Context): FurnitureDAO {
 
     companion object{
@@ -36,11 +37,6 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         db = BudgetBuilderDbHelper.getInstance(context)
     }
 
-
-    /** This method inserts one furniture inside the database
-     *  @param furniture - the furniture to be inserted
-     *  @return returns the row_id of the furniture
-     * */
     override fun addFurniture(furniture: FurnitureModel): Long {
         val db = db.writableDatabase
         val cv = ContentValues()
@@ -57,10 +53,6 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         return db.insert(DbReferences.FURNITURE_TABLE, null, cv)
     }
 
-    /** This method updates the row of a piece of furniture
-     *  @param furniture - the furniture containing the updated data (also contains the row_id)
-     *  @return returns true if the record has been updated. Otherwise, returns false
-     * */
     override fun updateFurniture(furniture: FurnitureModel): Boolean {
         val db = db.writableDatabase
         val cv = ContentValues()
@@ -76,9 +68,6 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         return result != -1
     }
 
-    /** This method returns all the furniture in the furniture table
-     *  @return returns an ArrayList<Furniture> of all the furniture inside the table
-     * */
     override fun findAllFurniture(): ArrayList<FurnitureModel> {
         val db = db.readableDatabase
 
@@ -115,10 +104,6 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         return data
     }
 
-    /** This method returns all the furniture in the furniture table of a given room
-     *  @param roomId - the row_id of the room
-     *  @return returns an ArrayList<Furniture> of all the furniture of a given room
-     * */
     override fun findAllFurnitureByRoom(roomId: String): ArrayList<FurnitureModel> {
         val db = db.readableDatabase
 
@@ -155,10 +140,6 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         return data
     }
 
-    /** This method returns all the equipped furniture of a given room
-     *  @param roomId - the row_id of the room
-     *  @return returns an ArrayList<Furniture> of all the equipped furniture of a given room
-     * */
     override fun findEquippedFurnitureByRoom(roomId: String): ArrayList<FurnitureModel> {
         val db = db.readableDatabase
 
@@ -193,10 +174,6 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         return data
     }
 
-    /** This method returns all the equipped furniture of a given room
-     *  @param roomId - the row_id of the room
-     *  @return returns an ArrayList<Furniture> of all the equipped furniture of a given room
-     * */
     override fun findOwnedFurnitureByRoom(roomId: String): ArrayList<FurnitureModel> {
         val db = db.readableDatabase
 
@@ -231,10 +208,7 @@ class FurnitureDAOImpl(context: Context): FurnitureDAO {
         return data
     }
 
-    /** This method deletes a Furniture
-     *  @param rowId - the row_id of the furniture to be deleted
-     *  @return returns true if the record has been deleted. Otherwise, returns false
-     * */
+
     override fun deleteFurniture(rowId: String): Boolean {
         val db = db.writableDatabase
         val result = db.delete(DbReferences.FURNITURE_TABLE, "${DbReferences.COLUMN_FURNITURE_ID}=?", arrayOf(rowId))

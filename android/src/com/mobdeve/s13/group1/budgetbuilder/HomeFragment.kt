@@ -28,7 +28,6 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
 class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
@@ -99,7 +98,7 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         super.onResume()
         loadSettings()
 
-        // check if same month
+        // check date
         if (prevDate === null) {
             Log.d("PREV DATE", "Prev Date is NULL")
             initSettings()
@@ -121,9 +120,6 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         super.onViewCreated(view, savedInstanceState)
         initDate()
         showBalance()
-//        showBudget()
-//        showDifference()
-//        showExpenses()
     }
 
     private fun initMonth() {

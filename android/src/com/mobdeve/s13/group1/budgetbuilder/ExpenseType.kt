@@ -1,5 +1,6 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+/** A enumeration of the different types of categories and their corresponding values */
 enum class ExpenseType(val iconColor: String, val backColor: String, val iconImg: Int, val textType: String) {
     ENTERTAINMENT("#008A8A", "#BAE5E6", R.drawable.expense_type_entertainment, "Entertainment"),
     FOOD("#CF3B3B", "#EDC4C4", R.drawable.expense_type_food, "Food"),

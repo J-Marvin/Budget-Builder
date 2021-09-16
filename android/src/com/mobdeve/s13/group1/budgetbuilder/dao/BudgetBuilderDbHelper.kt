@@ -31,8 +31,6 @@ class BudgetBuilderDbHelper(context: Context?) : SQLiteOpenHelper(context, DbRef
         db?.execSQL(DbReferences.CREATE_BUDGET_TABLE)
         db?.execSQL(DbReferences.CREATE_EXPENSE_TABLE)
         db?.execSQL(DbReferences.CREATE_FURNITURE_TABLE)
-
-//        initDb(db)
     }
 
     /** This method recreates the database when the app upgrades
@@ -48,30 +46,9 @@ class BudgetBuilderDbHelper(context: Context?) : SQLiteOpenHelper(context, DbRef
         this.onCreate(db)
     }
 
-    /** This method initializes the data in the database
-     *  @param db - the database
+    /** This method resets the database
+     *  @returns true if the database has been reset
      * */
-    fun initDb(db: SQLiteDatabase?){
-        var furnitures = DataHelper.getFurniture()
-        var expenses = DataHelper.getExpenses()
-        var today = Calendar.getInstance()
-
-        var roomId = addRoom(db, today.get(Calendar.MONTH), today.get(Calendar.YEAR))
-        var budgetId = BudgetDAOImpl.addBudget(db,5000F, FormatHelper.dateFormatterNoTime.format(today.time))
-
-        if (roomId != -1L) {
-            for(furniture in furnitures){
-                furniture.roomId = roomId.toString()
-                FurnitureDAOImpl.addFurniture(db, furniture)
-            }
-
-        }
-        for(expense in expenses) {
-            expense.budgetId = budgetId.toString()
-            ExpenseDAOImpl.addExpense(db, expense)
-        }
-    }
-
     fun resetDb(): Boolean {
         val db = this.writableDatabase
         db?.execSQL(DbReferences.DROP_EXPENSE_TABLE)

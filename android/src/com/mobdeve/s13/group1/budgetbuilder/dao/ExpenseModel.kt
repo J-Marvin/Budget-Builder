@@ -1,7 +1,8 @@
 package com.mobdeve.s13.group1.budgetbuilder.dao
 
 import java.util.*
-
+/** This class represents an Expense with its id, budget id, date, type, amount and description
+ * */
 class ExpenseModel {
 
     var expenseId: String? = null
