@@ -154,6 +154,9 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
             updateRecyclerView(expenses)
         } else {
             (fragment as LineChartFragment).updateChart(month, year)
+            this.childFragmentManager.commit {
+                replace<LineChartFragment>(R.id.fragView_summary)
+            }
             updateRecyclerView(expenses)
             setMessageVisibility(View.GONE)
         }
@@ -168,6 +171,7 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
 
     fun getMonth() = month
     fun getYear() = year
+
     override fun onAddExpense(amount: Float, type: String) {
         onSelectDate(month!!, year!!)
     }
