@@ -91,7 +91,7 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         super.onResume()
         loadSettings()
 
-        // check if same month
+        // check date
         if (prevDate === null) {
             Log.d("PREV DATE", "Prev Date is NULL")
             initSettings()
@@ -113,9 +113,6 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         super.onViewCreated(view, savedInstanceState)
         initDate()
         showBalance()
-//        showBudget()
-//        showDifference()
-//        showExpenses()
     }
 
     /**

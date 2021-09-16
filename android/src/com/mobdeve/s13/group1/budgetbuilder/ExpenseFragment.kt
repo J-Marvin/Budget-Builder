@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.fragment_expense.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
 
+/** This class represents a Expense Fragment*/
 class ExpenseFragment : Fragment(), DatePickerListener {
 
     private var month: Int? = null
@@ -26,6 +27,7 @@ class ExpenseFragment : Fragment(), DatePickerListener {
 
         initDate(rootView)
 
+        // initialize settings button
         rootView.btn_expense_settings.setOnClickListener {
             Navigation.findNavController(rootView).navigate(R.id.action_global_settingsFragment)
         }
@@ -40,6 +42,9 @@ class ExpenseFragment : Fragment(), DatePickerListener {
         (requireActivity() as MainActivity).setExpenseListener(null)
     }
 
+    /** This method initializes the date shown
+     *  @param rootView - the view of the fragment
+     *  */
     private fun initDate(rootView: View) {
         val today = Calendar.getInstance()
         val displayName = today.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)
@@ -48,6 +53,9 @@ class ExpenseFragment : Fragment(), DatePickerListener {
         rootView.btn_expense_date.text = String.format(resources.getString(R.string.month_year), displayName, year)
     }
 
+    /** This method initializes the date picker
+     *  @param rootView - the view of the fragment
+     *  */
     private fun initDatePicker(rootView: View) {
         rootView.btn_expense_date.setOnClickListener {
             var dialog = DatePickerDialogFragment.newInstance(month!!, year!!)
@@ -58,6 +66,10 @@ class ExpenseFragment : Fragment(), DatePickerListener {
         }
     }
 
+    /** This method updates the month and year shown
+     *  @param month - the month (index 0)
+     *  @param year - the year
+     * */
     private fun updateDate(month: Int, year: Int) {
         this.month = month
         this.year = year

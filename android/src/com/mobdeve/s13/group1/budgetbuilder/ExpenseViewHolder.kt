@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.*
 
+/** This class represents the view holder for the recycler view for expenses
+ * */
 class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
     val ivExpenseItemPic: ImageView
     val tvType: TextView
@@ -30,6 +32,9 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         cardExpense = view.findViewById(R.id.card_expense_item)
     }
 
+    /** This method sets the category of the expense
+     *  @param type - the category of the expense
+     *  */
     fun setType(type: String) {
         var expenseType = ExpenseType.valueOf(type.uppercase()) //find enum value
 
@@ -42,19 +47,31 @@ class ExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
         tvType.text = expenseType.textType
     }
 
+    /** This method sets the description of the expense
+     *  @param desc - the description of the expense
+     *  */
     fun setDesc(desc: String) {
         tvDesc.text = desc
     }
 
+    /** This method sets the amount of the expense
+     *  @param amount - the amount of the expense
+     *  */
     fun setAmount(amount: Float) {
         tvExpenseAmount.text = "-" + String.format("%.02f", amount)
     }
 
+    /** This method sets the time of the expense
+     *  @param currTime - the time of the expense
+     *  */
     fun setDateTime(currTime: Date) {
         tvDate.text = SimpleDateFormat("MMM dd, yyyy").format(currTime)
         tvTime.text = SimpleDateFormat("hh:mm a").format(currTime)
     }
 
+    /** This method sets the on click listener
+     *  @param listener - the View.OnClickListener
+     *  */
     fun setOnClickListener(listener: View.OnClickListener){
         cardExpense.setOnClickListener(listener)
     }

@@ -6,17 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import java.text.DateFormatSymbols
 
 import kotlinx.android.synthetic.main.fragment_date_picker.view.*
 import java.util.*
 
+/** This class represents the DatePicker dialog*/
 class DatePickerDialogFragment : DialogFragment() {
-    private var month: Int? = null
-    private var year: Int? = null
-    lateinit var listener: DatePickerListener
-
+    private var month: Int? = null // the month chosen
+    private var year: Int? = null // the year chosen
+    lateinit var listener: DatePickerListener // the onchange listener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,14 @@ class DatePickerDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         return inflater.inflate(R.layout.fragment_date_picker, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +48,7 @@ class DatePickerDialogFragment : DialogFragment() {
         initDatePicker()
     }
 
+    /** This function initializes the date picker*/
     private fun initDatePicker() {
         var months = DateFormatSymbols.getInstance().months
         this.view?.let { view ->
@@ -67,7 +76,21 @@ class DatePickerDialogFragment : DialogFragment() {
 
     }
 
+    fun hideSystemUI(){
+        dialog?.window?.decorView?.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+    }
+
     companion object {
+
+        /** This method returns a new instance of the DialogFragment given some arguments
+         *  @param month - the month (index 0)
+         *  @param year - the year
+         *  @return returns a new instance of the DialogFragment given some arguments
+         * */
         @JvmStatic
         fun newInstance(month: Int, year: Int) =
             DatePickerDialogFragment().apply {

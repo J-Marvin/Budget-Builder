@@ -1,7 +1,8 @@
 package com.mobdeve.s13.group1.budgetbuilder.dao
 
-import android.graphics.drawable.Drawable
-
+/** This class represents a Furniture with its imageId, price, whether its owned and equipped,
+ *  name and type
+ * */
 class FurnitureModel (
     val imageId: Int,
     val price: Int,

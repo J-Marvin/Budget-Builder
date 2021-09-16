@@ -21,11 +21,19 @@ import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_edit_expense_dialog.view.btn_cancel_edit_expense
 import java.util.*
 
+/** This class represents teh Edit Expense DialogFragment*/
 class EditExpenseDialogFragment : DialogFragment() {
     lateinit var db : ExpenseDAOImpl
     lateinit var updateExpenseHandler: UpdateExpenseHandler
 
     companion object {
+        /** This method returns a new instance of the dialog given some arguments
+         *  @param amount - the amount of the expense
+         *  @param categoryType - the category of the expense
+         *  @param desc - the description of the expense
+         *  @param sentexpenseId - the id of the expense
+         *  @param sentdate - the date of the expense
+         * */
         fun newInstance(amount: Float, categoryType: String, desc: String, sentexpenseId: String, sentdate: String): EditExpenseDialogFragment{
             val args = Bundle()
             args.putFloat(Keys.KEY_EDIT_EXPENSE_AMOUNT.name, amount)
@@ -41,7 +49,8 @@ class EditExpenseDialogFragment : DialogFragment() {
     }
 
     // Source: https://gist.github.com/kakajika/a236ba721a5c0ad3c1446e16a7423a63
-    fun Spinner.avoidDropdownFocus() {
+    /** This function prevents focus to the dropdown when shown */
+    private fun Spinner.avoidDropdownFocus() {
         try {
             val isAppCompat = this is androidx.appcompat.widget.AppCompatSpinner
             val spinnerClass = if (isAppCompat) androidx.appcompat.widget.AppCompatSpinner::class.java else Spinner::class.java
@@ -117,6 +126,7 @@ class EditExpenseDialogFragment : DialogFragment() {
         var fullCategoryType = requireArguments().getString(Keys.KEY_EDIT_EXPENSE_TYPE.toString())
         view.spinner_edit_expense.setSelection(ExpenseType.valueOf(fullCategoryType!!.uppercase()).ordinal)
 
+        // Add on edit expense on click listener
         view.btn_edit_expense.setOnClickListener{
             var expenseDesc = etStr_edit_expense_desc.text.toString()
             var expenseAmt = etNum_edit_expense_amount.text.toString()
@@ -156,6 +166,7 @@ class EditExpenseDialogFragment : DialogFragment() {
 
     }
 
+    /** This function hides the system UI */
     fun hideSystemUI(){
         dialog?.window?.decorView?.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY

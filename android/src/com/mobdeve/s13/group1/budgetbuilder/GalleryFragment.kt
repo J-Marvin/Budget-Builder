@@ -15,6 +15,7 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.RoomDAOImpl
 
 import kotlinx.android.synthetic.main.fragment_gallery.view.*
 
+/** This class represents the Gallery Fragment*/
 class GalleryFragment : Fragment() {
 
     private lateinit var roomDb: RoomDAOImpl
@@ -43,7 +44,11 @@ class GalleryFragment : Fragment() {
         (requireActivity() as MainActivity).setExpenseListener(null)
     }
 
+    /** This method initializes the recycler view
+     *  @param rootView - the view of the fragment
+     *  */
     private fun initRecyclerView(rootView:View) {
+        // the listener for when the room is selected
         val onSelectListener = object: OnSelectListener{
             override fun onSelect(name: String, path: String) {
                 rootView.tv_gallery_name.text = name
@@ -60,6 +65,7 @@ class GalleryFragment : Fragment() {
         }
         var data = roomDb.getPreviousRooms()
 
+        // if there are no previous rooms, show message
         if (data.size > 0) {
             rootView.tv_no_rooms.visibility = View.GONE
             rootView.rv_prev_rooms.adapter = GalleryAdapter(onSelectListener, requireActivity().applicationContext, data)

@@ -14,11 +14,15 @@ import androidx.fragment.app.DialogFragment
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseDAOImpl
 import kotlinx.android.synthetic.main.fragment_delete_expense_dialog.view.*
 
+/** This class represents the delete expense Dialog Fragment*/
 class DeleteExpenseDialogFragment : DialogFragment() {
     lateinit var db: ExpenseDAOImpl
     var buttonPressed: String? = null
 
     companion object {
+        /** This method returns a new instance of the DialogFragment given some arguments
+         *  @param rowId - the id of the budget
+         *  @return returns an instance of the DialogFragment given some arguments*/
         fun newInstance(rowId: String): DeleteExpenseDialogFragment{
             val args = Bundle()
             args.putString(Keys.KEY_VIEW_EXPENSE_ID.name, rowId)
@@ -76,6 +80,7 @@ class DeleteExpenseDialogFragment : DialogFragment() {
         }
     }
 
+    /** This method hides the system UI */
     fun hideSystemUI(){
         dialog?.window?.decorView?.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
