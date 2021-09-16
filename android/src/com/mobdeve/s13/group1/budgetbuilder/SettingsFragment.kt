@@ -24,13 +24,18 @@ import kotlinx.android.synthetic.main.fragment_set_budget.view.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import java.util.*
 
-
+/**
+ * This class handles the settings
+ */
 class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var sp: SharedPreferences
     private lateinit var spEditor: SharedPreferences.Editor
     private lateinit var roomDb: RoomDAOImpl
     private lateinit var budgetDb: BudgetDAOImpl
 
+    /**
+     * This function prevents the spinner from changing the navbar visibility
+     */
     // Source: https://gist.github.com/kakajika/a236ba721a5c0ad3c1446e16a7423a63
     fun Spinner.avoidDropdownFocus() {
         try {
@@ -98,6 +103,9 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         return rootView
     }
 
+    /**
+     * This function resets the database if the reset button is pressed
+     */
     private fun resetSettings() {
 
         val today = Calendar.getInstance()
@@ -124,6 +132,9 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         spEditor.commit()
     }
 
+    /**
+     * This function initializes the selectable values for the spinner
+     */
     private fun initSpinner(rootView: View) {
         if (sp.getString(Keys.KEY_CURRENCY.toString(), "$").equals("₱")) {
             rootView.spinner_settings_currency.setSelection(0)
@@ -133,6 +144,10 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         rootView.spinner_settings_currency.onItemSelectedListener = this
     }
 
+    /**
+     * This function initializes the default budget if it has been set
+     * @parm rootView the parent view of this view
+     */
     private fun initBudget(rootView: View) {
         if (sp.contains(Keys.KEY_DEFAULT_BUDGET.toString())) {
             rootView.etNum_settings_budget.setText(sp.getFloat(Keys.KEY_DEFAULT_BUDGET.toString(), 5000f).toString())

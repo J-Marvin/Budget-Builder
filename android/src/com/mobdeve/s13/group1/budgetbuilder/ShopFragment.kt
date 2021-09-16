@@ -17,6 +17,9 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
 import kotlinx.android.synthetic.main.fragment_shop.view.*
 
+/**
+ * This class handles the shop view
+ */
 class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
     lateinit var chairs: ArrayList<FurnitureModel>
     lateinit var beds: ArrayList<FurnitureModel>
@@ -59,6 +62,10 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
         return rootView
     }
 
+    /**
+     * This function initializes the recycler view of the shop
+     * @param rootView the parent view of this view
+     */
     private fun initRecyclerViews(rootView: View){
         val equipListener = object: EquipListener{
             override fun onEquip() {
@@ -94,6 +101,9 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
         rootView.rv_coffeetable.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
     }
 
+    /**
+     * This function initializes the available furniture
+     */
     private fun initData() {
 
         this.furnitureModel = db.findAllFurnitureByRoom(roomId)
@@ -125,10 +135,17 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
         (requireActivity() as MainActivity).setExpenseListener(null)
     }
 
+    /**
+     * This function gets the current coin balance
+     * @return the current coin balance
+     */
     fun getBalance(): Int{
         return sp.getInt(Keys.KEY_BALANCE.toString(), 100)
     }
 
+    /**
+     * This function initializes the coin balance if it doesn't exist
+     */
     private fun initBalance() {
         if (sp.contains(Keys.KEY_BALANCE.toString())) {
             balance = sp.getInt(Keys.KEY_BALANCE.toString(), 20)
@@ -139,6 +156,10 @@ class ShopFragment : Fragment(), AndroidFragmentApplication.Callbacks{
         }
     }
 
+    /**
+     * This function updates the view for the coin balance
+     * @param bal the updated coin balance
+     */
     fun updateBalance(bal: Int){
         spEditor.putInt(Keys.KEY_BALANCE.toString(), bal)
         spEditor.apply()

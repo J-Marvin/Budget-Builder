@@ -1,6 +1,5 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
-import android.util.Log
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
@@ -8,14 +7,13 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.PixmapIO
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.FrameBuffer
-import com.badlogic.gdx.graphics.glutils.GLFrameBuffer
 import com.badlogic.gdx.utils.BufferUtils
 import com.badlogic.gdx.utils.ScreenUtils
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureModel
-import java.util.concurrent.Executors
 
-
+/**
+ * This class renders the room
+ */
 class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter(){
     val ROOM_SIZE = 6
     val FLOOR_WIDTH = 150
@@ -73,6 +71,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the floor of the room
+     * @param floor the Texture for the floor
+     */
     fun drawFloor(floor: Texture?) {
         if(floor != null) {
             var x: Float
@@ -88,6 +90,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the couch
+     * @param couch the Texture for the couch
+     */
     fun drawCouch(couch: Texture?) {
         if(couch != null) {
             val x = (Gdx.graphics.width - 4*FLOOR_WIDTH) / 2f + 2*FLOOR_WIDTH
@@ -97,6 +103,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the coffee table
+     * @param coffeeTable the Texture for the coffee table
+     */
     fun drawCoffeeTable(coffeeTable: Texture?) {
         if(coffeeTable != null) {
             val x = (Gdx.graphics.width - 5*FLOOR_WIDTH) / 2f + 2*FLOOR_WIDTH
@@ -106,6 +116,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the bed
+     * @param bed the Texture for the bed
+     */
     fun drawBed(bed: Texture?) {
         if(bed != null) {
             val x = (Gdx.graphics.width - 2*FLOOR_WIDTH) / 2f + FLOOR_WIDTH
@@ -115,6 +129,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the desk
+     * @param desk the Texture for the desk
+     */
     fun drawDesk(desk: Texture?) {
         if(desk != null) {
             val x = (Gdx.graphics.width + 3*FLOOR_WIDTH) / 2f - 4*FLOOR_WIDTH
@@ -124,6 +142,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the desk chair
+     * @param deskChair the Texture for the desk chair
+     */
     fun drawDeskChair(deskChair: Texture?) {
         if(deskChair != null) {
             val x = (Gdx.graphics.width + 3*FLOOR_WIDTH) / 2f - 3*FLOOR_WIDTH
@@ -133,6 +155,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the shelf or cabinet
+     * @param shelfCabinet the Texture for the shelf or cabinet
+     */
     fun drawShelf(shelfCabinet: Texture?) {
         if(shelfCabinet != null) {
             val x = (Gdx.graphics.width + 2*FLOOR_WIDTH) / 2f - 2*FLOOR_WIDTH + 75f
@@ -142,6 +168,10 @@ class RoomApplication(var data: ArrayList<FurnitureModel>): ApplicationAdapter()
         }
     }
 
+    /**
+     * This function renders the end table
+     * @param endTable the Texture for the end table
+     */
     fun drawEndTable(endTable: Texture?) {
         if(endTable != null) {
             val x = (Gdx.graphics.width - FLOOR_WIDTH) / 2f + 2*FLOOR_WIDTH

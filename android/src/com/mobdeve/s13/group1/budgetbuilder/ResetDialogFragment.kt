@@ -14,6 +14,9 @@ import androidx.fragment.app.DialogFragment
 import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
 import kotlinx.android.synthetic.main.fragment_reset_dialog.view.*
 
+/**
+ * This class handles the reset dialog box
+ */
 class ResetDialogFragment : DialogFragment() {
     private lateinit var mainActiviy: MainActivity
     lateinit var db: BudgetBuilderDbHelper
@@ -67,6 +70,9 @@ class ResetDialogFragment : DialogFragment() {
         }
     }
 
+    /**
+     * This function hides the navigation bar
+     */
     fun hideSystemUI(){
         dialog?.window?.decorView?.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY

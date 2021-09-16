@@ -16,6 +16,10 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.BudgetBuilderDbHelper
 import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+/**
+ * This class handles the main activity for the app
+ */
 class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, SendFragmentData {
 
     private lateinit var db: BudgetBuilderDbHelper
@@ -45,6 +49,9 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         initPreferences()
     }
 
+    /**
+     * This function hides the navigation bar
+     */
     fun setSystemUI() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         window.decorView.systemUiVisibility = (
@@ -62,6 +69,9 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         }
     }
 
+    /**
+     * This function initializes the custom navigation bar of the app
+     */
     fun initNavBar() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -76,22 +86,13 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         }
     }
 
+    /**
+     * This function sets the listener for the add expense
+     * @param listener the listener for the add expense
+     */
     fun setExpenseListener(listener: ExpenseHandler?) {
         addExpenseDialog.listener = listener
     }
-
-    fun hideBottomNavBar() {
-        bottom_navigation_view.visibility = View.GONE
-        bottomAppBar.visibility = View.GONE
-        fab_add_expense.visibility =View.GONE
-    }
-
-    fun showBottomNavBar() {
-        bottom_navigation_view.visibility = View.VISIBLE
-        bottomAppBar.visibility = View.VISIBLE
-        fab_add_expense.visibility =View.VISIBLE
-    }
-
 
     override fun exit() {
     }
@@ -109,6 +110,9 @@ class MainActivity : AppCompatActivity(), AndroidFragmentApplication.Callbacks, 
         this.expenseListCaller = fragmentCaller
     }
 
+    /**
+     * This function initializes the saved preferences if they exist
+     */
     private fun initPreferences() {
         if (!sp.contains(Keys.KEY_CURRENCY.toString())) {
             spEditor.putString(Keys.KEY_CURRENCY.toString(), "$")

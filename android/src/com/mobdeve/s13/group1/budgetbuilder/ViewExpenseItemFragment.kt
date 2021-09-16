@@ -17,7 +17,9 @@ import com.mobdeve.s13.group1.budgetbuilder.dao.ExpenseModel
 import kotlinx.android.synthetic.main.fragment_view_expense_item.view.*
 import org.w3c.dom.Text
 
-
+/**
+ * This class handles the expense item view.
+ */
 class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler, DialogInterface.OnDismissListener {
     lateinit var tvDesc: TextView
     lateinit var tvAmt: TextView
@@ -38,7 +40,6 @@ class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler, DialogInterfac
         tvDate = rootView.tv_viewexpense_item_date
         tvType = rootView.tv_viewexpense_type
         ivPic = rootView.iv_viewexpense_item_pic
-
 
         rootView.btn_viewexpense_edit.setOnClickListener {
             var desc = requireArguments().getString(Keys.KEY_VIEW_EXPENSE_DESC.name)

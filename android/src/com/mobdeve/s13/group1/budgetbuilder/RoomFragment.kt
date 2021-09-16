@@ -18,6 +18,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.mobdeve.s13.group1.budgetbuilder.dao.FurnitureDAOImpl
 import com.mobdeve.s13.group1.budgetbuilder.dao.RoomDAOImpl
 
+/**
+ * This function handles the room application
+ */
 class RoomFragment: AndroidFragmentApplication() {
     private lateinit var roomApplication : RoomApplication
     lateinit var db: FurnitureDAOImpl
@@ -74,6 +77,10 @@ class RoomFragment: AndroidFragmentApplication() {
         return roomView
     }
 
+    /**
+     * This function implements the screenshot feature of save room
+     * @param path the path to where the screenshot will be saved
+     */
     fun saveScreenshot(path: String) {
         roomApplication.exporting = true
         roomApplication.path = path
@@ -81,6 +88,11 @@ class RoomFragment: AndroidFragmentApplication() {
     }
 
     companion object{
+        /**
+         * This function creates a new instance of RoomFragment given the roomId
+         * @param roomId the current roomId
+         * @return this fragment
+         */
         fun newInstance(roomId: String): RoomFragment{
             val args = Bundle()
 

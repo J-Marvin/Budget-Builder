@@ -19,6 +19,10 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+/**
+ * This class handles the summary view
+ */
+
 class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
 
     private lateinit var db: ExpenseDAOImpl
@@ -75,6 +79,11 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
         super.onResume()
         (requireActivity() as MainActivity).setExpenseListener(this)
     }
+
+    /**
+     * This function initializes the recycler view for the summary of expenses
+     * @param rootView the parent view of this view
+     */
     private fun initRecyclerView(rootView: View){
         val firstDay = Calendar.getInstance()
 
@@ -99,6 +108,10 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
         rootView.rv_category_expenses.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
     }
 
+    /**
+     * This function initializes the date set for the summary fragment
+     * @param rooView the parent view of this view
+     */
     private fun initDate(rootView: View) {
         val today = Calendar.getInstance()
         val displayName = today.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)
@@ -107,6 +120,11 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
         rootView.btn_summary_date.text = String.format(resources.getString(R.string.month_year), displayName, year)
     }
 
+    /**
+     * This function updates the date set if the user inputs a date using the date picker
+     * @param month the month set
+     * @param year the year set
+     */
     private fun updateDate(month: Int, year: Int) {
         this.month = month
         this.year = year
@@ -119,6 +137,10 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
             resources.getString(R.string.month_year), displayName, year)
     }
 
+    /**
+     * This function initializes the date picker
+     * @param rootView the parent view of this view
+     */
     private fun initDatePicker(rootView: View) {
         rootView.btn_summary_date.setOnClickListener {
             var dialog = DatePickerDialogFragment.newInstance(month!!, year!!)
@@ -129,6 +151,10 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
         }
     }
 
+    /**
+     * This function updates the recycler view if a new date is picked
+     * @param expenses the array list of expenses grouped by category
+     */
     private fun updateRecyclerView(expenses: ArrayList<CategoryExpense>) {
         executorService.run {
             categoryExpenses.clear()
@@ -165,11 +191,22 @@ class SummaryFragment : Fragment(), DatePickerListener, ExpenseHandler {
     override fun onCancelDate() {
     }
 
+    /**
+     * This function makes a text view visible if the summary contains no data
+     * @param visibility One of VISIBLE, INVISIBLE, or GONE
+     */
     fun setMessageVisibility(visibility: Int) {
         view?.tv_summary_no_data?.visibility = visibility
     }
 
+    /**
+     * This function gets the current month set
+     */
     fun getMonth() = month
+
+    /**
+     * This function gets the current year set
+     */
     fun getYear() = year
 
     override fun onAddExpense(amount: Float, type: String) {

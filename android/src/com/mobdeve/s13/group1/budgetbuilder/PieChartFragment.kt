@@ -24,7 +24,9 @@ import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-
+/**
+ * This class handles the pie chart in the summary fragment
+ */
 class PieChartFragment : Fragment() {
     lateinit var expens: ArrayList<ExpenseModel>
     private lateinit var categoryExpenses: ArrayList<CategoryExpense>
@@ -35,6 +37,11 @@ class PieChartFragment : Fragment() {
     private lateinit var expenseColors: ArrayList<Int>
 
     companion object{
+        /**
+         * This function creates a new instance of the SetBudgetFragment given the parameters
+         * @param month the current month
+         * @param year the current year
+         */
         fun newInstance(month: Int, year: Int): SetBudgetFragment{
             val time = Calendar.getInstance()
             time.set(year, month, 1)
@@ -90,6 +97,10 @@ class PieChartFragment : Fragment() {
         updatePieChart(expenses)
     }
 
+    /**
+     * This function initializes the pie chart for the current date
+     * @param view the parent view of this view
+     */
     fun initPieChart(view: View) {
         var chartPie = view.chart_pie
 
@@ -128,6 +139,10 @@ class PieChartFragment : Fragment() {
         chartPie.isRotationEnabled = false
     }
 
+    /**
+     * This function updates the pie chart if a new expense is added
+     * @param expenses the array list for the expenses grouped by category
+     */
     fun updatePieChart(expenses: ArrayList<CategoryExpense>) {
         executorService.run {
             pieExpenses.clear()
@@ -153,6 +168,12 @@ class PieChartFragment : Fragment() {
 
     }
 
+    /**
+     * This function gets the expenses by month
+     * @param start the start date
+     * @param end the end date
+     * @return an array list of expenses per category
+     */
     fun getMonthExpenses(start: String, end:String): ArrayList<CategoryExpense> {
         val aggs = ArrayList<HashMap<String, String>>()
         val sumHash = HashMap<String, String>()
@@ -177,6 +198,9 @@ class PieChartFragment : Fragment() {
         return DataHelper.getCategoryExpensesSumFromCursor(cursor, "SUM", DbReferences.COLUMN_EXPENSE_TYPE)
     }
 
+    /**
+     * This function updates the colors of the chart
+     */
     private fun updateColors() {
         expenseColors.clear()
 

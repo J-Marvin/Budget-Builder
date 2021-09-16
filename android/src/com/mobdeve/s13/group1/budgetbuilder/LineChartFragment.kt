@@ -24,6 +24,9 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
+/**
+ * This class handles the line chart in the summary fragment
+ */
 class LineChartFragment : Fragment() {
 
     lateinit var expenseDb: ExpenseDAOImpl
@@ -59,6 +62,9 @@ class LineChartFragment : Fragment() {
         return rootView
     }
 
+    /**
+     * This function initializes the line chart with the data
+     */
     fun initLineChart() {
         //hide grid lines
         lineChart.axisLeft.setDrawGridLines(false)
@@ -122,6 +128,11 @@ class LineChartFragment : Fragment() {
         lineChart.invalidate()
     }
 
+    /**
+     * This function updates the line chart when a new expense is added
+     * @param month the current month
+     * @param year the current year
+     */
     fun updateChart(month: Int, year: Int) {
         executorService.run {
             var dataset = expenseDb.getSumPerDayOfMonth(month, year)
@@ -136,15 +147,4 @@ class LineChartFragment : Fragment() {
 
         }
     }
-
-//    inner class MyAxisFormatter : IndexAxisValueFormatter() {
-//        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-//            val index = value.toInt()
-//            return if (index < scoreList.size) {
-//                scoreList[index].name
-//            } else {
-//                ""
-//            }
-//        }
-//    }
 }

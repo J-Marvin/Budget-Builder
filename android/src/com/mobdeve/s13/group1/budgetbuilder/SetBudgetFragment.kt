@@ -13,6 +13,10 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_set_budget.view.*
 
+
+/**
+ * This class handles the set budget dialog box
+ */
 class SetBudgetFragment: DialogFragment() {
 
     private lateinit var sp: SharedPreferences
@@ -90,6 +94,9 @@ class SetBudgetFragment: DialogFragment() {
 
     }
 
+    /**
+     * This function hides the navigation bar
+     */
     private fun hideSystemUI(){
         dialog?.window?.decorView?.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY

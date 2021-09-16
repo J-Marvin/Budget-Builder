@@ -3,7 +3,6 @@ package com.mobdeve.s13.group1.budgetbuilder
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
@@ -11,24 +10,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Pixmap
-import com.badlogic.gdx.graphics.PixmapIO
-import com.badlogic.gdx.utils.BufferUtils
-import com.badlogic.gdx.utils.ScreenUtils
 import com.mobdeve.s13.group1.budgetbuilder.dao.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-
+/**
+ * This class handles the home view and actions done within the home view
+ */
 class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     lateinit var sp: SharedPreferences
     lateinit var spEditor: SharedPreferences.Editor
@@ -126,6 +118,10 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
 //        showExpenses()
     }
 
+    /**
+     * This function initializes and resets the app every month. This function also implements the
+     * coin reward and the saving of the room.
+     */
     private fun initMonth() {
 
         val prevRoomId = sp.getString(Keys.KEY_ROOM_ID.toString(), "")
@@ -214,6 +210,12 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
 
     }
 
+    /**
+     * This function will open the save room fragment
+     * @param month the current month
+     * @param year the current year
+     * @param roomId the current roomId
+     */
     private fun showSaveRoom(month: Int, year: Int, roomId: String) {
         val bundle: Bundle = Bundle()
         bundle.apply {
@@ -224,6 +226,9 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         Navigation.findNavController(this@HomeFragment.requireView()).navigate(R.id.action_homeFragment_to_saveRoomFragment2, bundle)
     }
 
+    /**
+     * This function loads all the expenses for the current date
+     */
     private fun loadExpenses() {
         executorService.run {
             val strToday = FormatHelper.dateFormatterNoTime.format(today.time)
@@ -237,6 +242,9 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         }
     }
 
+    /**
+     * This function initializes the settings saved, if any
+     */
     fun initSettings() {
 
         var room = roomDb.initRoomFurniture(today.get(Calendar.MONTH), today.get(Calendar.YEAR))
@@ -255,6 +263,9 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         spEditor.commit()
     }
 
+    /**
+     * This function initializes the date to the current date
+     */
     private fun initDate() {
         val month = today.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)
         val year = today.get(Calendar.YEAR)
@@ -263,6 +274,9 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
             .format(resources.getString(R.string.curr_date), month, day, year)
     }
 
+    /**
+     * This function loads the saved settings
+     */
     private fun loadSettings() {
         if (sp.contains(Keys.KEY_BALANCE.toString())) {
             balance = sp.getInt(Keys.KEY_BALANCE.toString(), 20)
@@ -289,26 +303,41 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         }
     }
 
+    /**
+     * This function shows the current budget in the view
+     */
     private fun showBudget() {
         requireView().tv_budget_amount.text = String.format(resources.getString(R.string.budget), currency,budget)
     }
 
+    /**
+     * This function shows the remaining budget in the view
+     */
     private fun showDifference() {
         requireView()
             .tv_remaining_budget
             .text = String.format(resources.getString(R.string.budget), currency,(budget-expenses))
     }
 
+    /**
+     * This function shows the total expenses in the view
+     */
     private fun showExpenses() {
         requireView()
             .tv_budget_expense
             .text = String.format(resources.getString(R.string.budget), currency, expenses)
     }
 
+    /**
+     * This function shows the coin balance in the view
+     */
     private fun showBalance(){
         requireView().tv_coin_balance.text = balance.toString()
     }
 
+    /**
+     * This function updates the coin balance
+     */
     private fun updateBalance(bal: Int){
         balance += bal
         view?.tv_coin_balance?.text = balance.toString()
@@ -329,6 +358,9 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
     override fun cancelBudget() {
     }
 
+    /**
+     * This function initializes the daily budget and date
+     */
     private fun initDaily() {
         val dateFormatter = FormatHelper.dateFormatterNoTime
         val prevDate = sp.getString(Keys.KEY_PREV_DATE.toString(), null)
@@ -343,11 +375,18 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         updateDate(dateFormatter.format(today.time))
     }
 
+    /**
+     * This function updates the previous date with the current date
+     * @param date the current date
+     */
     private fun updateDate(date: String) {
         spEditor.putString(Keys.KEY_PREV_DATE.toString(), date)
         spEditor.commit()
     }
 
+    /**
+     * This function initializes the coin balance
+     */
     private fun initCoins() {
         if (!isSameDate(today, prevDate) && prevDate != null) {
             executorService.execute {
@@ -376,6 +415,9 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
         }
     }
 
+    /**
+     * This function initializes the current budget
+     */
     private fun initBudget() {
         val dateFormatter = FormatHelper.dateFormatterNoTime
         var budgetToday = budgetDb.getBudgetByDate(FormatHelper.dateFormatterNoTime.format(today.time))
@@ -399,6 +441,12 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
 
     }
 
+    /**
+     * This function checks if a new day has started
+     * @param d1 the previous date
+     * @param d2 the current date
+     * @return true if still the same day, otherwise, false
+     */
     private fun isSameDate(d1: Calendar, d2: Calendar?): Boolean {
         return if (d2 == null) false
         else d1.get(Calendar.MONTH) == d2.get(Calendar.MONTH) &&
@@ -406,12 +454,21 @@ class HomeFragment : Fragment(), BudgetHandler, ExpenseHandler {
             d1.get(Calendar.DAY_OF_MONTH) == d2.get(Calendar.DAY_OF_MONTH)
     }
 
+    /**
+     * This function checks if a new month has started
+     * @param d1 the previous month
+     * @param d2 the current month
+     * @return true if still the same month, otherwise, false
+     */
     private fun isSameMonth(d1: Calendar, d2: Calendar?): Boolean {
         return if (d2 == null) false
         else d1.get(Calendar.MONTH) == d2.get(Calendar.MONTH) &&
                 d1.get(Calendar.YEAR) == d2.get(Calendar.YEAR)
     }
 
+    /**
+     * This function shows the set budget dialog box
+     */
     private fun showInitSetBudget() {
         val budgetDialog = SetBudgetFragment.newInstance(sp.getFloat(Keys.KEY_BUDGET.toString(), 5000F), false)
         budgetDialog.listener = object: BudgetHandler {

@@ -23,6 +23,10 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+/**
+ * This function handles the saving of rooms
+ */
+
 class SaveRoomFragment: Fragment() {
 
     private var month: Int? = null
@@ -121,6 +125,9 @@ class SaveRoomFragment: Fragment() {
         roomDb.updateRoom(room)
     }
 
+    /**
+     * This function initializes the furniture owned for the current room
+     */
     fun initData() {
         this.furnitureModel = furnitureDb.findOwnedFurnitureByRoom(roomId)
         this.chairs = ArrayList()
@@ -146,6 +153,10 @@ class SaveRoomFragment: Fragment() {
         }
     }
 
+    /**
+     * This function initializes the recycler for the save room
+     * @param rootView the parent view of this view
+     */
     private fun initRecyclerViews(rootView: View){
         val equipListener = object: EquipListener{
             override fun onEquip() {
@@ -213,6 +224,13 @@ class SaveRoomFragment: Fragment() {
     }
 
     companion object {
+        /**
+         * This function creates a new instance of the object with the given parameters
+         * @param month the current month
+         * @param year the current year
+         * @param roomId the current room Id
+         * @return this fragment
+         */
         fun newInstance(month: Int, year: Int, roomId: String): SaveRoomFragment{
             val args = Bundle()
             args.putInt(Keys.KEY_MONTH.toString(), month)

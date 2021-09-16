@@ -17,9 +17,17 @@ import kotlinx.android.synthetic.main.fragment_purchase_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_shop.*
 import java.io.IOException
 
+/**
+ * This class handles the purchase dialog box
+ */
 class PurchaseDialogFragment : DialogFragment() {
 
     companion object {
+        /**
+         * This function creates a new instance of PurchaseDialogFragment given the parameters
+         * @param furnitureModel the current furniture to be purchased
+         * @return this fragment
+         */
         fun newInstance(furnitureModel: FurnitureModel): PurchaseDialogFragment{
             val args = Bundle()
             args.putString(Keys.KEY_FURNITURE_NAME.toString(), furnitureModel.name)
@@ -143,6 +151,9 @@ class PurchaseDialogFragment : DialogFragment() {
         }
     }
 
+    /**
+     * This function hides the navigation bar
+     */
     fun hideSystemUI(){
         dialog?.window?.decorView?.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY

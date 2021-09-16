@@ -1,5 +1,8 @@
 package com.mobdeve.s13.group1.budgetbuilder
 
+/**
+ * This enum class stores the keys for storing shared preferences and sending data between fragments
+ */
 enum class Keys {
     KEY_FURNITURE_NAME,
     KEY_FURNITURE_PRICE,

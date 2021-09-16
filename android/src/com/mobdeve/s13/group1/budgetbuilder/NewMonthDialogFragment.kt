@@ -13,6 +13,9 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_new_month_dialog.view.*
 
+/**
+ * This class handles the view shown after each month
+ */
 class NewMonthDialogFragment: DialogFragment() {
 
     var onDismissListener: DialogInterface.OnDismissListener? = null
