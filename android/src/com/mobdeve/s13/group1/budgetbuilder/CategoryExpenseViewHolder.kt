@@ -25,7 +25,7 @@ class CategoryExpenseViewHolder(view: View): RecyclerView.ViewHolder(view) {
      *  @param currency - the currency used
      * */
     fun setExpense(total: Float, currency: Char) {
-        tvTotal.text = "-$currency$total"
+        tvTotal.text = "-$currency" + String.format("%.02f", total)
     }
 
     /** This method updates the progress bar

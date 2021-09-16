@@ -69,7 +69,7 @@ class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler, DialogInterfac
         super.onViewCreated(view, savedInstanceState)
 
         tvDesc.text = requireArguments().getString(Keys.KEY_VIEW_EXPENSE_DESC.toString())
-        tvAmt.text = requireArguments().getFloat(Keys.KEY_VIEW_EXPENSE_AMOUNT.toString(), 0f).toString()
+        tvAmt.text =  String.format("%.02f", requireArguments().getFloat(Keys.KEY_VIEW_EXPENSE_AMOUNT.toString(), 0f))
         tvDate.text = requireArguments().getString(Keys.KEY_VIEW_EXPENSE_DATE.toString())
 
         var fullCategoryType = requireArguments().getString(Keys.KEY_VIEW_EXPENSE_TYPE.toString())
@@ -82,13 +82,17 @@ class ViewExpenseItemFragment : Fragment(), UpdateExpenseHandler, DialogInterfac
 
     override fun updateExpenseView(expense: ExpenseModel) {
         tvDesc.text = expense.desc
-        tvAmt.text = expense.amount.toString()
+        tvAmt.text = String.format("%.02f", expense.amount)
 
         var enumCategory = ExpenseType.valueOf(expense.type!!.uppercase())
         tvType.text = enumCategory.textType
         ivPic.setImageResource(enumCategory.iconImg)
         ivPic.setColorFilter(Color.parseColor(enumCategory.iconColor))
         ivPic.backgroundTintList = ColorStateList.valueOf(Color.parseColor(enumCategory.backColor))
+
+        requireArguments().putString(Keys.KEY_VIEW_EXPENSE_DESC.name, expense.desc)
+        requireArguments().putFloat(Keys.KEY_VIEW_EXPENSE_AMOUNT.name, expense.amount!!)
+        requireArguments().putString(Keys.KEY_VIEW_EXPENSE_TYPE.name, expense.type)
 
     }
 
